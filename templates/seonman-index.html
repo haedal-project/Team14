@@ -82,6 +82,8 @@
                 <!-- /.intro content -->
                 <div class="col-md-6 wow slideInRight" style="width: 40%; height: 500px;">
                     <div class="jumbotron" style="padding: 4px;">
+
+                        <!-- 장소 검색 버튼 시작-->
                         <div class="subscribe-form wow fadeInUp animated"
                              style="animation-name: fadeInUp; padding: 10px; margin: 10px; ">
                             <form class="news-letter mailchimp">
@@ -92,7 +94,9 @@
                                 <button type="submit" class="subscribe-btn btn">SUBSCRIBE</button>
                             </form>
                         </div>
+                        <!-- 장소 검색 버튼 끝-->
 
+                        <!-- 장소 상세정보 리스트 시작-->
                         <div class="list-group" style="overflow-y: scroll; height: 380px;">
                             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
                                 <div class="d-flex w-100 justify-content-between">
@@ -116,6 +120,7 @@
                                 <p class="mb-1">서울시 마포구 아현동 85-54</p>
                             </a>
                         </div>
+                        <!-- 장소 상세정보 리스트 끝-->
                     </div>
                 </div>
             </div>
@@ -177,5 +182,12 @@
         var zoomControl = new kakao.maps.ZoomControl();
         map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     </script>
+
+    <script>
+        $(document).ready(function(){
+
+        });
+    </script>
+
 </body>
 </html>
