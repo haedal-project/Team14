@@ -51,6 +51,10 @@
 #menu_wrap .option button {
     margin-left: 5px;
 }
+#placesList{
+    padding-inline-start: 5px;
+}
+
 
 #placesList li {
     list-style: none;
@@ -180,6 +184,6 @@
 #info_box{
     text-align: center;
     padding: 8px;
-    width: 280px;
+    width: 350px;
     height: 70px;
 }
