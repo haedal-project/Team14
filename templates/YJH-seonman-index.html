@@ -11,8 +11,22 @@
     <link href="{{ url_for('static', filename='css/owl.theme.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/owl.carousel.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/css-index-green.css') }}" rel="stylesheet" media="screen">
-<!--    <link rel="stylesheet" href="{{ url_for('static', filename='Jehyeop/kakaomap_css.css') }}">-->
+<<<<<<< HEAD
+    <link rel="stylesheet" href="{{ url_for('static', filename='Jehyeop/kakaomap_css.css') }}">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
+=======
+    <style>
+        .card-header:first-child {
+            border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+        }
+
+        .card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: rgba(0, 0, 0, .03);
+        }
+    </style>
+>>>>>>> develop
 </head>
 
 <body data-spy="scroll" data-target="#navbar-scroll">
@@ -76,52 +90,62 @@
         <div class="container">
             <div class="row">
                 <!-- /.intro image -->
-                <div class="col-md-6 wow slideInLeft" style="width: 60% ">
-                    <div id="map" style="width:100%;height: 500px;"></div>
-                    <!--                        <img src="{{ url_for('static', filename='images/ipad.jpg') }}" alt="ipad" class="img-responsive">-->
+                <div class="col-md-6 wow slideInLeft" style="width: 60%; height: 80vh;">
+                    <div id="map" style="width:100%;height: 100%;"></div>
                 </div>
                 <!-- /.intro content -->
-                <div class="col-md-6 wow slideInRight" style="width: 40%; height: 500px;">
+                <div class="col-md-6 wow slideInRight" style="width: 40%; height: 80vh; overflow-y: scroll;">
                     <div class="jumbotron" style="padding: 4px;">
 
                         <!-- 장소 검색 버튼 시작-->
                         <div class="subscribe-form wow fadeInUp animated"
                              style="animation-name: fadeInUp; padding: 10px; margin: 10px; ">
-                            <form class="news-letter mailchimp">
+                            <form class="news-letter mailchimp" onsubmit="searchPlaces(); return false;">
                                 <input type="hidden" name="u" value="503bdae81fde8612ff4944435">
                                 <input type="hidden" name="id" value="bfdba52708">
-                                <input class="form-control" type="email" name="MERGE0" placeholder="Your email..."
-                                       required="">
-                                <button type="submit" class="subscribe-btn btn">SUBSCRIBE</button>
+                                <input class="form-control" type="text" name="MERGE0" value="카카오" placeholder="장소를 적어주세요." id="keyword">
+                                <button type="submit" class="subscribe-btn btn">검색하기</button>
                             </form>
                         </div>
+
                         <!-- 장소 검색 버튼 끝-->
 
-                        <!-- 장소 상세정보 리스트 시작-->
-                        <div class="list-group" style="overflow-y: scroll; height: 380px;">
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">가나다 카페</h5>
-                                    <small class="text-muted">평점(4.5점)</small>
+                        <div class="card" id="place-info" style="margin-left: 10px; padding-right: 10px; display: none">
+                            <div class="card-header">
+                                상세정보
+                            </div>
+                            <div class="card-body list-group-item">
+                                <h5 class="card-title">ㅇㅇㅇㅇ 카페</h5>
+                                <p class="card-text">서울시 마포구 아현동 85-54</p>
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">리뷰 입력</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <button style="margin-top: 10px;">리뷰 등록</button>
                                 </div>
-                                <p class="mb-1">서울시 마포구 아현동 85-54</p>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">가나다 카페</h5>
-                                    <small class="text-muted">평점(4.5점)</small>
-                                </div>
-                                <p class="mb-1">서울시 마포구 아현동 85-54</p>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">가나다 카페</h5>
-                                    <small class="text-muted">평점(4.5점)</small>
-                                </div>
-                                <p class="mb-1">서울시 마포구 아현동 85-54</p>
-                            </a>
+                                <!-- 리뷰 리스트 시작 -->
+                                <h5 class="card-title">리뷰정보</h5>
+                                <ul class="list-group">
+                                    <li class="list-group-item">김선만 <br/>Cras justo odio Cras justo odio Cras justo odio
+                                        Cras justo odio Cras justo odio (5점)
+                                    </li>
+                                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                                    <li class="list-group-item">Morbi leo risus</li>
+                                    <li class="list-group-item">Porta ac consectetur ac</li>
+                                    <li class="list-group-item">Vestibulum at eros</li>
+                                </ul>
+                                <!-- 리뷰 리스트 끝 -->
+                            </div>
                         </div>
-                        <!-- 장소 상세정보 리스트 끝-->
+
+                        <div id="place-list" style="display: none;">
+                            <h3 style="margin-left: 10px; ">장소 목록</h3>
+                            <!-- 장소 상세정보 리스트 시작-->
+                            <div class="list-group" id="hello"></div>
+                            <div class="list-group">
+                                <ul id="placesList"></ul>
+                                <div id="pagination"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -129,7 +153,7 @@
     </div>
 
     <!-- /.footer -->
-    <footer id="footer">
+    <footer id="footer" style="height: 10vh">
         <div class="container">
             <div class="col-sm-4 col-sm-offset-4">
                 <!-- /.social links -->
@@ -161,12 +185,12 @@
     <script>
         new WOW().init();
     </script>
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebe7ba6845482503a8ad6c6802e4870"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='Jehyeop/kakomap_javascrip.js') }}"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9a46fe82c65b7364891f83b7b3cc2c5&libraries=services,clusterer,drawing"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='Jehyeop/kakaomap_javascript.js') }}"></script>
     <script>
-        $(document).ready(function(){
-
+        $(document).ready(function () {
+            $('#place-info').show();
+            $('#place-list').show();
         });
     </script>
 
