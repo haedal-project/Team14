@@ -15,9 +15,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='Jehyeop/kakaomap_css.css') }}">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
 =======
-    <link rel="stylesheet"
-          href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
-
     <style>
         .card-header:first-child {
             border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
@@ -106,13 +103,12 @@
                             <form class="news-letter mailchimp" onsubmit="searchPlaces(); return false;">
                                 <input type="hidden" name="u" value="503bdae81fde8612ff4944435">
                                 <input type="hidden" name="id" value="bfdba52708">
-                                <input class="form-control" type="text" name="MERGE0" value="압구정" id="keyword">
+                                <input class="form-control" type="text" name="MERGE0" value="카카오" placeholder="장소를 적어주세요." id="keyword">
                                 <button type="submit" class="subscribe-btn btn">검색하기</button>
                             </form>
                         </div>
 
                         <!-- 장소 검색 버튼 끝-->
-
 
                         <div class="card" id="place-info" style="margin-left: 10px; padding-right: 10px; display: none">
                             <div class="card-header">
@@ -144,26 +140,10 @@
                         <div id="place-list" style="display: none;">
                             <h3 style="margin-left: 10px; ">장소 목록</h3>
                             <!-- 장소 상세정보 리스트 시작-->
+                            <div class="list-group" id="hello"></div>
                             <div class="list-group">
-
                                 <ul id="placesList"></ul>
                                 <div id="pagination"></div>
-<!--                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start"-->
-<!--                                   style="margin: 10px;">-->
-<!--                                    <div class="d-flex w-100 justify-content-between">-->
-<!--                                        <h5 class="mb-1">가나다 카페</h5>-->
-<!--                                        <small class="text-muted">평점(4.5점)</small>-->
-<!--                                    </div>-->
-<!--                                    <p class="mb-1">서울시 마포구 아현동 85-54</p>-->
-<!--                                </a>-->
-<!--                                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start"-->
-<!--                                   style="margin: 10px;">-->
-<!--                                    <div class="d-flex w-100 justify-content-between">-->
-<!--                                        <h5 class="mb-1">가나다 카페</h5>-->
-<!--                                        <small class="text-muted">평점(4.5점)</small>-->
-<!--                                    </div>-->
-<!--                                    <p class="mb-1">서울시 마포구 아현동 85-54</p>-->
-<!--                                </a>-->
                             </div>
                         </div>
                     </div>
