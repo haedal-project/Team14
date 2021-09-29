@@ -112,7 +112,7 @@ function displayPlaces(places) {
             kakao.maps.event.addListener(marker, 'click', function() {
                 map.setLevel(level = 2);
                 map.setCenter(positions[num]);
-                alert(' 이름:'+title+'\n 위도:'+lat[num]+'경도:'+lng[num]+'\n 주소'+address)
+                alert(' 이름:'+title+'\n 위도:'+lat[num]+'  경도:'+lng[num]+'\n 주소'+address)
             });
 
             itemEl.onmouseover = function () {
@@ -126,7 +126,7 @@ function displayPlaces(places) {
             itemEl.onclick = function () {
                 map.setLevel(level = 2);
                 map.setCenter(positions[num]);
-                alert(' 이름:'+title+'\n 위도:'+lat[num]+'경도:'+lng[num]+'\n 주소'+address)
+                alert(' 이름:'+title+'\n 위도:'+lat[num]+'  경도:'+lng[num]+'\n 주소'+address)
             };
             itemEl.onmouseout = function () {
                 infowindow.close();

@@ -52,9 +52,8 @@
     margin-left: 5px;
 }
 #placesList{
-    padding-inline-start: 5px;
+    padding-inline-start: 3px;
 }
-
 
 #placesList li {
     list-style: none;
