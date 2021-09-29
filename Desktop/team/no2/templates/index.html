@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>댕댕백서</title>
+   <link rel="stylesheet" href="../static/2.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='fonts/icon-7-stroke/css/pe-icon-7-stroke.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/animate.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ url_for('static', filename='css/owl.theme.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/owl.carousel.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/css-index-green.css') }}" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
+</head>
+
+<body data-spy="scroll" data-target="#navbar-scroll">
+
+    <!-- /.preloader -->
+    <div id="preloader"></div>
+    <div id="top"></div>
+
+    <!-- /.parallax full screen background image -->
+    <div class="fullscreen landing parallax"
+         style="background-image:url('{{ url_for('static', filename='images/bg.jpg') }}');" data-img-width="2000"
+         data-img-height="1333" data-diff="100">
+
+        <div class="overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 text-center">
+                        <!-- /.logo -->
+                        <div class="logo wow fadeInDown"><a href=""><img
+                                src="{{ url_for('static', filename='images/logo.png') }}" alt="logo"></a></div>
+                        <!-- /.main title -->
+                        <h1 class="wow fadeInLeft">
+                            댕댕백서
+                        </h1>
+                        <!-- /.header paragraph -->
+                        <div class="landing-text wow fadeInLeft">
+                            <p>댕댕백서는 강아지 산책 종합 플랫폼 입니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- NAVIGATION -->
+    <div id="menu">
+        <nav class="navbar-wrapper navbar-default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-backyard">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand site-name" href="#top"><img
+                            src="{{ url_for('static', filename='images/logo2.png') }}" alt="logo"></a>
+                </div>
+
+                <div id="navbar-scroll" class="collapse navbar-collapse navbar-backyard navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#intro">메인</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+    <!-- /.intro section -->
+    <div id="intro">
+        <div class="container">
+            <div class="row">
+                <!-- /.intro image -->
+                <div class="col-md-6 wow slideInLeft" style="width: 60% ">
+                    <div id="map" style="width:100%;height: 500px;"></div>
+                    <!--                        <img src="{{ url_for('static', filename='images/ipad.jpg') }}" alt="ipad" class="img-responsive">-->
+                </div>
+                <!-- /.intro content -->
+                <div class="col-md-6 wow slideInRight" style="width: 40%; height: 500px;">
+                    <div class="jumbotron" style="padding: 4px;">
+
+                        <!-- 장소 검색 버튼 시작-->
+                        <div class="subscribe-form wow fadeInUp animated"
+                             style="animation-name: fadeInUp; padding: 10px; margin: 10px; ">
+                            <form class="news-letter mailchimp">
+                                <input type="hidden" name="u" value="503bdae81fde8612ff4944435">
+                                <input type="hidden" name="id" value="bfdba52708">
+                                <input class="form-control" type="email" name="MERGE0" placeholder="Your email..."
+                                       required="">
+                                <button type="submit" class="subscribe-btn btn">SUBSCRIBE</button>
+                            </form>
+                        </div>
+                        <!-- 장소 검색 버튼 끝-->
+
+                        <!-- 장소 상세정보 리스트 시작-->
+                        <div id="hello" class="list-group" style="overflow-y: scroll; height: 380px;">
+
+                        </div>
+                        <!-- 장소 상세정보 리스트 끝-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="map_wrap">
+        <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+        <div id="menu_wrap" class="bg_white">
+            <div class="option">
+                <div>
+                    <form onsubmit="searchPlaces(); return false;">
+                        키워드 : <input type="text" value="반려동물 동반" id="keyword" size="15">
+                        <button type="submit">검색하기</button>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <ul id="placesList"></ul>
+            <div id="pagination"></div>
+        </div>
+
+    </div>
+
+
+
+    <!-- /.footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="col-sm-4 col-sm-offset-4">
+                <!-- /.social links -->
+                <div class="social text-center">
+                    <ul>
+                        <li><a class="wow fadeInUp" href="https://twitter.com/"><i class="fa fa-twitter"></i></a></li>
+                        <li><a class="wow fadeInUp" href="https://www.facebook.com/" data-wow-delay="0.2s"><i
+                                class="fa fa-facebook"></i></a></li>
+                        <li><a class="wow fadeInUp" href="https://plus.google.com/" data-wow-delay="0.4s"><i
+                                class="fa fa-google-plus"></i></a></li>
+                        <li><a class="wow fadeInUp" href="https://instagram.com/" data-wow-delay="0.6s"><i
+                                class="fa fa-instagram"></i></a></li>
+                    </ul>
+                </div>
+                <div class="text-center wow fadeInUp" style="font-size: 14px;">Copyright Backyard 2015 - Template by <a
+                        href="http://bootstrapthemes.co/" target="_blank">BootstrapThemes</a></div>
+                <a href="#" class="scrollToTop"><i class="pe-7s-up-arrow pe-va"></i></a>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- /.javascript files -->
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.sticky.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=335deca665de5113ba111c542bc49d01&libraries=services"></script>
+    <script>
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+        // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+        var mapTypeControl = new kakao.maps.MapTypeControl();
+
+        // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+        // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+        map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+        // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+        var zoomControl = new kakao.maps.ZoomControl();
+        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+
+    </script>
+    <script src='../static/2.js'></script>
+    <script>
+        $(document).ready(function(){
+
+        });
+    </script>
+
+</body>
+</html>
