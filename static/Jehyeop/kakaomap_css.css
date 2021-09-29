@@ -10,8 +10,8 @@
 }
 .map_wrap {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 60%;
+    height: 50%;
 }
 #menu_wrap {
     position: absolute;
@@ -175,4 +175,11 @@
     font-weight: bold;
     cursor: default;
     color: #777;
+}
+
+#info_box{
+    text-align: center;
+    padding: 8px;
+    width: 280px;
+    height: 70px;
 }
