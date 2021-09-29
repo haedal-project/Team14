@@ -93,8 +93,7 @@ function displayPlaces(places) {
             var num = markers.indexOf(marker)
 
             kakao.maps.event.addListener(marker, 'mouseover', function () {
-                var content = '<div style=";z-index:1;" id="info_box">' + title + '(평점:)<br>주소 '+addresses[num] +' </div>';
-                // var content = '<div style="padding:5px;z-index:1;max-width:1200px">' + title + '(평점:)<br>주소 '+addresses[num] +' </div>';
+                var content = '<div style="padding:5px;z-index:1;white-space: pre-line;">' + title + '(평점:)<br>주소 '+addresses[num] +' </div>';
                 infowindow.setContent(content);
                 infowindow.open(map, marker);
                 // displayInfowindow(marker, title);
@@ -173,7 +172,7 @@ function addMarker(position, idx, title) {
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
         marker = new kakao.maps.Marker({
             position: position, // 마커의 위치
-            image: markerImage,
+            image: markerImage
         });
 
     marker.setMap(map); // 지도 위에 마커를 표출합니다
