@@ -17,7 +17,6 @@ var ps = new kakao.maps.services.Places();
 // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
 var infowindow = new kakao.maps.InfoWindow({zIndex: 1});
 
-
 if (count == 1){
     searchPlaces();
 }
