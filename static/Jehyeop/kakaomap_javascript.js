@@ -1,6 +1,6 @@
-
 // 마커를 담을 배열입니다
 var markers = [];
+var count=0;
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
     mapOption = {
@@ -17,19 +17,20 @@ var ps = new kakao.maps.services.Places();
 // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
 var infowindow = new kakao.maps.InfoWindow({zIndex: 1});
 
-// 키워드로 장소를 검색합니다
-searchPlaces();
+
+if (count == 1){
+    searchPlaces();
+}
 
 // 키워드 검색을 요청하는 함수입니다
 function searchPlaces() {
-
     var keyword = document.getElementById('keyword').value;
 
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
+        // 키워드로 장소를 검색합니다
         alert('키워드를 입력해주세요!');
         return false;
     }
-
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
     ps.keywordSearch(keyword, placesSearchCB);
 }
@@ -37,7 +38,7 @@ function searchPlaces() {
 // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 function placesSearchCB(data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
-
+        count = 1
         // 정상적으로 검색이 완료됐으면
         // 검색 목록과 마커를 표출합니다
         displayPlaces(data);
@@ -70,6 +71,7 @@ function displayPlaces(places) {
 
     // 지도에 표시되고 있는 마커를 제거합니다
     removeMarker();
+
     let positions = []
     let addresses = []
     let lat = []
