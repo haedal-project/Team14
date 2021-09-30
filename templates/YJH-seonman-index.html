@@ -11,10 +11,10 @@
     <link href="{{ url_for('static', filename='css/owl.theme.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/owl.carousel.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/css-index-green.css') }}" rel="stylesheet" media="screen">
-<<<<<<< HEAD
+
     <link rel="stylesheet" href="{{ url_for('static', filename='Jehyeop/kakaomap_css.css') }}">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
-=======
+
     <style>
         .card-header:first-child {
             border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
@@ -26,7 +26,7 @@
             background-color: rgba(0, 0, 0, .03);
         }
     </style>
->>>>>>> develop
+
 </head>
 
 <body data-spy="scroll" data-target="#navbar-scroll">
@@ -115,16 +115,18 @@
                                 상세정보
                             </div>
                             <div class="card-body list-group-item">
-                                <h5 class="card-title">ㅇㅇㅇㅇ 카페</h5>
-                                <p class="card-text">서울시 마포구 아현동 85-54</p>
+                                <h5 class="card-title" id="info-place-name"></h5>
+                                <p class="card-text" id="info-place-address"></p>
+                                <input type="hidden" id="info-place-lat" />
+                                <input type="hidden" id="info-place-lng" />
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">리뷰 입력</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                                    <button style="margin-top: 10px;">리뷰 등록</button>
+                                    <textarea class="form-control" id="review" rows="3"></textarea>
+                                    <button style="margin-top: 10px;" onclick="makeReview();">리뷰 등록</button>
                                 </div>
                                 <!-- 리뷰 리스트 시작 -->
                                 <h5 class="card-title">리뷰정보</h5>
-                                <ul class="list-group">
+                                <ul class="list-group" id="review-box">
                                     <li class="list-group-item">김선만 <br/>Cras justo odio Cras justo odio Cras justo odio
                                         Cras justo odio Cras justo odio (5점)
                                     </li>
@@ -185,12 +187,13 @@
     <script>
         new WOW().init();
     </script>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9a46fe82c65b7364891f83b7b3cc2c5&libraries=services,clusterer,drawing"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebe7ba6845482503a8ad6c6802e4870&libraries=services,clusterer,drawing"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='Jehyeop/kakaomap_javascript.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $('#place-info').show();
+            $('#place-info').hide();
             $('#place-list').show();
+            showbest();
         });
     </script>
 

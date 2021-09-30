@@ -112,7 +112,9 @@ function displayPlaces(places) {
             kakao.maps.event.addListener(marker, 'click', function() {
                 map.setLevel(level = 2);
                 map.setCenter(positions[num]);
-                alert(' 이름:'+title+'\n 위도:'+lat[num]+'  경도:'+lng[num]+'\n 주소'+addresses[num])
+
+                // 지도를 찍었을 때
+                clickPlaceMarker(title, lat[num], lng[num], addresses[num])
             });
 
             itemEl.onmouseover = function () {
@@ -126,13 +128,13 @@ function displayPlaces(places) {
             itemEl.onclick = function () {
                 map.setLevel(level = 2);
                 map.setCenter(positions[num]);
-                alert(' 이름:'+title+'\n 위도:'+lat[num]+'  경도:'+lng[num]+'\n 주소'+addresses[num])
+
+                // 검색된 장소를 찍었을 때
+                clickPlaceMarker(title, lat[num], lng[num], addresses[num])
             };
             itemEl.onmouseout = function () {
                 infowindow.close();
             };
-
-
         })(marker, places[i].place_name);
 
         fragment.appendChild(itemEl);
@@ -142,7 +144,11 @@ function displayPlaces(places) {
 
     // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
     listEl.appendChild(fragment);
-    menuEl.scrollTop = 0;
+    // menuEl.scrollTop = 0; --?????
+
+    $('#place-info').hide();
+    $('#place-list').show();
+
 }
 
 function getListItem(index, places) {
@@ -255,11 +261,6 @@ function removeAllChildNods(el) {
 }
 
 
-$(document).ready(function () {
-    showbest();
-});
-
-
 function showbest() {
     $.ajax({
         type: 'POST',
@@ -273,6 +274,7 @@ function showbest() {
                 let x = store[i]["x"]
                 let y = store[i]["y"]
                 let like = store[i]["like"]
+
                 let temp_html = `
                             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
                                 <div class="d-flex w-100 justify-content-between">
@@ -316,4 +318,62 @@ function plus(name) { //이름을 받는 함수
             window.location.reload() // 새로고침
         }
     });
+}
+
+function clickPlaceMarker(title, lat, lng, address) {
+    $('#info-place-name').text(title)
+    $('#info-place-address').text(address)
+    $('#info-place-lng').val(lng)
+    $('#info-place-lat').val(lat)
+
+    $('#place-info').show();
+    $('#place-list').hide();
+
+    showReview();
+}
+
+function makeReview() {
+    // let name = $('#name').val()
+    let name = $('#info-place-name').text()
+    let review = $('#review').val()
+    let lng = $('#info-place-lng').val()
+    let lat = $('#info-place-lat').val()
+    // let rating = $('#rating').val()
+    let like = "5"
+    $.ajax({
+        type: "POST",
+        url: "/placereview",
+        data: {name_give: name, review_give: review, rating_give: like, 'lat_give': lat, 'lng_give': lng},
+        success: function (response) {
+            alert(response["msg"]);
+            window.location.reload();
+        }
+    })
+}
+
+function showReview() {
+
+    let name = $('#info-place-name').text()
+    $('#review-box').empty();
+
+    $.ajax({
+        type: "GET",
+        url: `/placereview?name=${name}`,
+        data: {},
+        success: function (response) {
+            let reviews = response['all_reviews']
+            for (let i = 0; i < reviews.length; i++) {
+                // let name = reviews[i]['name']
+                let review = reviews[i]['review']
+                // let rating = reviews[i]['rating']
+
+                let temp_html = `<li class="list-group-item">${review}</li>`
+                $('#review-box').append(temp_html)
+
+                /*
+
+                * */
+            }
+        }
+    })
 }
