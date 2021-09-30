@@ -11,15 +11,12 @@ def main():
 
 @app.route('/api/list', methods=['POST']) # db 저장한거 html에 띄우기
 def show_stars(): # client로부터 받을 데이터 x
-
     like_star = list(db.puppy.find({},{'_id':False}).sort("like", -1)) #like로 내림차순 정렬
-    print(like_star)
     return jsonify({'like': like_star})
 
 @app.route('/api/like', methods=['POST']) # 좋아요 +1 하기
 def like_star(): # client에서 받은 이름(name_give)으로 찾아서 좋아요를 증가시키기
     name_receive = request.form['name_give']  # 서버쪽에서 name을 받아야 한다.
-
     # 이름을 받았으면 이름에 해당하는 like를 하나 찾아온다.
     target_star= db.puppy.find_one({"title": name_receive})
     current_like = target_star['like']  # 현재 like
@@ -53,7 +50,8 @@ def write_review():
 
 @app.route('/placereview', methods=['GET'])
 def read_reviews():
-    reviews = list(db.puppy.find({}, {'_id': False}))
+    name = request.args.get('name');
+    reviews = list(db.puppy.find({'title': name}, {'_id': False}))
     return jsonify({'all_reviews': reviews})
 
 

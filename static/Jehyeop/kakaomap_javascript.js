@@ -114,7 +114,7 @@ function displayPlaces(places) {
                 map.setCenter(positions[num]);
 
                 // 지도를 찍었을 때
-                clickPlaceMarker(title, lat[num], lng[num], address)
+                clickPlaceMarker(title, lat[num], lng[num], addresses[num])
             });
 
             itemEl.onmouseover = function () {
@@ -130,14 +130,11 @@ function displayPlaces(places) {
                 map.setCenter(positions[num]);
 
                 // 검색된 장소를 찍었을 때
-                clickPlaceMarker(title, lat[num], lng[num], address)
-                alert(' 22 이름:'+title+'\n 위도:'+lat[num]+'  경도:'+lng[num]+'\n 주소'+address)
+                clickPlaceMarker(title, lat[num], lng[num], addresses[num])
             };
             itemEl.onmouseout = function () {
                 infowindow.close();
             };
-
-
         })(marker, places[i].place_name);
 
         fragment.appendChild(itemEl);
@@ -324,8 +321,6 @@ function plus(name) { //이름을 받는 함수
 }
 
 function clickPlaceMarker(title, lat, lng, address) {
-    alert(`title: ${title}, lat: ${lat}, lng: ${lng}, address: ${address}`)
-
     $('#info-place-name').text(title)
     $('#info-place-address').text(address)
     $('#info-place-lng').val(lng)
@@ -333,6 +328,8 @@ function clickPlaceMarker(title, lat, lng, address) {
 
     $('#place-info').show();
     $('#place-list').hide();
+
+    showReview();
 }
 
 function makeReview() {
@@ -354,3 +351,29 @@ function makeReview() {
     })
 }
 
+function showReview() {
+
+    let name = $('#info-place-name').text()
+    $('#review-box').empty();
+
+    $.ajax({
+        type: "GET",
+        url: `/placereview?name=${name}`,
+        data: {},
+        success: function (response) {
+            let reviews = response['all_reviews']
+            for (let i = 0; i < reviews.length; i++) {
+                // let name = reviews[i]['name']
+                let review = reviews[i]['review']
+                // let rating = reviews[i]['rating']
+
+                let temp_html = `<li class="list-group-item">${review}</li>`
+                $('#review-box').append(temp_html)
+
+                /*
+
+                * */
+            }
+        }
+    })
+}
