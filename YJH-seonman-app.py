@@ -13,6 +13,7 @@ def main():
 def show_stars(): # client로부터 받을 데이터 x
 
     like_star = list(db.puppy.find({},{'_id':False}).sort("like", -1)) #like로 내림차순 정렬
+    print(like_star)
     return jsonify({'like': like_star})
 
 @app.route('/api/like', methods=['POST']) # 좋아요 +1 하기
@@ -27,6 +28,34 @@ def like_star(): # client에서 받은 이름(name_give)으로 찾아서 좋아�
     # name이 name_receive인 것을 찾아서 like를 new_like로 바꿔라
 
     return jsonify({'msg': '좋아요 완료!'})
+
+## API 역할을 하는 부분
+@app.route('/placereview', methods=['POST'])
+def write_review():
+    name_receive = request.form['name_give']
+    review_receive = request.form['review_give']
+    rating_receive = request.form['rating_give']
+    lat_receive = request.form['lat_give']
+    lng_receive = request.form['lng_give']
+
+    doc = {
+        'title':name_receive,
+        'review':review_receive,
+        'like':rating_receive,
+        'x': lat_receive,
+        'y': lng_receive
+    }
+
+    db.puppy.insert_one(doc)
+
+    return jsonify({'msg': ' 저장완료! '})
+
+
+@app.route('/placereview', methods=['GET'])
+def read_reviews():
+    reviews = list(db.puppy.find({}, {'_id': False}))
+    return jsonify({'all_reviews': reviews})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
