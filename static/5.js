@@ -100,7 +100,10 @@ function displayPlaces(places) {
             var num = markers.indexOf(marker)
 
             kakao.maps.event.addListener(marker, 'mouseover', function () {
-                var content = '<div style=";z-index:1;" id="info_box">' + title + '(평점:)<br>주소 '+addresses[num] +' </div>';
+                //var content = '<div style=";z-index:1;" id="info_box">' + title + '(평점:)<br>주소 '+addresses[num] +' </div>'; (수정 전 평점 지우기)
+                var content = '<div style=";z-index:1;" id="info_box">' + title + '<br>주소 '+ addresses[num] +' </div>';
+
+
                 // var content = '<div style="padding:5px;z-index:1;max-width:1200px">' + title + '(평점:)<br>주소 '+addresses[num] +' </div>';
                 infowindow.setContent(content);
                 infowindow.open(map, marker);
@@ -120,7 +123,8 @@ function displayPlaces(places) {
             });
 
             itemEl.onmouseover = function () {
-                var content = '<div style="padding:5px;z-index:1;">' + title + '<br>평점 <br>주소 '+addresses[num] +' </div>';
+                //var content = '<div style="padding:5px;z-index:1;">' + title + '<br>평점 <br>주소 '+addresses[num] +' </div>'; 수정 전 평점 지우기
+                var content = '<div style="padding:5px;z-index:1;" id="info_box">' + title + '<br>주소 '+addresses[num] +' </div>';
                 map.setLevel(level = 4);
                 map.panTo(positions[num]);
                 infowindow.setContent(content);
@@ -159,7 +163,8 @@ function getListItem(index, places) {
             'style="margin: 10px;">\n' +
             '<div class="d-flex w-100 justify-content-between">\n' +
             '<h5 class="mb-1">' + places.place_name + '</h5>\n' +
-            '<small class="text-muted">평점(4.5점)</small>\n' +
+            // '<small class="text-muted">평점(4.5점)</small>\n' +
+            '<small class="text-muted"></small>\n' +
             '</div>';
     if (places.road_address_name) {
         itemStr += '    <span>' + places.road_address_name + '</span>' +
@@ -256,7 +261,7 @@ function showbest() {
                 let temp_html = `
                             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">${name}<small class="text-muted">평점(4.5점)</small></h5>
+                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> <!-- 안에 평점 -->
                                     <span><button type="button" onclick="plus('${name}')" id="like_button" class="btn btn-danger" >♡</button> + ${like}</span>
                                 </div>
                             </a>`
