@@ -362,3 +362,5 @@ function showReview() {
 function search_place(){
      $("#hello").hide() // 추천목록 숨기기
 }
+
+
