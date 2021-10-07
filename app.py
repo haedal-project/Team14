@@ -5,9 +5,11 @@ app = Flask(__name__)
 client = MongoClient('localhost', 27017)
 db = client.project
 
+
 @app.route('/')
 def main():
-    return render_template('5.html')
+    return render_template('index.html')
+
 
 @app.route('/api/recommend', methods=['GET'])
 def show_stars():
