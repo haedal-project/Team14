@@ -13,6 +13,7 @@
     <link href="{{ url_for('static', filename='css/css-index-green.css') }}" rel="stylesheet" media="screen">
 
     <link rel="stylesheet" href="../static/css/map.css">
+    <link rel="stylesheet" href="../static/css/photo.css">
     <link rel="stylesheet"
           href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
 </head>
@@ -233,6 +234,36 @@
                                 <div id="pagination"></div>
                             </div>
                         </div>
+
+                        <div id="photo-place-test" style="display: block;">
+                            <div>
+                                <h3>업로드 날짜<select class="form-control" id="exampleFormControlSelect1">
+                                        <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+                                    </select></h3>
+                                <h3> 제목 <input type="text" class="form-control" placeholder="Username" aria-label="Username"></h3>
+                                <div class="images">
+                                    <span class="image-card">위치1</span>
+                                    <span class="image-card">위치2</span>
+                                    <span class="image-card">위치3</span>
+                                </div>
+                                <button onclick="uploadphoto()">사진 업로드</button>
+                                <h3>등록된 사진</h3>
+                                <div class="images-list">
+                                    <span class="image-card">위치1</span>
+                                    <span class="image-card">위치2</span>
+                                    <span class="image-card">위치3</span>
+                                    <span class="image-card">위치1</span>
+                                    <span class="image-card">위치2</span>
+                                    <span class="image-card">위치3</span>
+                                    <span class="image-card">위치1</span>
+                                    <span class="image-card">위치2</span>
+                                    <span class="image-card">위치3</span>
+                                    <span class="image-card">위치1</span>
+                                    <span class="image-card">위치2</span>
+                                    <span class="image-card">위치3</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -279,6 +310,7 @@
     <script src='../static/js/recommand.js'></script>
     <script src='../static/js/map.js'></script>
     <script src='../static/js/review.js'></script>
+    <script src='../static/js/photo.js'></script>
 
     <script>
         $(document).ready(function () {

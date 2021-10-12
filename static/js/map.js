@@ -81,7 +81,6 @@ function displayPlaces(places) {
 
     // 지도 클릭 이벤트
     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-
         removeMarker2();
         // 클릭한 위도, 경도 정보를 가져옵니다
         let latlng = mouseEvent.latLng;
@@ -106,12 +105,10 @@ function displayPlaces(places) {
         marker2.setMap(map);
         markers2.push(marker2);
 
-        let content = '<div style=";z-index:1;" id="info_box">'+ '<button>사진 등록</button>'+'</div>';
+        let content = '<div style=";z-index:1;" id="info_box">'+ '<button onclick="upload_menue()">사진 등록</button>'+'</div>';
         infowindow.setContent(content);
         infowindow.open(map,marker2);
         map.setCenter(latlng);
-
-        alert(latlng);
 
     });
 
@@ -283,3 +280,4 @@ function removeAllChildNods(el) {
         el.removeChild(el.lastChild);
     }
 }
+
