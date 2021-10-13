@@ -1,10 +1,12 @@
 .images{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 140px;
+    grid-template-columns: 138px 138px 138px;
+    grid-template-rows: 125px;
 }
 
-.image-card{
+.image-card img{
+    width: 130px;
+    max-height: 115px;
     border-radius: 10px;
     margin: 5px;
     background-color: white;
@@ -16,4 +18,15 @@
     grid-template-rows: 140px 140px 140px;
     row-gap:10px;
 }
+.input-file-button{
+    padding: 4px 25px;
+    border: 2px solid #c9c9c9;
+    background-color: white;
+    border-radius: 10px;
+    margin-left: 3px;
+}
 
+.input-file-button:hover {
+    cursor: pointer;
+    background-color: #bfbfbf;
+}

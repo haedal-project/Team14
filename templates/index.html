@@ -12,10 +12,11 @@
     <link href="{{ url_for('static', filename='css/owl.carousel.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/css-index-green.css') }}" rel="stylesheet" media="screen">
 
+
     <link rel="stylesheet" href="../static/css/map.css">
     <link rel="stylesheet" href="../static/css/photo.css">
-    <link rel="stylesheet"
-          href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
+
 </head>
 
 <body data-spy="scroll" data-target="#navbar-scroll">
@@ -110,7 +111,7 @@
                                 <h3>상세정보</h3>
                             </div>
                             <div class="card-body list-group-item">
-                                <h3 class="card-title" id="info-place-name" style="float: left; display: block;"></h3>
+                                <h3 class="card-title" id="info-place-name" style="float: left; display: none;"></h3>
                                 <!-- 장소 이름 -->
                                 <h6 class="card-title" id=""
                                     style="float: left; display: block; margin-left: 20px; margin-top: 28px;">4.6 점 /
@@ -241,12 +242,16 @@
                                         <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
                                     </select></h3>
                                 <h3> 제목 <input type="text" class="form-control" placeholder="Username" aria-label="Username"></h3>
+                                <input type="hidden" id="click-place-lat"/>
+                                <input type="hidden" id="click-place-lng"/>
                                 <div class="images">
-                                    <span class="image-card">위치1</span>
-                                    <span class="image-card">위치2</span>
-                                    <span class="image-card">위치3</span>
                                 </div>
-                                <button onclick="uploadphoto()">사진 업로드</button>
+                                <div class="custom-file">
+                                    <input type="file" id="file" style="display:block;" accept=".jpg,.jpeg,.png,.gif,.bmp" multiple value>
+                                    <label class="input-file-button" for="file">이미지 가져오기</label>
+                                    <button onclick="uploadphoto()" class="input-file-button" >사진 업로드</button>
+                                </div>
+
                                 <h3>등록된 사진</h3>
                                 <div class="images-list">
                                     <span class="image-card">위치1</span>
@@ -302,11 +307,14 @@
     <script src="{{ url_for('static', filename='js/jquery.sticky.js') }}"></script>
     <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+
     <script>
         new WOW().init();
     </script>
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebe7ba6845482503a8ad6c6802e4870&libraries=services,clusterer,drawing"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebe7ba6845482503a8ad6c6802e4870&libraries=services,clusterer,drawing"></script>
     <script src='../static/js/recommand.js'></script>
     <script src='../static/js/map.js'></script>
     <script src='../static/js/review.js'></script>

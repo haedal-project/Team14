@@ -1,10 +1,10 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
-app = Flask(__name__)
+from datetime import datetime
 
+app = Flask(__name__)
 client = MongoClient('localhost', 27017)
 db = client.project
-
 
 @app.route('/')
 def main():
@@ -57,6 +57,32 @@ def read_reviews():
     reviews = list(db.puppy.find({'title': name}, {'_id': False}))
     return jsonify({'all_reviews': reviews})
 
+@app.route('/api/photo', methods=['POST'])
+def view_photos():
+    lat_receive = request.form['lat_give']
+    lng_receive = request.form['lng_give']
+
+    file = request.files["file_give"]
+
+    extension = file.filename.split('.')[-1]
+
+    today = datetime.now()
+    mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
+
+    filename = f'file-{mytime}'
+
+    save_to = f'static/{filename}.{extension}'
+    file.save(save_to)
+
+    doc = {
+        'lat': lat_receive,
+        'lng': lng_receive,
+        'file': f'{filename}.{extension}',
+        'time': f'{mytime}'
+    }
+
+    db.photo.insert_one(doc)
+    return jsonify({'msg': '저장 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
