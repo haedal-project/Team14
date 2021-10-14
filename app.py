@@ -50,12 +50,26 @@ def write_review():
     return jsonify({'msg': ' 저장완료! '})
 
 
-
 @app.route('/placereview', methods=['GET'])
 def read_reviews():
     name = request.args.get('name')
     reviews = list(db.puppy.find({'title': name}, {'_id': False}))
     return jsonify({'all_reviews': reviews})
+
+
+# /api/place?id=${_id}&user_id=${user_id}`,
+@app.route('/api/place', methods=['GET'])
+def place_detail_info():
+    # id = request.args.get('id')
+    # user_id = request.args.get('user_id')
+    doc = {
+        "id": "12132121",
+        "rating": 4.12,
+        "review_count": 40,
+        "enter_amount": 40.1,
+        "like": True
+    }
+    return jsonify({"place-info": doc})
 
 
 if __name__ == '__main__':

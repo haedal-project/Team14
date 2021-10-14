@@ -114,7 +114,7 @@ function displayPlaces(places) {
                 map.setCenter(positions[num]);
 
                 // 지도를 찍었을 때
-                clickPlaceMarker(title, lat[num], lng[num], addresses[num])
+                clickPlaceMarker(title, addresses[num])
             });
 
             itemEl.onmouseover = function () {
@@ -131,7 +131,7 @@ function displayPlaces(places) {
                 map.setCenter(positions[num]);
 
                 // 검색된 장소를 찍었을 때
-                clickPlaceMarker(title, lat[num], lng[num], addresses[num])
+                clickPlaceMarker(title, addresses[num])
             };
             itemEl.onmouseout = function () {
                 infowindow.close();
