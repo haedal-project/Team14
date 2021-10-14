@@ -35,7 +35,6 @@ def write_review():
     lat_receive = request.form['lat_give']
     lng_receive = request.form['lng_give']
 
-
     rating_receive = int(rating_receive)
     lat_receive = float(lat_receive)
     lng_receive = float(lng_receive)
@@ -49,6 +48,7 @@ def write_review():
     }
     db.puppy.insert_one(doc)
     return jsonify({'msg': ' 저장완료! '})
+
 
 
 @app.route('/placereview', methods=['GET'])

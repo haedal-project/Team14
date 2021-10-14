@@ -109,7 +109,8 @@
                             <input type="hidden" id="info-place-lat"/>
                             <input type="hidden" id="info-place-lng"/>
                             <h6 style="float: left;">리뷰어 50%가 이 가게에 출입함</h6>                  <!-- 장소 리뷰 건수 -->
-                            <button type="button" style="float: right;" id="like_button" class="btn btn-danger">♡</button>
+                            <button type="button" style="float: right;" id="like_button" class="btn btn-danger">♡
+                            </button>
                             <div style="clear: both;"></div>
 
                             <hr/>
@@ -191,14 +192,19 @@
                                 </div>
                             </div>
 
-                            <div id="place-photo-info" style="padding-top: 60px;">
+                            <div id="place-photo-info" style="padding-top: 60px; display: block">
                                 <h6 style="float: left; ">내가 올린 사진</h6>
                                 <button type="button" style="float: right; width: 100px;" class="btn btn-success">등록
                                 </button>
                             </div>
 
                             <style>
-                                .thumbnail > div {
+                                .thumbnail {
+                                    width: 130px;
+                                    height: 90px;
+                                }
+
+                                .delete-box {
                                     position: absolute;
                                     bottom: 0;
                                     right: 0;
@@ -212,10 +218,18 @@
                                     transition: visibility 0s, opacity 0.5s linear;
                                 }
 
-                                .thumbnail:hover div {
+                                .thumbnail:hover > .delete-box {
                                     padding: 8px 15px;
                                     visibility: visible;
                                     opacity: 0.7;
+                                }
+
+                                .imgaa {
+                                    position: relative;
+                                    float: left;
+                                    background-position: 50% 50%;
+                                    background-repeat: no-repeat;
+                                    background-size: cover;
                                 }
                             </style>
 
@@ -223,8 +237,9 @@
                                 <div class="col-md-4">
                                     <div class="thumbnail">
                                         <a href="" data-toggle="modal" data-target="#exampleModalLong">
-                                            <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%"></a>
-                                        <div><a href="">삭제</a></div>
+                                            <img class="imgaa" style="width:130px; height: 80px; background-image:url('../static/images/dog_test.png');">
+                                        </a>
+                                        <div class="delete-box"><a href="">삭제</a></div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -347,8 +362,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" style="width: 100%;"/>
+                <div class="modal-body" style="height: 100%; width: 100%; margin: auto;">
+                    <img src="../static/images/dog_test2.png"  style="object-fit: scale-down; text-align: center; width: 100%; height: 100%; margin: auto; max-height: 500px;">
                 </div>
             </div>
         </div>
