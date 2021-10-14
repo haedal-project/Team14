@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function addFiles() {
+            $("#upload").append("<input type='file' name='file'>");
+        }
+
+        function saveFiles() {
+            const formData = new FormData();
+            let inputFile = $('input[name=file]')
+            for (let i = 0; i < inputFile.length; i++) {
+                formData.append("file", inputFile[i].files[0]);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/files",
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (response) {
+
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <button class="btn btn-outline-secondary" type="button" onclick="addFiles()">파일추가</button>
+    <div id="upload">
+    </div>
+    <button class="btn btn-outline-secondary" type="button" onclick="saveFiles()">파일저장</button>
+</body>
+</html>

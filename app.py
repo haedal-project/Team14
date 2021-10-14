@@ -62,22 +62,16 @@ def view_photos():
     lat_receive = request.form['lat_give']
     lng_receive = request.form['lng_give']
 
-    file = request.files["file_give"]
-
-    extension = file.filename.split('.')[-1]
+    file = request.files.getlist("file_give")
 
     today = datetime.now()
-    mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
-
-    filename = f'file-{mytime}'
-
-    save_to = f'static/{filename}.{extension}'
-    file.save(save_to)
+    # # mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
+    mytime = today.strftime('%Y.%m.%d')
 
     doc = {
         'lat': lat_receive,
         'lng': lng_receive,
-        'file': f'{filename}.{extension}',
+        'file': f'{file}',
         'time': f'{mytime}'
     }
 

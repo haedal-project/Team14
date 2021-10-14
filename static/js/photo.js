@@ -58,17 +58,21 @@ function deleteImageAction(index){
     $(img_id).remove();
 
 }
+function addFiles() {
+            $("#upload").append("<input type='file' name='file'>");
+        }
 
 function uploadphoto() {
+    let form_data = new FormData()
+
     let lat = $('#click-place-lat').val();
     let lng = $('#click-place-lng').val();
 
-    let file = $('#file')[0].files
-    let form_data = new FormData()
-
-    form_data.append("file_give", file)
-    form_data.append("lat_give", lat)
-    form_data.append("lng_give", lng)
+    for (let i=0; i<sel_files.length; i++) {
+        form_data.append("file_give", sel_files[i])
+    }
+        form_data.append("lat_give", lat)
+        form_data.append("lng_give", lng)
 
     $.ajax({
         type: "POST",
@@ -84,3 +88,15 @@ function uploadphoto() {
     });
 }
 
+function  submitAction(){
+    let data = new FormData();
+
+    for (let i=0,len=sel_files.length; i<len; i++){
+        let name = "image_"+i;
+        data.append(name,sel_files[i]);
+    }
+    data.append("image_count", sel_files.length);
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST","./")
+}
