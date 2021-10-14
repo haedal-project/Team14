@@ -100,8 +100,11 @@ function displayPlaces(places) {
             var num = markers.indexOf(marker)
 
             kakao.maps.event.addListener(marker, 'mouseover', function () {
+                //var content = '<div style=";z-index:1;" id="info_box">' + title + '(평점:)<br>주소 '+addresses[num] +' </div>'; (수정 전 평점 지우기)
                 var content = '<div style=";z-index:1;" id="info_box">' + title + '<br>주소 '+ addresses[num] +' </div>';
 
+
+                // var content = '<div style="padding:5px;z-index:1;max-width:1200px">' + title + '(평점:)<br>주소 '+addresses[num] +' </div>';
                 infowindow.setContent(content);
                 infowindow.open(map, marker);
                 // displayInfowindow(marker, title);
@@ -151,7 +154,6 @@ function displayPlaces(places) {
 
     $('#place-info').hide();
     $('#place-list').show();
-
 }
 
 function getListItem(index, places) {
@@ -248,14 +250,20 @@ function removeAllChildNods(el) {
 num = 0
 function ec() {
     if (num==0) {
-        withshowbest()
         $("#hello").empty()
+        $("#check_button").empty()
+        $("#check_button").append("전체 추천 장소 띄우기")
+        withshowbest()
+
         num = num+1
     }
     else {
         $("#hello").empty()
+        $("#check_button").empty()
+        $("#check_button").append("반려동물 입장 가능 장소만 보기")
+        showbest()
+
         num = num-1
-        return showbest()
     }
 }
 
@@ -279,18 +287,19 @@ function withshowbest() {
                 if (like == 1) {
                     temp_html = `<a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
                                 <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5>
+                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> <!-- 안에 평점 -->
                                     <span><button type="button" onclick="plus('${name}')" id="like_button_red" class="btn btn-danger" >❤</button> + ${like}</span>
                                 </div>
                             </a>`
                 } else {
                     temp_html = `<a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
                                 <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
+                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> <!-- 안에 평점 -->
                                     <span><button type="button" onclick="plus('${name}')" id="like_button_white" class="btn btn-danger" >♡</button> + ${like}</span>
                                 </div>
                             </a>`
                 }
+
 
                 // 마커를 표시할 위치와 title 객체 배열입니다
                 $("#hello").append(temp_html)
@@ -324,11 +333,15 @@ function withshowbest() {
                                 image: markerImage // 마커 이미지
 
                             });
+
                         }
+
                     };
                     geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+
                 }
             }
+
         }
 
     });
@@ -354,14 +367,14 @@ function showbest() {
                 if (like == 1) {
                     temp_html = `<a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
                                 <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5>
+                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> <!-- 안에 평점 -->
                                     <span><button type="button" onclick="plus('${name}')" id="like_button_red" class="btn btn-danger" >❤</button> + ${like}</span>
                                 </div>
                             </a>`
                 } else {
                     temp_html = `<a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
                                 <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5>
+                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> <!-- 안에 평점 -->
                                     <span><button type="button" onclick="plus('${name}')" id="like_button_white" class="btn btn-danger" >♡</button> + ${like}</span>
                                 </div>
                             </a>`
