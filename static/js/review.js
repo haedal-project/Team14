@@ -1,18 +1,34 @@
+function clickPlaceMarker(_title, _address) {
 
+    let _id = "121212"
+    let user_id = "manijang2"
 
-function clickPlaceMarker(title, lat, lng, address) {
+    console.log('clickPlaceMarker()', _title, _address)
 
-    $('#info-place-name').text(title)
-    $('#info-place-address').text(address)
-    $('#info-place-lng').val(lng)
-    $('#info-place-lat').val(lat)
+    $.ajax({
+        type: "GET",
+        url: `/api/place?id=${_id}&user_id=${user_id}`,
+        data: {},
+        success: function (response) {
+            let place_info = response['place-info']
 
-    $('#place-info').show();
-    $('#place-list').hide();
+            $('#info-place-name').text(_title)
+            $('#info-place-address').text(_address)
 
+            $('#info-place-rating').text(`${place_info['rating']} 점 / 5.0 점`)
+            $('#info-place-review-count').text(`리뷰 ${place_info['review_count']}건`)
 
+            $('#like_button').val(place_info['like'])
+            if (place_info['like'] == true) {
+                $('#like_button').removeClass('btn-success').addClass('btn-danger')
+            }
 
-    showReview();
+            $('#info-place-enter-amount').text(`리뷰어 ${place_info['enter_amount']}%가 이 가게에 출입함`)
+
+            $('#place-info').show();
+            $('#place-list').hide();
+        }
+    })
 }
 
 function showReview() {
@@ -33,6 +49,6 @@ function showReview() {
     })
 }
 
-function search_place(){
-     $("#hello").hide() // 추천목록 숨기기
+function search_place() {
+    $("#hello").hide() // 추천목록 숨기기
 }
