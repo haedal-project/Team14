@@ -26,21 +26,24 @@ reviews = [
         "user_id": "manijang2",
         "rating": "1",
         "review": "리뷰 내용입니다1",
-        "enter_with": False
+        "enter_with": False,
+        "like": False
     },
     {
         "place_id": "121212",
         "user_id": "manijang3",
         "rating": "3",
         "review": "리뷰 내용입니다2",
-        "enter_with": True
+        "enter_with": True,
+        "like": True
     },
     {
         "place_id": "3434343",
         "user_id": "manijang4",
         "rating": "4",
         "review": "리뷰 내용입니다3",
-        "enter_with": False
+        "enter_with": False,
+        "like": True
     },
 ]
 

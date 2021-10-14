@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
+
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)
@@ -13,14 +14,14 @@ def main():
 
 @app.route('/api/recommend', methods=['GET'])
 def show_stars():
-    like_star = list(db.puppy.find({},{'_id':False}).sort("like", -1))
+    like_star = list(db.puppy.find({}, {'_id': False}).sort("like", -1))
     return jsonify({'like': like_star})
 
 
 @app.route('/api/like_button', methods=['POST'])
 def like_star():
     name_receive = request.form['name_give']
-    target_star= db.puppy.find_one({"title": name_receive})
+    target_star = db.puppy.find_one({"title": name_receive})
     current_like = target_star['like']
     new_like = current_like + 1
     db.puppy.update_one({"title": name_receive}, {'$set': {'like': new_like}})
@@ -40,9 +41,9 @@ def write_review():
     lng_receive = float(lng_receive)
 
     doc = {
-        'title':name_receive,
-        'review':review_receive,
-        'like':rating_receive,
+        'title': name_receive,
+        'review': review_receive,
+        'like': rating_receive,
         'x': lat_receive,
         'y': lng_receive
     }
@@ -57,21 +58,30 @@ def read_reviews():
     return jsonify({'all_reviews': reviews})
 
 
-# /api/place?id=${_id}&user_id=${user_id}`,
 @app.route('/api/place', methods=['GET'])
 def place_detail_info():
-    # id = request.args.get('id')
-    # user_id = request.args.get('user_id')
+    place_id = request.args.get('id')
+    user_id = request.args.get('user_id')
+
+    # 장소 정보 가져옴
+    place_row = db.place.find_one({'place_id': place_id}, {'_id': False})
+
+    # 리뷰 일부 정보 가져옴(like)
+    review_row = db.review.find_one({'place_id': place_id, 'user_id': user_id}, {'_id': False})
+    if review_row is not None:
+        like = review_row['like']
+    else:
+        like = False
+
     doc = {
-        "id": "12132121",
-        "rating": 4.12,
-        "review_count": 40,
-        "enter_amount": 40.1,
-        "like": True
+        "place_id": place_row['place_id'],
+        "rating": place_row['rating'],
+        "review_count": place_row['review_count'],
+        "enter_amount": place_row['enter_amount'],
+        "like": like
     }
     return jsonify({"place-info": doc})
 
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
-
