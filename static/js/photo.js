@@ -63,6 +63,7 @@ function addFiles() {
         }
 
 function uploadphoto() {
+
     let form_data = new FormData()
 
     let lat = $('#click-place-lat').val();
