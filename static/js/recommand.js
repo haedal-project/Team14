@@ -14,7 +14,7 @@ function showbest() {
                 let like = store[i]["like"]
 
                 let temp_html = `
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
+                            <a class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
                                 <div class="d-flex w-100 justify-content-between">
                           <h5 class="mb-1">${name}<small class="text-muted"></small></h5> <!-- 안에 평점 -->
                                     <span><button type="button" onclick="plus('${name}')" id="like_button" class="btn btn-danger" >♡</button> + ${like}</span>

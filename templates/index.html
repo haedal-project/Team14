@@ -16,6 +16,40 @@
     <link rel="stylesheet"
           href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
     <link rel="stylesheet" href="../static/css/design.css"/>
+    <style>
+        .thumbnail {
+            width: 130px;
+            height: 90px;
+        }
+
+        .delete-box {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: forestgreen;
+            color: white;
+            margin-bottom: 0px;
+            font-family: sans-serif;
+            opacity: 0;
+            visibility: hidden;
+            -webkit-transition: visibility 0s, opacity 0.5s linear;
+            transition: visibility 0s, opacity 0.5s linear;
+        }
+
+        .thumbnail:hover > .delete-box {
+            padding: 8px 15px;
+            visibility: visible;
+            opacity: 0.7;
+        }
+
+        .imgaa {
+            position: relative;
+            float: left;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body data-spy="scroll" data-target="#navbar-scroll">
@@ -99,6 +133,10 @@
                         <div class="card-body list-group-item">
                             <!-- 장소 이름 -->
                             <h3 class="card-title" id="info-place-name" style="float: left;"></h3>
+                            <!-- 장소 위도 -->
+                            <input type="hidden" id="info-place-lat" />
+                            <!-- 장소 경도 -->
+                            <input type="hidden" id="info-place-lng" />
                             <!-- 장소 평점 -->
                             <h6 class="card-title" id="info-place-rating" style="float: left; display: block; margin-left: 20px; margin-top: 28px;"></h6>
                             <!-- 장소 리뷰 건수 -->
@@ -106,7 +144,7 @@
                             <!-- 장소 주소 -->
                             <p class="card-text" style="margin-bottom: 0px; padding-bottom: 8px; clear: both" id="info-place-address"></p>
                             <!-- 장소 리뷰 건수 -->
-                            <h6 id="info-place-enter-amount"style="float: left;">리뷰어 50%가 이 가게에 출입함</h6>
+                            <h6 id="info-place-enter-amount" style="float: left;">리뷰어 50%가 이 가게에 출입함</h6>
                             <!-- 좋아요 버튼 -->
                             <button type="button" style="float: right;" id="like_button" class="btn btn-danger" onclick="alert('기능 미구현');">♡</button>
                             <div style="clear: both;"></div>
@@ -114,40 +152,37 @@
                             <hr/>
                             <ul class="nav justify-content-end" style="display: flex; float: right;">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">리뷰</a>
+                                    <a style="cursor:pointer" class="nav-link" onclick="showReview()">리뷰</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">사진</a>
+                                    <a style="cursor:pointer" class="nav-link" onclick="showPhoto()">사진</a>
                                 </li>
                             </ul>
 
+                            <div style="clear: both;"></div>
 
-                            <div style="clear: both; display: none;" id="place-review-info">
+                            <div style="display: none; padding-top: 10px;" id="place-review-info">
                                 <div id="review_registered">
                                     <div class="custom-control custom-checkbox" style="margin-bottom: 10px;">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <input type="checkbox" class="custom-control-input" id="enter-with-check">
                                         <label class="custom-control-label" for="customCheck1">애견동반 가능</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1"
-                                               style="display: inline-block; width: 40px;">평점</label>
-                                        <select class="form-control" id="exampleFormControlSelect1" style="display: inline-block; width: 100px; ">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                        <label for="review-rating-radio" style="display: inline-block; width: 40px;">평점</label>
+                                        <select class="form-control" id="review-rating-radio" style="display: inline-block; width: 100px; ">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
                                         </select>
-                                        <label for="exampleFormControlSelect1"
-                                               style="display: inline-block; width: 40px;">점</label>
-
+                                        <label for="review-rating-radio" style="display: inline-block; width: 40px;">점</label>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1">리뷰 등록</label>
                                         <br/>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                                  style="float: left; width: 300px; height: 100px;"></textarea>
-                                        <button type="button" style="float: right; width: 100px; height: 100px;" class="btn btn-success">
+                                        <textarea class="form-control" id="review-content" rows="3"></textarea>
+                                        <button type="button" id="review-register-btn" class="btn btn-success" onclick="registerReview();">
                                             등록
                                         </button>
                                     </div>
@@ -190,100 +225,70 @@
                                 </div>
                             </div>
 
-                            <div id="place-photo-info" style="padding-top: 60px; display: block">
+
+                            <!-- 리뷰 끝 -->
+
+                            <div id="place-photo-info" style="padding-top: 10px; display: none">
                                 <h6 style="float: left; ">내가 올린 사진</h6>
                                 <button type="button" style="float: right; width: 100px;" class="btn btn-success">등록
                                 </button>
-                            </div>
 
-                            <style>
-                                .thumbnail {
-                                    width: 130px;
-                                    height: 90px;
-                                }
 
-                                .delete-box {
-                                    position: absolute;
-                                    bottom: 0;
-                                    right: 0;
-                                    background: forestgreen;
-                                    color: white;
-                                    margin-bottom: 0px;
-                                    font-family: sans-serif;
-                                    opacity: 0;
-                                    visibility: hidden;
-                                    -webkit-transition: visibility 0s, opacity 0.5s linear;
-                                    transition: visibility 0s, opacity 0.5s linear;
-                                }
-
-                                .thumbnail:hover > .delete-box {
-                                    padding: 8px 15px;
-                                    visibility: visible;
-                                    opacity: 0.7;
-                                }
-
-                                .imgaa {
-                                    position: relative;
-                                    float: left;
-                                    background-position: 50% 50%;
-                                    background-repeat: no-repeat;
-                                    background-size: cover;
-                                }
-                            </style>
-
-                            <div class="row" style="clear: both;">
-                                <div class="col-md-4">
-                                    <div class="thumbnail">
-                                        <a href="" data-toggle="modal" data-target="#exampleModalLong">
-                                            <img class="imgaa" style="width:130px; height: 80px; background-image:url('../static/images/dog_test.png');">
-                                        </a>
-                                        <div class="delete-box"><a href="">삭제</a></div>
+                                <div class="row" style="clear: both;">
+                                    <div class="col-md-4">
+                                        <div class="thumbnail">
+                                            <a href="" data-toggle="modal" data-target="#exampleModalLong">
+                                                <img class="imgaa" style="width:130px; height: 80px; background-image:url('https://blog.kakaocdn.net/dn/b8Clpq/btqJZndo4FQ/JjNGwDsc11g3CNIBfZiaU0/img.jpg');">
+                                            </a>
+                                            <div class="delete-box"><a href="">삭제</a></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="thumbnail">
+                                            <a href="" data-toggle="modal" data-target="#exampleModalLong">
+                                                <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%"></a>
+                                            <div><a href="">삭제</a></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="thumbnail">
+                                            <a href="" data-toggle="modal" data-target="#exampleModalLong">
+                                                <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%"></a>
+                                            <div><a href="">삭제</a></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="thumbnail">
-                                        <a href="" data-toggle="modal" data-target="#exampleModalLong">
-                                            <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%"></a>
-                                        <div><a href="">삭제</a></div>
-                                    </div>
+                                <div>
+                                    <h6>다른사람이 올린 사진</h6>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="thumbnail">
-                                        <a href="" data-toggle="modal" data-target="#exampleModalLong">
-                                            <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%"></a>
-                                        <div><a href="">삭제</a></div>
+                                <div class="row" style="clear: both;">
+                                    <div class="col-md-4">
+                                        <div class="thumbnail">
+                                            <a href="">
+                                                <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%">
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h6>다른사람이 올린 사진</h6>
-                            </div>
-                            <div class="row" style="clear: both;">
-                                <div class="col-md-4">
-                                    <div class="thumbnail">
-                                        <a href="">
-                                            <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%">
-                                        </a>
+                                    <div class="col-md-4">
+                                        <div class="thumbnail">
+                                            <a href="">
+                                                <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%">
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="thumbnail">
-                                        <a href="">
-                                            <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="thumbnail">
-                                        <a href="">
-                                            <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%">
-                                        </a>
+                                    <div class="col-md-4">
+                                        <div class="thumbnail">
+                                            <a href="">
+                                                <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%">
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- 리뷰 끝 -->
 
                     <div id="place-list" style="display: none;">
                         <h3 style="margin-left: 10px; ">장소 목록</h3>
@@ -361,7 +366,7 @@
                     </button>
                 </div>
                 <div class="modal-body" style="height: 100%; width: 100%; margin: auto;">
-                    <img src="../static/images/dog_test2.png"  style="object-fit: scale-down; text-align: center; width: 100%; height: 100%; margin: auto; max-height: 500px;">
+                    <img src="https://blog.kakaocdn.net/dn/b8Clpq/btqJZndo4FQ/JjNGwDsc11g3CNIBfZiaU0/img.jpg" style="object-fit: scale-down; text-align: center; width: 100%; height: 100%; margin: auto; max-height: 500px;">
                 </div>
             </div>
         </div>
