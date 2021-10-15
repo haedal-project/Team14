@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+    <head>
+
+        <!-- Webpage Title -->
+        <title>Hello, world!</title>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bulma CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+
+        <script>
+
+            function login() {
+
+                let id = $("#input-id").val()
+                let pw = $("#input-pw").val()
+
+                if (id == "") {
+                    $("#help-id-login").text("아이디를 입력해주세요.")
+                    $("#input-id").focus()
+
+                    return;
+                } else {
+                    $("#help-id-login").text("")
+                }
+
+                if (pw == "") {
+                    $("#help-password-login").text("비밀번호를 입력해주세요.")
+                    $("#input-pw").focus()
+
+                    return;
+                } else {
+                    $("#help-password-login").text("")
+                }
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/login",
+                    data: {id_give:$('#input-id').val(), pw_give: $('#input-pw').val()},
+                    success: function (response) {
+                        if (response['result'] == 'success') {
+                            $.cookie('mytoken', response['token']);
+
+                            alert('로그인 완료!')
+                            window.location.href = '/'
+                        } else {
+                            alert('로그인 실패!')
+                        }
+                    }
+                });
+            }
+
+        </script>
+
+    </head>
+    <body>
+        <div class="section has-text-centered">
+            <h1 class="title">로그인 페이지</h1>
+            <div class="container" style="width:50%">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" for="input-id">ID</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" id="input-id" aria-describedby="emailHelp"
+                                       placeholder="My ID">
+                            </div>
+                            <p id="help-id-login" class="help"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" for="input-pw">PW</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input type= password class="input" id="input-pw" placeholder="My Password">
+                            </div>
+                             <p id="help-password" class="help"></p>
+                        </div>
+                    </div>
+                </div>
+                <button class="button is-primary" onclick="login()">로그인</button>
+                <button class="button is-primary" onclick="location.href='/register'">회원가입</button>
+            </div>
+        </div>
+    </body>
+</html>
+
+
