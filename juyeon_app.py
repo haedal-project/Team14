@@ -25,7 +25,7 @@ def getUserLoginId():
 
 
 #HTML
-@app.route('/')
+@app.route('/main2')
 def home():
     token_receive = request.cookies.get('mytoken')
     try:

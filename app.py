@@ -1,10 +1,16 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
 
+import hashlib
+import jwt
+import datetime
+
 app = Flask(__name__)
 
 client = MongoClient('localhost', 27017)
 db = client.project
+
+SECRET_KEY = 'JAVAJABA'
 
 
 @app.route('/')
@@ -197,6 +203,59 @@ def find(mylist, key, value):
             return i
     return -1
 
+@app.route('/login')
+def login():
+    msg = request.args.get("msg")
+    return render_template('login.html', msg=msg)
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+@app.route('/api/register', methods=['POST'])
+def api_register():
+    id_receive = request.form['id_give']
+    pw_receive = request.form['pw_give']
+
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+
+    doc = {
+        'id': id_receive,
+        'pw': pw_hash,
+    }
+
+    db.accounts.insert_one(doc)
+
+    return jsonify({'result': 'success'})
+
+@app.route('/register/check_dup', methods=['POST'])
+def check_dup():
+    id_receive = request.form['id_give']
+    exists = bool(db.accounts.find_one({"id": id_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
+
+@app.route('/api/login', methods=['POST'])
+def api_login():
+    id_receive = request.form['id_give']
+    pw_receive = request.form['pw_give']
+
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+
+    result = db.accounts.find_one({'id': id_receive, 'pw': pw_hash})
+
+    if result is not None:
+
+        payload = {
+            'id': id_receive,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=600)
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+
+        return jsonify({'result': 'success', 'token': token})
+
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
@@ -205,3 +264,4 @@ if __name__ == '__main__':
 def truncate(num, n):
     integer = int(num * (10 ** n)) / (10 ** n)
     return float(integer)
+
