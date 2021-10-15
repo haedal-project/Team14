@@ -60,3 +60,15 @@
     padding-left: 3px;
     padding-right: 3px;
 }
+
+#review-content {
+    float: left;
+    width: 300px;
+    height: 100px;
+}
+
+#review-register-btn {
+    float: right;
+    width: 100px;
+    height: 100px;
+}
