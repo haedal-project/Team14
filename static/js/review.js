@@ -64,7 +64,6 @@ function loadReview(_title, _address, _currentPage) {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
             // 한 화면에 보여줄 페이지 수
             const pageBlock = 3;
             // 한 페이지에 보여줄 리뷰 수
@@ -86,7 +85,7 @@ function loadReview(_title, _address, _currentPage) {
                 }
 
                 if (startPage > pageBlock) {
-                    $('#review-pagination-ul').append(`<li class="page-item"><a class="page-link" style="cursor:pointer; color: #5cb85c; font-weight: normal;" onclick="loadReview('${_title}', '${_address}', '${startPage-pageBlock}')">Previous</a></li>`)
+                    $('#review-pagination-ul').append(`<li class="page-item"><a class="page-link" style="cursor:pointer; color: #5cb85c; font-weight: normal;" onclick="loadReview('${_title}', '${_address}', '${startPage - pageBlock}')">Previous</a></li>`)
                     // <a href="list.jsp?pageNum=<%=startPage - 10%>">[이전]</a>
                 }
 
@@ -100,7 +99,7 @@ function loadReview(_title, _address, _currentPage) {
 
                 if (endPage < pageTotCount) { // 현재 블록의 마지막 페이지보다 페이지 전체 블록수가 클경우 다음 링크 생성
                     // <a href="list.jsp?pageNum=<%=startPage + 10 %>">[다음]</a>
-                    $('#review-pagination-ul').append(`<li class="page-item"><a class="page-link" style="cursor:pointer; color: #5cb85c; font-weight: normal;" onclick="loadReview('${_title}', '${_address}', '${startPage+pageBlock}')">Next</a></li>`)
+                    $('#review-pagination-ul').append(`<li class="page-item"><a class="page-link" style="cursor:pointer; color: #5cb85c; font-weight: normal;" onclick="loadReview('${_title}', '${_address}', '${startPage + pageBlock}')">Next</a></li>`)
                 }
             }
         }
@@ -164,7 +163,35 @@ function deleteReview(_title, _address, _user_id) {
     })
 }
 
+function aa() {
+    alert('123')
+    let formData = new FormData($('#fileForm')[0]);
 
-function search_place() {
-    $("#hello").hide() // 추천목록 숨기기
+    title = $('#info-place-name').text()
+    address = $('#info-place-address').text()
+
+    formData.append("title", title)
+    formData.append("address", address)
+
+    $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: `/fileUpload`,
+        data: formData,
+        processData: false,
+        contentType: false,
+        cache: false,
+        success: function (result) {
+            console.dir(result)
+            alert(result['msg'])
+        },
+        error: function (e) {
+            alert(e)
+        }
+    });
 }
+
+
+    function search_place() {
+        $("#hello").hide() // 추천목록 숨기기
+    }

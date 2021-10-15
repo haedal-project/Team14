@@ -184,33 +184,28 @@
                                         <label for="exampleFormControlTextarea1">리뷰 등록</label>
                                         <br/>
                                         <textarea class="form-control" id="review-content" rows="3"></textarea>
-                                        <button type="button" id="review-register-btn" class="btn btn-success" onclick="registerReview();">
-                                            등록
-                                        </button>
+                                        <button type="button" id="review-register-btn" class="btn btn-success" onclick="registerReview();">등록</button>
                                     </div>
                                     <div style="clear: both;"></div>
                                     <div id="review-list">
                                     </div>
                                     <nav aria-label="Page navigation example" id="review-pagination-bar">
-                                            <ul class="pagination" id="review-pagination-ul">
-                                                <li class="page-item"><a class="page-link" href="#" style="color: #5cb85c; font-weight: normal;">Previous</a></li>
-                                                <li class="page-item"><a class="page-link" href="#" style="color: #5cb85c; font-weight: normal;">1</a></li>
-                                                <li class="page-item"><a class="page-link" href="#" style="color: #5cb85c; font-weight: normal;">2</a></li>
-                                                <li class="page-item"><a class="page-link" href="#" style="color: #5cb85c; font-weight: normal;">3</a></li>
-                                                <li class="page-item"><a class="page-link" href="#"  style="color: #5cb85c; font-weight: normal;">Next</a></li>
-                                            </ul>
-                                        </nav>
+                                        <ul class="pagination" id="review-pagination-ul">
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
-
-
                             <!-- 리뷰 끝 -->
+
 
                             <div id="place-photo-info" style="padding-top: 10px; display: none">
                                 <h6 style="float: left; ">내가 올린 사진</h6>
-                                <button type="button" style="float: right; width: 100px;" class="btn btn-success">등록
-                                </button>
+                                <button type="button" style="float: right; width: 100px;margin-right: 10px;" class="btn btn-success" onclick="$('#photo-file-input').click();">선택</button>
 
+                                <br />
+                                <form id="fileForm" method="post" enctype="multipart/form-data">
+                                    <input multiple="multiple" type="file" name="filename[]" style="display: none" id="photo-file-input" onchange="aa();"/>
+                                </form>
 
                                 <div class="row" style="clear: both;">
                                     <div class="col-md-4">
@@ -218,21 +213,7 @@
                                             <a href="" data-toggle="modal" data-target="#exampleModalLong">
                                                 <img class="imgaa" style="width:130px; height: 80px; background-image:url('https://blog.kakaocdn.net/dn/b8Clpq/btqJZndo4FQ/JjNGwDsc11g3CNIBfZiaU0/img.jpg');">
                                             </a>
-                                            <div class="delete-box"><a href="">삭제</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="thumbnail">
-                                            <a href="" data-toggle="modal" data-target="#exampleModalLong">
-                                                <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%"></a>
-                                            <div><a href="">삭제</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="thumbnail">
-                                            <a href="" data-toggle="modal" data-target="#exampleModalLong">
-                                                <img src="https://www.ui4u.go.kr/depart/img/content/sub03/img_con03030100_01.jpg" alt="Lights" style="width:100%"></a>
-                                            <div><a href="">삭제</a></div>
+                                            <div class="delete-box"><a>삭제</a></div>
                                         </div>
                                     </div>
                                 </div>
@@ -328,10 +309,6 @@
             </div>
         </div>
     </footer>
-
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-        Launch demo modal
-    </button>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
