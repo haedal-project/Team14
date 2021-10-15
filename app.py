@@ -129,16 +129,13 @@ def place_review_register():
     enter_with_sum = 0
     for review_row in review_rows:
         rating_sum += int(review_row['rating'])
-        print(f'review_row["enter_with"] == "true" : {review_row["enter_with"] == "true"}')
         if review_row['enter_with'] == 'true':
             enter_with_sum += 1
 
-    print(enter_with_sum)
     # 평점, 애완동물과 출입한 퍼센트, 총 리뷰개수를 구함
     rating_final = truncate(rating_sum / len(review_rows), 2)
     enter_with_final = truncate(enter_with_sum / len(review_rows) * 100, 2)
     review_count = len(review_rows)
-    print(enter_with_final)
 
     # 업데이트한 place 레코드를 다시 업데이트
     updated_place_row = db.places.find_one({'title': title, 'address': address}, {'_id': False})
@@ -175,8 +172,6 @@ def place_review_select_pagination():
     # 시작점
     offset = (page - 1) * limit
     review_rows = list(db.reviews.find({'title': title, 'address': address}, {'_id': False}).limit(limit).skip(offset))
-    for review_row in review_rows:
-        print(review_row)
     myself_review_idx = find(review_rows, 'user_id', user_id)
     if myself_review_idx > 0:
         review_rows.insert(0, review_rows.pop(myself_review_idx))
@@ -197,20 +192,62 @@ def place_review_delete():
     return jsonify({'msg': '삭제완료'})
 
 
+@app.route('/fileUpload', methods = ['GET','POST'])
+def place_photo_upload():
+    title = request.form['title']
+    address = request.form['address']
+    user_id = "manijang2"
+
+    # 해당 장소에 대한 파일들을 검사하고 없으면 생성한다.
+    placePhoto_row = db.place_photos.find_one({'title': title, 'address': address, 'user_id': user_id}, {'_id': False})
+    if placePhoto_row is None:
+        placePhoto_doc = {
+            "title": title,
+            "address": address,
+            "user_id": user_id,
+            'filenames': []
+        }
+        db.place_photos.insert_one(placePhoto_doc)
+
+    # 해당 장소의 파일들을 가져온다.
+    placePhoto_row = db.place_photos.find_one({'title': title, 'address': address, 'user_id': user_id}, {'_id': False})
+
+    files = request.files
+    filenames = files.to_dict(flat=False)['filename[]']
+    # 예전 파일과 새로 업로드 되는 파일의 개수를 비교하여 3개가 넘는지 확인한다
+    old_file_count = len(placePhoto_row['filenames'])
+    new_file_count = len(filenames)
+    msg = ''
+    if old_file_count + new_file_count <= 3:
+        for f in filenames:
+            filename = f.filename
+            placePhoto_row['filenames'].append(filename)
+            f.save('static/' + filename)
+        msg = '추가 완료'
+    else:
+        msg = '해당 파일이 3개보다 많습니다'
+
+    db.place_photos.update_one({'title': title, 'address': address, 'user_id': user_id}, {'$set': placePhoto_row})
+    return jsonify({'msg': msg})
+
+
 def find(mylist, key, value):
     for i, dic in enumerate(mylist):
         if dic[key] == value:
             return i
     return -1
 
+
 @app.route('/login')
 def login():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
 
+
 @app.route('/register')
 def register():
     return render_template('register.html')
+
 
 @app.route('/api/register', methods=['POST'])
 def api_register():
@@ -228,11 +265,13 @@ def api_register():
 
     return jsonify({'result': 'success'})
 
+
 @app.route('/register/check_dup', methods=['POST'])
 def check_dup():
     id_receive = request.form['id_give']
     exists = bool(db.accounts.find_one({"id": id_receive}))
     return jsonify({'result': 'success', 'exists': exists})
+
 
 @app.route('/api/login', methods=['POST'])
 def api_login():
@@ -257,11 +296,13 @@ def api_login():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
+def truncate(num, n):
+    integer = int(num * (10 ** n)) / (10 ** n)
+    return float(integer)
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
 
 
-def truncate(num, n):
-    integer = int(num * (10 ** n)) / (10 ** n)
-    return float(integer)
 
