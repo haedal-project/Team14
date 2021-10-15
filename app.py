@@ -57,6 +57,7 @@ def read_reviews():
     reviews = list(db.puppy.find({'title': name}, {'_id': False}))
     return jsonify({'all_reviews': reviews})
 
+
 @app.route('/api/photo', methods=['POST'])
 def post_photos():
     lat_receive = request.form['lat_give']
@@ -83,8 +84,17 @@ def post_photos():
 
 @app.route('/api/photo', methods=['GET'])
 def get_photos():
-    photo = list(db.photo.find({}, {'_id': False}))
-    return jsonify({'all_photos': photo})
+    all = list(db.photo.find({}, {'_id': False}))
+    return jsonify({'all_latlng': all})
+
+@app.route('/api/photo/latlng', methods=['GET'])
+def get_latlng():
+    lat = request.args.get('lat')
+    lng = request.args.get('lng')
+
+    photos = list(db.photo.find({'lat': lat, 'lng': lng}, {'_id': False}))
+    return jsonify({'latlng_photos': photos})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

@@ -2,7 +2,6 @@
 let markers = [];
 let clickMarker = [];
 let LatLngMarkers = [];
-
 let count=0;
 
 let mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -79,43 +78,6 @@ function displayPlaces(places) {
     let addresses = []
     let lat = []
     let lng = []
-
-
-    // 지도 클릭 이벤트
-    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-        removeMarker2();
-
-        // 클릭한 위도, 경도 정보를 가져옵니다
-        let latlng = mouseEvent.latLng;
-
-        let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
-        // 마커 이미지의 이미지 크기 입니다
-        let imageSize = new kakao.maps.Size(24, 35);
-
-        // 마커 이미지를 생성합니다
-        let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-        // 마커를 생성합니다
-        let marker2 = new kakao.maps.Marker({
-            map: map, // 마커를 표시할 지도
-            position: new kakao.maps.LatLng(latlng.getLat(),latlng.getLng()),// 마커를 표시할 위치
-            image : markerImage // 마커 이미지
-        });
-
-        marker2.setMap(map);
-        clickMarker.push(marker2);
-
-        let content = '<div style=";z-index:1;" id="info_box">'+ '<button onclick="upload_menue()">사진 등록</button>'+'</div>';
-
-        infowindow.setContent(content);
-        infowindow.open(map,marker2);
-        map.panTo(latlng);
-
-        clickPlace(latlng.getLat(), latlng.getLng());
-
-    });
-
 
     for (let i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
@@ -243,12 +205,15 @@ function removeMarker() {
     }
     markers = [];
 }
+
+//지도 우클릭 이벤트 마커 제거
 function removeMarker2() {
     for (let i = 0; i < clickMarker.length; i++) {
         clickMarker[i].setMap(null);
     }
     clickMarker = [];
 }
+
 // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
 function displayPagination(pagination) {
     let paginationEl = document.getElementById('pagination'),
