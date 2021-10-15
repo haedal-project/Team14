@@ -65,8 +65,8 @@ def view_photos():
     file = request.files.getlist("file_give")
 
     today = datetime.now()
-    # # mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
-    mytime = today.strftime('%Y.%m.%d')
+    mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
+    # mytime = today.strftime('%Y.%m.%d')
 
     doc = {
         'lat': lat_receive,
