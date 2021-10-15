@@ -1,6 +1,8 @@
 // 마커를 담을 배열입니다
 let markers = [];
-let markers2 = [];
+let clickMarker = [];
+let LatLngMarkers = [];
+
 let count=0;
 
 let mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -94,8 +96,6 @@ function displayPlaces(places) {
         // 마커 이미지를 생성합니다
         let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-        // markers2.setMap(null);
-
         // 마커를 생성합니다
         let marker2 = new kakao.maps.Marker({
             map: map, // 마커를 표시할 지도
@@ -104,13 +104,13 @@ function displayPlaces(places) {
         });
 
         marker2.setMap(map);
-        markers2.push(marker2);
+        clickMarker.push(marker2);
 
         let content = '<div style=";z-index:1;" id="info_box">'+ '<button onclick="upload_menue()">사진 등록</button>'+'</div>';
 
         infowindow.setContent(content);
         infowindow.open(map,marker2);
-        map.setCenter(latlng);
+        map.panTo(latlng);
 
         clickPlace(latlng.getLat(), latlng.getLng());
 
@@ -244,10 +244,10 @@ function removeMarker() {
     markers = [];
 }
 function removeMarker2() {
-    for (let i = 0; i < markers2.length; i++) {
-        markers2[i].setMap(null);
+    for (let i = 0; i < clickMarker.length; i++) {
+        clickMarker[i].setMap(null);
     }
-    markers2 = [];
+    clickMarker = [];
 }
 // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
 function displayPagination(pagination) {

@@ -58,25 +58,33 @@ def read_reviews():
     return jsonify({'all_reviews': reviews})
 
 @app.route('/api/photo', methods=['POST'])
-def view_photos():
+def post_photos():
     lat_receive = request.form['lat_give']
     lng_receive = request.form['lng_give']
 
     file = request.files.getlist("file_give")
 
-    today = datetime.now()
-    mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
-    # mytime = today.strftime('%Y.%m.%d')
+    for photo in file:
+        today = datetime.now()
+        mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
+        name = photo.filename
+        save_to = f'static/photos/{mytime}-{name}'
+        photo.save(save_to)
 
-    doc = {
-        'lat': lat_receive,
-        'lng': lng_receive,
-        'file': f'{file}',
-        'time': f'{mytime}'
-    }
+        doc = {
+            'lat': lat_receive,
+            'lng': lng_receive,
+            'file': f'{mytime}-{name}',
+            'time': f'{mytime}'
+        }
 
-    db.photo.insert_one(doc)
+        db.photo.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
+
+@app.route('/api/photo', methods=['GET'])
+def get_photos():
+    photo = list(db.photo.find({}, {'_id': False}))
+    return jsonify({'all_photos': photo})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

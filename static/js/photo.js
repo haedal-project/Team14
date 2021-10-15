@@ -25,8 +25,8 @@ function fileUploadAction(){
 
 
 function handleImgsFilesSelect(e){
-    sel_files = []
-    $(".images").empty()
+    sel_files = [];
+    $(".images").empty();
 
     let files = e.target.files;
     let filesArr = Array.prototype.slice.call(files);
@@ -58,13 +58,9 @@ function deleteImageAction(index){
     $(img_id).remove();
 
 }
-function addFiles() {
-            $("#upload").append("<input type='file' name='file'>");
-        }
 
 function uploadphoto() {
-
-    let form_data = new FormData()
+    let form_data = new FormData();
 
     let lat = $('#click-place-lat').val();
     let lng = $('#click-place-lng').val();
@@ -74,6 +70,8 @@ function uploadphoto() {
     }
         form_data.append("lat_give", lat)
         form_data.append("lng_give", lng)
+
+    make_latlng_Marker(lat, lng)
 
     $.ajax({
         type: "POST",
@@ -88,16 +86,41 @@ function uploadphoto() {
         }
     });
 }
+function get_photos() {
+    $.ajax({
+        type: "GET",
+        url: "/api/photo",
+        data: {},
+        success: function (response) {
+            let photo = response['all_photos']
+            for (let i=0; i < photo.length; i++) {
+                let lat = photo[i]['lat']
+                let lng = photo[i]['lng']
+                let file = photo[i]['file']
+                let temp_html = `<span class="image-card"><img src="../static/photos/${file}"></span>`
+                $('#post_photo').append(temp_html)
 
-function  submitAction(){
-    let data = new FormData();
+            }
+        }
+    })
+}
 
-    for (let i=0,len=sel_files.length; i<len; i++){
-        let name = "image_"+i;
-        data.append(name,sel_files[i]);
-    }
-    data.append("image_count", sel_files.length);
+function make_latlng_Marker(lat, lng){
+    // 추천마커 이미지의 이미지 주소입니다
+    let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST","./")
+    // 마커 이미지의 이미지 크기 입니다
+    let imageSize = new kakao.maps.Size(24, 35);
+
+    // 마커 이미지를 생성합니다
+    let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+    // 마커를 생성합니다
+    let marker3 = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: new kakao.maps.LatLng(lat, lng),// 마커를 표시할 위치
+        title: name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        image: markerImage // 마커 이미지
+    });
+    clickMarker.push(marker3);
 }
