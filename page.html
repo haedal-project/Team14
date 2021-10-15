@@ -19,6 +19,26 @@
       window.location.href = '/login'
     }
 
+
+    function infodelete() {
+        $.ajax({
+            type: "DELETE",
+            url: "/api/infodelete",
+            data: {
+            },
+            success: function (response) {
+                if (response['result'] == 'success') {
+                    alert('탈퇴가 완료되었습니다')
+                    $.removeCookie('mytoken');
+                    window.location.href = '/login'
+                } else {
+                    alert(response['msg'])
+                }
+            }
+        })
+
+    }
+
   </script>
 
 </head>
@@ -29,6 +49,7 @@
 
     </p>
     <button class="button is-danger" onclick="logout()">로그아웃하기</button>
+    <button class="button is-danger" onclick="infodelete()">탈퇴하기</button>
 
 
 </body>

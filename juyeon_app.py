@@ -15,6 +15,15 @@ import datetime
 
 import hashlib
 
+
+
+def getUserLoginId():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    print(payload['id'])
+    return payload['id'];
+
+
 #HTML
 @app.route('/')
 def home():
@@ -22,7 +31,8 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.javajaba.find_one({"id": payload['id']})
-        return render_template('page.html')
+        print(payload)
+        return render_template('page.html', user_info=user_info)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -109,6 +119,21 @@ def check_dup():
     id_receive = request.form['id_give']
     exists = bool(db.javajaba.find_one({"id": id_receive}))
     return jsonify({'result': 'success', 'exists': exists})
+
+@app.route('/api/infodelete', methods=['DELETE'])
+def api_infodelete():
+
+    login_id = getUserLoginId()
+    print(f'{login_id}')
+
+
+    doc = {
+        'id': login_id,
+    }
+
+    db.javajaba.delete_one(doc)
+
+    return jsonify({'result': 'success'})
 
 
 if __name__ == '__main__':
