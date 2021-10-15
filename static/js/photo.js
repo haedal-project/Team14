@@ -109,7 +109,6 @@ function uploadphoto() {
 
     // LatLngMarkers.push(lat,lng);
     make_latlng_Marker(lat, lng)
-    console.log("업로드-LatLngMarkers="+LatLngMarkers.x)
 
     $.ajax({
         type: "POST",
