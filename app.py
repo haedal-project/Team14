@@ -99,6 +99,8 @@ def place_review_register():
         place_doc = {
             "title": title,
             "address": address,
+            "lat": lat,
+            "lng": lng,
             "rating": 0,
             "review_count": 0,
             "enter_amount": 0
@@ -121,13 +123,16 @@ def place_review_register():
     enter_with_sum = 0
     for review_row in review_rows:
         rating_sum += int(review_row['rating'])
-        if review_row['enter_with'] == 'True':
+        print(f'review_row["enter_with"] == "true" : {review_row["enter_with"] == "true"}')
+        if review_row['enter_with'] == 'true':
             enter_with_sum += 1
 
+    print(enter_with_sum)
     # 평점, 애완동물과 출입한 퍼센트, 총 리뷰개수를 구함
     rating_final = truncate(rating_sum / len(review_rows), 2)
-    enter_with_final = int(enter_with_sum / len(review_rows) * 100)
+    enter_with_final = truncate(enter_with_sum / len(review_rows) * 100, 2)
     review_count = len(review_rows)
+    print(enter_with_final)
 
     # 업데이트한 place 레코드를 다시 업데이트
     updated_place_row = db.places.find_one({'title': title, 'address': address}, {'_id': False})
@@ -138,9 +143,65 @@ def place_review_register():
     return jsonify({'msg': '저장완료'})
 
 
-def truncate(num, n):
-    integer = int(num * (10**n))/(10**n)
-    return float(integer)
+@app.route('/api/review', methods=['GET'])
+def place_review_select():
+    title = request.args.get('title')
+    address = request.args.get('address')
+    # user_id = request.args.get('user_id')
+    user_id = "manijang3"
+
+    review_rows = list(db.reviews.find({'title': title, 'address': address}, {'_id': False}))
+    myself_review_idx = find(review_rows, 'user_id', user_id)
+    if myself_review_idx > 0:
+        review_rows.insert(0, review_rows.pop(myself_review_idx))
+    return jsonify({"review-list": review_rows})
+
+
+@app.route('/api/review/pagination', methods=['GET'])
+def place_review_select_pagination():
+    page = int(request.args.get('page'))
+    title = request.args.get('title')
+    address = request.args.get('address')
+    user_id = request.args.get('user_id')
+
+    # 한 페이지에 보여줄 리뷰 수
+    limit = 3
+    # 시작점
+    offset = (page - 1) * limit
+    review_rows = list(db.reviews.find({'title': title, 'address': address}, {'_id': False}).limit(limit).skip(offset))
+    for review_row in review_rows:
+        print(review_row)
+    myself_review_idx = find(review_rows, 'user_id', user_id)
+    if myself_review_idx > 0:
+        review_rows.insert(0, review_rows.pop(myself_review_idx))
+
+    doc = {"review-list": review_rows,
+           "count": int(db.reviews.find({'title': title, 'address': address}, {'_id': False}).count())}
+
+    return jsonify(doc)
+
+
+@app.route('/api/review', methods=['DELETE'])
+def place_review_delete():
+    user_id = request.form['user_id']
+    title = request.form['title']
+    address = request.form['address']
+    db.reviews.delete_one({'title': title, 'address': address, 'user_id': user_id})
+
+    return jsonify({'msg': '삭제완료'})
+
+
+def find(mylist, key, value):
+    for i, dic in enumerate(mylist):
+        if dic[key] == value:
+            return i
+    return -1
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
+
+
+def truncate(num, n):
+    integer = int(num * (10 ** n)) / (10 ** n)
+    return float(integer)

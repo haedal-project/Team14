@@ -12,6 +12,8 @@
     <link href="{{ url_for('static', filename='css/owl.carousel.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/css-index-green.css') }}" rel="stylesheet" media="screen">
 
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
+
     <link rel="stylesheet" href="../static/css/map.css">
     <link rel="stylesheet"
           href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
@@ -134,9 +136,9 @@
                             <!-- 장소 이름 -->
                             <h3 class="card-title" id="info-place-name" style="float: left;"></h3>
                             <!-- 장소 위도 -->
-                            <input type="hidden" id="info-place-lat" />
+                            <input type="hidden" id="info-place-lat"/>
                             <!-- 장소 경도 -->
-                            <input type="hidden" id="info-place-lng" />
+                            <input type="hidden" id="info-place-lng"/>
                             <!-- 장소 평점 -->
                             <h6 class="card-title" id="info-place-rating" style="float: left; display: block; margin-left: 20px; margin-top: 28px;"></h6>
                             <!-- 장소 리뷰 건수 -->
@@ -187,41 +189,17 @@
                                         </button>
                                     </div>
                                     <div style="clear: both;"></div>
-                                    <hr/>
-                                    <div class="row">
-                                        <div class="col-sm-3">manijang2</div>
-                                        <div class="col-sm-8">
-                                            리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가
-                                            리뷰가
-                                        </div>
-                                    </div>
-                                    <hr/>
-                                    <div class="row">
-                                        <div class="col-sm-3">manijang2</div>
-                                        <div class="col-sm-8">
-                                            리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가
-                                            리뷰가
-                                        </div>
+                                    <div id="review-list">
                                     </div>
                                     <nav aria-label="Page navigation example" id="review-pagination-bar">
-                                        <ul class="pagination">
-                                            <li class="page-item"><a class="page-link" href="#"
-                                                                     style="color: #5cb85c; font-weight: normal;">Previous</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#"
-                                                                     style="color: #5cb85c; font-weight: normal;">1</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#"
-                                                                     style="color: #5cb85c; font-weight: normal;">2</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#"
-                                                                     style="color: #5cb85c; font-weight: normal;">3</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#"
-                                                                     style="color: #5cb85c; font-weight: normal;">Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
+                                            <ul class="pagination" id="review-pagination-ul">
+                                                <li class="page-item"><a class="page-link" href="#" style="color: #5cb85c; font-weight: normal;">Previous</a></li>
+                                                <li class="page-item"><a class="page-link" href="#" style="color: #5cb85c; font-weight: normal;">1</a></li>
+                                                <li class="page-item"><a class="page-link" href="#" style="color: #5cb85c; font-weight: normal;">2</a></li>
+                                                <li class="page-item"><a class="page-link" href="#" style="color: #5cb85c; font-weight: normal;">3</a></li>
+                                                <li class="page-item"><a class="page-link" href="#"  style="color: #5cb85c; font-weight: normal;">Next</a></li>
+                                            </ul>
+                                        </nav>
                                 </div>
                             </div>
 
@@ -387,6 +365,7 @@
     <script src='../static/js/recommand.js'></script>
     <script src='../static/js/map.js'></script>
     <script src='../static/js/review.js'></script>
+    <script src="https://kit.fontawesome.com/383e1f6c8e.js" crossorigin="anonymous"></script>
 
     <script>
         $(document).ready(function () {
