@@ -1,7 +1,6 @@
 // 마커를 담을 배열입니다
 let markers = [];
 let clickMarker = [];
-let LatLngMarkers = [];
 let count=0;
 
 let mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -34,6 +33,10 @@ function searchPlaces() {
     }
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
     ps.keywordSearch(keyword, placesSearchCB);
+
+    $('#photo-place-test').hide();
+    removeMarker2()
+    infowindow.close();
 }
 
 // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -72,7 +75,6 @@ function displayPlaces(places) {
 
     // 지도에 표시되고 있는 마커를 제거합니다
     removeMarker();
-
 
     let positions = []
     let addresses = []
@@ -117,7 +119,7 @@ function displayPlaces(places) {
                 map.setCenter(positions[num]);
 
                 // 지도를 찍었을 때
-                clickPlaceMarker(title, lat[num], lng[num], addresses[num])
+                clickPlaceMarker(title, addresses[num], lat, lng)
             });
 
             itemEl.onmouseover = function () {
@@ -134,7 +136,7 @@ function displayPlaces(places) {
                 map.setCenter(positions[num]);
 
                 // 검색된 장소를 찍었을 때
-                clickPlaceMarker(title, lat[num], lng[num], addresses[num])
+                clickPlaceMarker(title, addresses[num],  lat, lng)
             };
             itemEl.onmouseout = function () {
                 infowindow.close();
@@ -157,7 +159,7 @@ function displayPlaces(places) {
 
 function getListItem(index, places) {
     let el = document.createElement('a'),
-        itemStr = '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start"\n' +
+        itemStr = '<a class="list-group-item list-group-item-action flex-column align-items-start"\n' +
             'style="margin: 10px;">\n' +
             '<div class="d-flex w-100 justify-content-between">\n' +
             '<h5 class="mb-1">' + places.place_name + '</h5>\n' +
@@ -198,6 +200,7 @@ function addMarker(position, idx, title) {
 
     return marker;
 }
+
 // 지도 위에 표시되고 있는 마커를 모두 제거합니다
 function removeMarker() {
     for (let i = 0; i < markers.length; i++) {
@@ -205,7 +208,6 @@ function removeMarker() {
     }
     markers = [];
 }
-
 //지도 우클릭 이벤트 마커 제거
 function removeMarker2() {
     for (let i = 0; i < clickMarker.length; i++) {
@@ -249,4 +251,3 @@ function removeAllChildNods(el) {
         el.removeChild(el.lastChild);
     }
 }
-

@@ -12,11 +12,48 @@
     <link href="{{ url_for('static', filename='css/owl.carousel.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/css-index-green.css') }}" rel="stylesheet" media="screen">
 
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"/>
 
     <link rel="stylesheet" href="../static/css/map.css">
+    <link rel="stylesheet"
+          href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
+    <link rel="stylesheet" href="../static/css/design.css"/>
     <link rel="stylesheet" href="../static/css/photo.css">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
 
+    <style>
+        .thumbnail {
+            width: 130px;
+            height: 90px;
+        }
+
+        .delete-box {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: forestgreen;
+            color: white;
+            margin-bottom: 0px;
+            font-family: sans-serif;
+            opacity: 0;
+            visibility: hidden;
+            -webkit-transition: visibility 0s, opacity 0.5s linear;
+            transition: visibility 0s, opacity 0.5s linear;
+        }
+
+        .thumbnail:hover > .delete-box {
+            padding: 8px 15px;
+            visibility: visible;
+            opacity: 0.7;
+        }
+
+        .imgaa {
+            position: relative;
+            float: left;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body data-spy="scroll" data-target="#navbar-scroll">
@@ -26,28 +63,21 @@
     <div id="top"></div>
 
     <!-- /.parallax full screen background image -->
-    <div class="fullscreen landing parallax"
-         style="background-image:url('{{ url_for('static', filename='images/bg.jpg') }}');" data-img-width="2000"
-         data-img-height="1333" data-diff="100">
-
+    <div class="fullscreen landing parallax" id="header" data-img-width="2000" data-img-height="1333" data-diff="100">
         <div class="overlay">
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1 text-center">
                         <!-- /.logo -->
-                        <!--                        <div class="logo wow fadeInDown"><a href=""><img-->
-                        <!--                                src="{{ url_for('static', filename='images/puppy_log.png') }}" alt="logo"></a></div> &lt;!&ndash;로고 지우기이 backyard&ndash;&gt;-->
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <!-- /.main title -->
-                        <h1 class="wow fadeInLeft">
-                            댕댕백서
-                        </h1>
-                        <!-- /.header paragraph -->
-                        <div class="landing-text wow fadeInLeft">
-                            <p>댕댕백서는 강아지 산책 종합 플랫폼 입니다.</p>
+                        <div class="logo wow fadeInDown">
+                            <a href=""><img src="{{ url_for('static', filename='images/puppy_log.png') }}"
+                                            alt="logo"></a>
+                        </div>
+                        <div class="wow fadeInLeft" id="header-logo">
+                            <h1>댕댕백서</h1>
+                            <div class="landing-text">
+                                <p>댕댕백서는 강아지 산책 종합 플랫폼 입니다.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -66,14 +96,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <!--                    <a class="navbar-brand site-name" href="#top"><img-->
-                    <!--                            src="{{ url_for('static', filename='images/puppy_log.png') }}" alt="logo" width="10%"></a> &lt;!&ndash;Logo 지우기이 backyard&ndash;&gt;-->
-
                 </div>
 
                 <div id="navbar-scroll" class="collapse navbar-collapse navbar-backyard navbar-right">
                     <ul class="nav navbar-nav">
-                        <li><a href="#intro">메인</a></li>
+                        <li><a href="#intro">지도</a></li>
                     </ul>
                 </div>
             </div>
@@ -85,179 +112,170 @@
         <div class="container">
             <div class="row">
                 <!-- /.intro image -->
-                <div class="col-md-6 wow slideInLeft" style="width: 60%; height: 80vh;">
-                    <div id="map" style="width:100%;height: 100%;"></div>
+                <div class="col-md-6 wow slideInLeft" id="kakao-map-wrap">
+                    <div id="map"></div>
                 </div>
                 <!-- /.intro content -->
-                <div class="col-md-6 wow slideInRight" style="width: 40%; height: 80vh; overflow-y: scroll;">
-                    <div class="jumbotron" style="padding: 4px;">
+                <div class="jumbotron col-md-6 wow slideInRight" id="info-box-wrap">
 
-                        <!-- 장소 검색 버튼 시작-->
-                        <div class="subscribe-form wow fadeInUp animated"
-                             style="animation-name: fadeInUp; padding: 10px; margin: 10px; ">
-                            <form class="news-letter mailchimp" onsubmit="searchPlaces(); return false;">
-                                <input type="hidden" name="u" value="503bdae81fde8612ff4944435">
-                                <input type="hidden" name="id" value="bfdba52708">
-                                <input class="form-control" type="text" name="MERGE0" value="" placeholder="장소를 적어주세요."
-                                       id="keyword">
-                                <button type="submit" class="subscribe-btn btn" onclick="search_place();">검색하기</button>
-                            </form>
+                    <!-- 장소 검색 버튼 시작-->
+                    <div class="subscribe-form wow fadeInUp animated" id="place-search-box-wrap">
+                        <form class="news-letter mailchimp" onsubmit="searchPlaces(); return false;">
+                            <input type="hidden" name="u" value="503bdae81fde8612ff4944435">
+                            <input type="hidden" name="id" value="bfdba52708">
+                            <input class="form-control" type="text" name="MERGE0" value="" placeholder="장소를 적어주세요." id="keyword">
+                            <button type="submit" class="subscribe-btn btn" onclick="search_place();">검색하기</button>
+                        </form>
+                    </div>
+
+                    <div class="custom-control custom-checkbox">
+                        <button id="check_button" onclick="ec()">반려동물 입장 가능 장소만 보기</button>
+                    </div>
+
+                    <!-- 장소 검색 버튼 끝-->
+
+                    <div class="card" id="place-info">
+                        <div class="card-header">
+                            <h3>상세정보</h3>
                         </div>
+                        <div class="card-body list-group-item">
+                            <!-- 장소 이름 -->
+                            <h3 class="card-title" id="info-place-name" style="float: left;"></h3>
+                            <!-- 장소 위도 -->
+                            <input type="hidden" id="info-place-lat"/>
+                            <!-- 장소 경도 -->
+                            <input type="hidden" id="info-place-lng"/>
+                            <!-- 장소 평점 -->
+                            <h6 class="card-title" id="info-place-rating" style="float: left; display: block; margin-left: 20px; margin-top: 28px;"></h6>
+                            <!-- 장소 리뷰 건수 -->
+                            <h6 id="info-place-review-count" style="float: left; margin-left: 20px; margin-top: 28px; padding-bottom: 0px;"></h6>
+                            <!-- 장소 주소 -->
+                            <p class="card-text" style="margin-bottom: 0px; padding-bottom: 8px; clear: both" id="info-place-address"></p>
+                            <!-- 장소 리뷰 건수 -->
+                            <h6 id="info-place-enter-amount" style="float: left;">리뷰어 50%가 이 가게에 출입함</h6>
+                            <!-- 좋아요 버튼 -->
+                            <button type="button" style="float: right;" id="like_button" class="btn btn-danger" onclick="alert('기능 미구현');">ෆ</button>
+                            <!-- like_button() 함수로 수정을 하고 있는 중,,, ############## -->
+                            <div style="clear: both;"></div>
 
-                        <!-- 장소 검색 버튼 끝-->
+                            <hr/>
+                            <ul class="nav justify-content-end" style="display: flex; float: right;">
+                                <li class="nav-item">
+                                    <a style="cursor:pointer" class="nav-link" onclick="showReview()">리뷰</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a style="cursor:pointer" class="nav-link" onclick="showPhoto()">사진</a>
+                                </li>
+                            </ul>
 
-                        <div class="card" id="place-info" style="margin-left: 10px; padding-right: 10px; display: none">
-                            <div class="card-header">
-                                <h3>상세정보</h3>
-                            </div>
-                            <div class="card-body list-group-item">
-                                <h3 class="card-title" id="info-place-name" style="float: left; display: none;"></h3>
-                                <!-- 장소 이름 -->
-                                <h6 class="card-title" id=""
-                                    style="float: left; display: block; margin-left: 20px; margin-top: 28px;">4.6 점 /
-                                    5.0 점</h6>   <!-- 장소 평점 -->
-                                <h6 id=""
-                                    style="float: left; margin-left: 20px; margin-top: 28px; padding-bottom: 0px;">리뷰
-                                    80건</h6>                                             <!-- 장소 리뷰 건수 -->
-                                <p class="card-text" style="margin-bottom: 0px; padding-bottom: 8px; clear: both"
-                                   id="info-place-address"></p>
-                                <!-- 장소 주소 -->
-                                <input type="hidden" id="info-place-lat"/>
-                                <input type="hidden" id="info-place-lng"/>
-                                <h6 style="float: left;">리뷰어 50%가 이 가게에 출입함</h6>                  <!-- 장소 리뷰 건수 -->
-                                <button type="button" style="float: right;" class="btn btn-success">좋아요!</button>
-                                <div style="clear: both;"></div>
+                            <div style="clear: both;"></div>
 
-                                <hr/>
-                                <ul class="nav justify-content-end" style="display: flex; float: right;">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">리뷰</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">사진</a>
-                                    </li>
-                                </ul>
-                                <div style="clear: both;"></div>
+                            <div style="display: none; padding-top: 10px;" id="place-review-info">
                                 <div id="review_registered">
                                     <div class="custom-control custom-checkbox" style="margin-bottom: 10px;">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <input type="checkbox" class="custom-control-input" id="enter-with-check">
                                         <label class="custom-control-label" for="customCheck1">애견동반 가능</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1"
-                                               style="display: inline-block; width: 40px;">평점</label>
-                                        <select class="form-control" id="exampleFormControlSelect1"
-                                                style="display: inline-block; width: 100px; ">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                        <label for="review-rating-radio" style="display: inline-block; width: 40px;">평점</label>
+                                        <select class="form-control" id="review-rating-radio" style="display: inline-block; width: 100px; ">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
                                         </select>
-                                        <label for="exampleFormControlSelect1"
-                                               style="display: inline-block; width: 40px;">점</label>
-
+                                        <label for="review-rating-radio" style="display: inline-block; width: 40px;">점</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlTextarea1">리뷰 등록</label> <br/>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                                  style="float: left; width: 260px; height: 100px;"></textarea>
-                                        <button type="button" style="float: right; width: 100px; height: 100px;"
-                                                class="btn btn-success">등록
-                                        </button>
+                                        <label for="exampleFormControlTextarea1">리뷰 등록</label>
+                                        <br/>
+                                        <textarea class="form-control" id="review-content" rows="3"></textarea>
+                                        <button type="button" id="review-register-btn" class="btn btn-success" onclick="registerReview();">등록</button>
                                     </div>
                                     <div style="clear: both;"></div>
-                                    <hr/>
-                                    <div class="row">
-                                        <div class="col-sm-3">manijang2</div>
-                                        <div class="col-sm-8">리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가
-                                            리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가
-                                        </div>
+                                    <div id="review-list">
                                     </div>
-                                    <hr/>
-                                    <div class="row">
-                                        <div class="col-sm-3">manijang2</div>
-                                        <div class="col-sm-8">리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가
-                                            리뷰가 리뷰가 리뷰가 리뷰가 리뷰가 리뷰가
-                                        </div>
-                                    </div>
-                                    <nav aria-label="Page navigation example"
-                                         style="margin-left: auto; margin-right: auto; display: block; text-align: center;">
-                                        <ul class="pagination">
-                                            <li class="page-item"><a class="page-link" href="#"
-                                                                     style="color: #5cb85c; font-weight: normal;">Previous</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#"
-                                                                     style="color: #5cb85c; font-weight: normal;">1</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#"
-                                                                     style="color: #5cb85c; font-weight: normal;">2</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#"
-                                                                     style="color: #5cb85c; font-weight: normal;">3</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#"
-                                                                     style="color: #5cb85c; font-weight: normal;">Next</a>
-                                            </li>
+                                    <nav aria-label="Page navigation example" id="review-pagination-bar">
+                                        <ul class="pagination" id="review-pagination-ul">
                                         </ul>
                                     </nav>
                                 </div>
-
-
-                                <!--
-                                <br />
-                                <div class="form-group" style="clear: both;">
-                                    <label for="exampleFormControlTextarea1">리뷰 입력</label>
-                                    <textarea class="form-control" id="review" rows="3"></textarea>
-                                    <button style="margin-top: 10px;" onclick="makeReview();">리뷰 등록</button>
-                                </div>
-
-                                <h5 class="card-title">리뷰정보</h5>
-                                <ul class="list-group" id="review-box">
-                                    <li class="list-group-item">김선만 <br/>Cras justo odio Cras justo odio Cras justo odio
-                                        Cras justo odio Cras justo odio (5점)
-                                    </li>
-                                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                                    <li class="list-group-item">Morbi leo risus</li>
-                                    <li class="list-group-item">Porta ac consectetur ac</li>
-                                    <li class="list-group-item">Vestibulum at eros</li>
-                                </ul>
-                                -->
                             </div>
-                        </div>
+                            <!-- 리뷰 끝 -->
 
-                        <div id="place-list" style="display: none;">
-                            <h3 style="margin-left: 10px; ">장소 목록</h3>
-                            <!-- 장소 상세정보 리스트 시작-->
-                            <div class="list-group" id="hello"></div>
-                            <div class="list-group">
-                                <ul id="placesList"></ul>
-                                <div id="pagination"></div>
-                            </div>
-                        </div>
+                            <!-- 이미지 등록 -->
+                            <div id="place-photo-info" style="padding-top: 10px; display: none">
+                                <h6 style="float: left; ">미리보기</h6>
+                                <button style=";width: 100px; float: right;" onclick="aa()" class="btn btn-success" >업로드</button>
+                                <button style=" width: 100px; float: right; margin-right: 7px;" onclick="$('#photo-file-input').click();" class="btn btn-success">불러오기</button>
+                                <input type="file" id="photo-file-input" style="display:none;" name="photo-file-input"  accept=".jpg,.jpeg,.png,.gif,.bmp" multiple value>
 
-                        <div id="photo-place-test" style="display: none;">
-                            <div>
-                                <h3>업로드 날짜<select class="form-control" id="exampleFormControlSelect1">
-                                        <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
-                                    </select></h3>
-                                <h3> 제목 <input type="text" class="form-control" placeholder="Username" aria-label="Username"></h3>
-                                <input type="hidden" id="click-place-lat"/>
-                                <input type="hidden" id="click-place-lng"/>
-                                <div class="images">
+                                <div class="row row2" style="clear: both;">
                                 </div>
-                                <div class="custom-file">
-                                    <input type="file" id="file" style="display:none;" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp" multiple value>
-                                    <label class="input-file-button" for="file">이미지 가져오기</label>
-                                    <button onclick="uploadphoto()" class="input-file-button" >사진 업로드</button>
+                                <div >
+                                    <h6>등록된 사진</h6>
                                 </div>
+                                <div class="row images-list2" id="post_photo2" style="clear: both;">
 
-                                <h3>등록된 사진</h3>
-                                <div class="images-list" id="post_photo">
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div id="photo-place-test" style="display: none;">
+                        <div>
+                            <input type="hidden" id="click-place-lat">
+                            <input type="hidden" id="click-place-lng">
+                            <div class="images" style="margin-left: 15px;">
+
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" id="file" style="display:none;" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp" multiple value>
+                                <button onclick="uploadphoto()" style="float: right;" class="btn btn-success" >업로드</button>
+                                <label class="btn btn-success" style="float: right; margin-right: 7px;" for="file">불러오기</label>
+                            </div>
+                            <div >
+                                <h3 style="margin-top: 0; margin-left: 15px;">등록된 사진</h3>
+                            </div>
+                            <div class="images-list" id="post_photo">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 이미지 등록 -->
+
+                    <!-- 리뷰 끝 -->
+
+                    <div id="place-list" style="display: none;">
+                        <h3 style="margin-left: 10px; ">장소 목록</h3>
+                        <!-- 장소 상세정보 리스트 시작-->
+                        <div class="list-group" id="hello"></div>
+                        <div class="list-group">
+                            <ul id="placesList"></ul>
+                            <div id="pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -272,21 +290,40 @@
                     <ul>
                         <li><a class="wow fadeInUp" href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
                         </li>
-                        <li><a class="wow fadeInUp" href="https://www.facebook.com/" data-wow-delay="0.2s"><i
-                                class="fa fa-facebook"></i></a></li>
-                        <li><a class="wow fadeInUp" href="https://plus.google.com/" data-wow-delay="0.4s"><i
-                                class="fa fa-google-plus"></i></a></li>
-                        <li><a class="wow fadeInUp" href="https://instagram.com/" data-wow-delay="0.6s"><i
-                                class="fa fa-instagram"></i></a></li>
+                        <li>
+                            <a class="wow fadeInUp" href="https://www.facebook.com/" data-wow-delay="0.2s"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li>
+                            <a class="wow fadeInUp" href="https://plus.google.com/" data-wow-delay="0.4s"><i class="fa fa-google-plus"></i></a>
+                        </li>
+                        <li>
+                            <a class="wow fadeInUp" href="https://instagram.com/" data-wow-delay="0.6s"><i class="fa fa-instagram"></i></a>
+                        </li>
                     </ul>
                 </div>
                 <div class="text-center wow fadeInUp" style="font-size: 14px;">Copyright Backyard 2015 - Template by
-                    <a
-                            href="http://bootstrapthemes.co/" target="_blank">BootstrapThemes</a></div>
+                    <a href="http://bootstrapthemes.co/" target="_blank">BootstrapThemes</a></div>
                 <a href="#" class="scrollToTop"><i class="pe-7s-up-arrow pe-va"></i></a>
             </div>
         </div>
     </footer>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="height: 50px;">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="float: left;">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="flost: right;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="height: 100%; width: 100%; margin: auto;">
+                    <img src="https://blog.kakaocdn.net/dn/b8Clpq/btqJZndo4FQ/JjNGwDsc11g3CNIBfZiaU0/img.jpg" style="object-fit: scale-down; text-align: center; width: 100%; height: 100%; margin: auto; max-height: 500px;" id="modal-photo-img">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- /.javascript files -->
     <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
@@ -295,18 +332,16 @@
     <script src="{{ url_for('static', filename='js/jquery.sticky.js') }}"></script>
     <script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
-
     <script>
         new WOW().init();
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebe7ba6845482503a8ad6c6802e4870&libraries=services,clusterer,drawing"></script>
-    <script src='../static/js/recommand.js'></script>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebe7ba6845482503a8ad6c6802e4870&libraries=services,clusterer,drawing"></script>
+    <script src='../static/js/recommend.js'></script>
     <script src='../static/js/map.js'></script>
-    <script src='../static/js/review.js'></script>
     <script src='../static/js/photo.js'></script>
+    <script src='../static/js/review.js'></script>
+    <script src="https://kit.fontawesome.com/383e1f6c8e.js" crossorigin="anonymous"></script>
 
     <script>
         $(document).ready(function () {

@@ -1,0 +1,90 @@
+
+#header {
+    background-image:url('../images/bg.jpg');
+}
+
+#header-logo, #header-logo > h1{
+    margin-top: 0px;
+}
+
+.logo{
+    margin-top: 10px;
+}
+
+.logo img{
+    width: 200px;
+    height: 200px;
+}
+
+
+#kakao-map-wrap {
+    width: 60%;
+    height: 80vh;
+}
+
+#intro {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+#map {
+    width:100%;
+    height: 100%;
+}
+
+#info-box-wrap {
+    padding: 4px;
+    width: 40%;
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+#place-search-box-wrap {
+    animation-name: fadeInUp;
+    padding: 10px;
+    margin: 10px;
+}
+
+#place-info {
+    margin-left: 10px;
+    padding-right: 10px;
+    display: none
+}
+
+
+#review-pagination-bar {
+    text-align: center;
+}
+
+.col-md-4 {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+#review-content {
+    float: left;
+    width: 300px;
+    height: 100px;
+}
+
+#review-register-btn {
+    float: right;
+    width: 100px;
+    height: 100px;
+}
+
+#like_button_white {
+    background-color: white;
+    font-size: 20px;
+    color: black;
+}
+#like_button_red {
+    background-color: white;
+    color: red;
+    font-size: 20px;
+}
+#check_button{
+    margin-left: 40px;
+    font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}

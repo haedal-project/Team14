@@ -4,11 +4,16 @@ $(document).ready(function () {
     click_map();
     get_photos();
     $("#file").on("change", handleImgsFilesSelect);
+    $("#photo-file-input").on("change", handleImgsFilesSelect2);
 })
 
-
-// 지도 우클릭 이벤트
+// 지도 클릭 이벤트
 function click_map() {
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+        infowindow.close();
+        removeMarker2();
+    });
+
     kakao.maps.event.addListener(map, 'rightclick', function(mouseEvent) {
         removeMarker2();
         $('#post_photo').empty()
@@ -34,7 +39,7 @@ function click_map() {
         marker2.setMap(map);
         clickMarker.push(marker2);
 
-        let content = '<div style=";z-index:1;" id="info_box">'+ '<button onclick="upload_menue()">사진 등록</button>'+'</div>';
+        let content = '<div style=";z-index:1;" id="info_box">'+ '<button class="btn btn-primary" style="margin: 0 0 0 0;" onclick="upload_menue()">사진 등록</button>'+'</div>';
 
         infowindow.setContent(content);
         infowindow.open(map,marker2);
@@ -48,13 +53,9 @@ function click_map() {
 }
 
 function upload_menue(){
+    $('#place-info').hide();
     $('#place-list').hide();
     $('#photo-place-test').show();
-}
-
-function fileUploadAction(){
-    console.log("fileUploadAction");
-    $("#file").trigger('click');
 }
 
 //선택 이미지 미리보기
@@ -75,12 +76,13 @@ function handleImgsFilesSelect(e){
 
         let reader = new FileReader();
         reader.onload = function(e){
-            let html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+index+")\" id=\"img_id_"+index+"\"><span class=\"image-card\"><img src=\""+e.target.result + "\" data-file='"+f.name+"' class='sleProductFile' title='Click to remove'></span>";
+            let html = "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction("+index+")\" id=\"img_id_"+index+"\">" +
+                            "<span class=\"image-card\">" +
+                                "<img src=\""+e.target.result + "\" data-file='"+f.name+"' class='sleProductFile' title='Click to remove'>" +
+                                "<button class=\"delete-box\" onclick=\"deleteImageAction("+index+")\"><a>삭제</a></button>\n" +
+                            "</span>";
             $(".images").append(html);
             index++;
-
-            // let img_html = "<span class=\"image-card\"><img src=\""+e.target.result + "\"/></span>";
-            // $(".images").append(img_html);
         }
         reader.readAsDataURL(f);
     })
@@ -91,7 +93,6 @@ function deleteImageAction(index){
     sel_files.splice(index,1);
     let img_id = "#img_id_"+ index;
     $(img_id).remove();
-
 }
 
 // 사진 업로드 버튼 클릭시 db에 lat, lng, files 값을 저장
@@ -107,7 +108,6 @@ function uploadphoto() {
         form_data.append("lat_give", lat)
         form_data.append("lng_give", lng)
 
-    // LatLngMarkers.push(lat,lng);
     make_latlng_Marker(lat, lng)
 
     $.ajax({
@@ -164,6 +164,7 @@ function make_latlng_Marker(lat, lng){
     //마커 클릭시 해당 좌표값을 비교하여 사진 가져오기
     kakao.maps.event.addListener( marker3, 'click', function() {
         $('#photo-place-test').show();
+        $('#place-list').hide();
 
         $.ajax({
             type: "GET",

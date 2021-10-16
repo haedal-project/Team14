@@ -1,2 +1,12 @@
 __pycache__/
 .idea/
+<<<<<<< HEAD
+idea/
+venv/
+before/
+like/
+final/
+
+=======
+venv/
+>>>>>>> develop
