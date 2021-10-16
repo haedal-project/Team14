@@ -72,3 +72,19 @@
     width: 100px;
     height: 100px;
 }
+
+#like_button_white {
+    background-color: white;
+    font-size: 20px;
+    color: black;
+}
+#like_button_red {
+    background-color: white;
+    color: red;
+    font-size: 20px;
+}
+#check_button{
+    margin-left: 40px;
+    font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}

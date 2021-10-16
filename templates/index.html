@@ -126,6 +126,10 @@
                         </form>
                     </div>
 
+                    <div class="custom-control custom-checkbox">
+                        <button id="check_button" onclick="ec()">반려동물 입장 가능 장소만 보기</button>
+                    </div>
+
                     <!-- 장소 검색 버튼 끝-->
 
                     <div class="card" id="place-info">
@@ -148,7 +152,8 @@
                             <!-- 장소 리뷰 건수 -->
                             <h6 id="info-place-enter-amount" style="float: left;">리뷰어 50%가 이 가게에 출입함</h6>
                             <!-- 좋아요 버튼 -->
-                            <button type="button" style="float: right;" id="like_button" class="btn btn-danger" onclick="alert('기능 미구현');">♡</button>
+                            <button type="button" style="float: right;" id="like_button" class="btn btn-danger" onclick="alert('기능 미구현');">ෆ</button>
+                            <!-- like_button() 함수로 수정을 하고 있는 중,,, ############## -->
                             <div style="clear: both;"></div>
 
                             <hr/>
@@ -317,7 +322,7 @@
     </script>
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebe7ba6845482503a8ad6c6802e4870&libraries=services,clusterer,drawing"></script>
-    <script src='../static/js/recommand.js'></script>
+    <script src='../static/js/recommend.js'></script>
     <script src='../static/js/map.js'></script>
     <script src='../static/js/review.js'></script>
     <script src="https://kit.fontawesome.com/383e1f6c8e.js" crossorigin="anonymous"></script>

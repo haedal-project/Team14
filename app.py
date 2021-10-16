@@ -17,45 +17,43 @@ SECRET_KEY = 'JAVAJABA'
 def main():
     return render_template('index.html')
 
-
 @app.route('/api/recommend', methods=['GET'])
-def show_stars():
-    like_star = list(db.puppy.find({}, {'_id': False}).sort("like", -1))
-    return jsonify({'like': like_star})
+def show_withpuppy():
+    id_receive = request.args.get("id_give")
+    places = list(db.places.find({}, {'_id': False}).sort("like_count", -1))
+    login_like = list(db.reviews.find({"user_id": id_receive}, {'_id': False}))
+    print(id_receive)
+    print(login_like)
+    return jsonify({'places': places, 'login_like':login_like})
 
+@app.route('/api/login/recommend/distinct', methods=['GET'])
+def login_show_stars():
+    id_receive = request.args.get("id_give")
+    like_star = list(db.places.find({},{'_id':False}).sort("like_count", -1))
+    login_like = list(db.reviews.find({"user_id":id_receive},{'_id':False}))
+    return jsonify({'like': like_star, 'login_like':login_like})
 
 @app.route('/api/like_button', methods=['POST'])
 def like_star():
     name_receive = request.form['name_give']
-    target_star = db.puppy.find_one({"title": name_receive})
-    current_like = target_star['like']
-    new_like = current_like + 1
-    db.puppy.update_one({"title": name_receive}, {'$set': {'like': new_like}})
-    return jsonify({'msg': '좋아요 완료!'})
+    target_star= db.places.find_one({"title": name_receive})
+    count_like = target_star['like_count']
 
+    login_star = db.reviews.find_one({"title": name_receive})
+    login_like = login_star['like']
 
-@app.route('/placereview', methods=['POST'])
-def write_review():
-    name_receive = request.form['name_give']
-    review_receive = request.form['review_give']
-    rating_receive = request.form['rating_give']
-    lat_receive = request.form['lat_give']
-    lng_receive = request.form['lng_give']
-
-    rating_receive = int(rating_receive)
-    lat_receive = float(lat_receive)
-    lng_receive = float(lng_receive)
-
-    doc = {
-        'title': name_receive,
-        'review': review_receive,
-        'like': rating_receive,
-        'x': lat_receive,
-        'y': lng_receive
-    }
-    db.puppy.insert_one(doc)
-    return jsonify({'msg': ' 저장완료! '})
-
+    if login_like=="True" :
+        new_like = count_like - 1
+        login_like = "False"
+        db.reviews.update_one({"title": name_receive}, {'$set': {'like': login_like}})
+        db.places.update_one({"title": name_receive}, {'$set': {'like_count': new_like}})
+        return jsonify({'msg': '좋아요 취소 완료!'})
+    else :
+        new_like = count_like+1
+        login_like = "True"
+        db.reviews.update_one({"title": name_receive}, {'$set': {'like': login_like}})
+        db.places.update_one({"title": name_receive}, {'$set': {'like_count': new_like}})
+        return jsonify({'msg': '좋아요 완료!'})
 
 @app.route('/placereview', methods=['GET'])
 def read_reviews():
@@ -70,22 +68,24 @@ def place_detail_info():
 
     # 장소 정보 가져옴
     place_row = db.places.find_one({'title': title}, {'_id': False})
+    reviews_row = db.reviews.find_one({'title': title}, {'_id': False})
     if place_row is None:
         # 장소 정보가 없다면 아무도 리뷰를 안 쓴 경우임. 응답 데이터를 0으로 세팅
         doc = {
             "title": title,
             "rating": 0,
             "review_count": 0,
-            "enter_amount": 0
+             "percent": 0 
         }
     else:
         doc = {
             "title": place_row['title'],
             "rating": place_row['rating'],
             "review_count": place_row['review_count'],
-            "enter_amount": place_row['enter_amount'],
+            "percent": place_row['percent'],
+            "like_count": place_row['like_count'] 
         }
-    return jsonify({"place-info": doc})
+    return jsonify({"place-info": doc, "reviews":reviews_row})
 
 
 @app.route('/api/review', methods=['POST'])
@@ -109,7 +109,8 @@ def place_review_register():
             "lng": lng,
             "rating": 0,
             "review_count": 0,
-            "enter_amount": 0
+            "like_count": 0, 
+            "percent": 0 
         }
         db.places.insert_one(place_doc)
 
@@ -118,6 +119,7 @@ def place_review_register():
         "address": address,
         "user_id": user_id,
         "rating": rating,
+        "like": "False", 
         "review": review_content,
         "enter_with": enter_with_check
     }
@@ -141,7 +143,7 @@ def place_review_register():
     updated_place_row = db.places.find_one({'title': title, 'address': address}, {'_id': False})
     updated_place_row['rating'] = rating_final
     updated_place_row['review_count'] = review_count
-    updated_place_row['enter_amount'] = enter_with_final
+    updated_place_row['percent'] = enter_with_final
     db.places.update_one({'title': title, 'address': address}, {'$set': updated_place_row})
     return jsonify({'msg': '저장완료'})
 
@@ -338,6 +340,3 @@ def truncate(num, n):
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
-
-
-
