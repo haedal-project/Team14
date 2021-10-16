@@ -1,5 +1,6 @@
 __pycache__/
 .idea/
+<<<<<<< HEAD
 idea
 venv
 .venv
@@ -8,3 +9,6 @@ before
 .like
 like
 
+=======
+venv/
+>>>>>>> develop

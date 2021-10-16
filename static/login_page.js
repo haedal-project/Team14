@@ -119,7 +119,7 @@ function displayPlaces(places) {
                 map.setCenter(positions[num]);
 
                 // 지도를 찍었을 때
-                clickPlaceMarker(title, lat[num], lng[num], addresses[num])
+                clickPlaceMarker(title, addresses[num], lat, lng)
             });
 
             itemEl.onmouseover = function () {
@@ -136,7 +136,7 @@ function displayPlaces(places) {
                 map.setCenter(positions[num]);
 
                 // 검색된 장소를 찍었을 때
-                clickPlaceMarker(title, lat[num], lng[num], addresses[num])
+                clickPlaceMarker(title, addresses[num],  lat, lng)
             };
             itemEl.onmouseout = function () {
                 infowindow.close();
@@ -158,8 +158,13 @@ function displayPlaces(places) {
 }
 
 function getListItem(index, places) {
+<<<<<<< HEAD:static/login_page.js
     var el = document.createElement('a'),
         itemStr = '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start"\n' +
+=======
+    let el = document.createElement('a'),
+        itemStr = '<a class="list-group-item list-group-item-action flex-column align-items-start"\n' +
+>>>>>>> develop:static/js/map.js
             'style="margin: 10px;">\n' +
             '<div class="d-flex w-100 justify-content-between">\n' +
             '<h5 class="mb-1">' + places.place_name + '</h5>\n' +
