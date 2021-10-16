@@ -192,6 +192,6 @@ function aa() {
 }
 
 
-    function search_place() {
-        $("#hello").hide() // 추천목록 숨기기
-    }
+function search_place() {
+    $("#hello").hide() // 추천목록 숨기기
+}
