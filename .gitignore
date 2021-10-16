@@ -1,13 +1,11 @@
 __pycache__/
 .idea/
 <<<<<<< HEAD
-idea
-venv
-.venv
-.before
-before
-.like
-like
+idea/
+venv/
+before/
+like/
+final/
 
 =======
 venv/
