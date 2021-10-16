@@ -244,10 +244,6 @@ function clickPhotoUpdate() {
     });
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 0403b36257a8a71941c9bc9bc1f5470d1c985eff
 function search_place() {
     $("#hello").hide() // 추천목록 숨기기
 }
