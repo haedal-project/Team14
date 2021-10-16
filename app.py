@@ -196,7 +196,7 @@ def place_review_delete():
 def place_photo_upload():
     title = request.form['title']
     address = request.form['address']
-    user_id = "manijang2"
+    user_id = "manijang3"
 
     # 해당 장소에 대한 파일들을 검사하고 없으면 생성한다.
     placePhoto_row = db.place_photos.find_one({'title': title, 'address': address, 'user_id': user_id}, {'_id': False})
@@ -218,7 +218,7 @@ def place_photo_upload():
     old_file_count = len(placePhoto_row['filenames'])
     new_file_count = len(filenames)
     msg = ''
-    if old_file_count + new_file_count <= 3:
+    if old_file_count + new_file_count <= 10:
         for f in filenames:
             filename = f.filename
             placePhoto_row['filenames'].append(filename)
@@ -229,6 +229,44 @@ def place_photo_upload():
 
     db.place_photos.update_one({'title': title, 'address': address, 'user_id': user_id}, {'$set': placePhoto_row})
     return jsonify({'msg': msg})
+
+
+@app.route('/api/place/photo/my')
+def place_photo_my_select():
+    title = request.args.get('title')
+    address = request.args.get('address')
+    user_id = "manijang2"
+
+    placePhoto_row = db.place_photos.find_one({'title': title, 'address': address, 'user_id': user_id}, {'_id': False})
+    if placePhoto_row is None:
+        placePhoto_row = {
+            "title": title,
+            "address": address,
+            "user_id": user_id,
+            'filenames': []
+        }
+    return jsonify({'photos': placePhoto_row})
+
+
+@app.route('/api/place/photo/all')
+def place_photo_all_select():
+    title = request.args.get('title')
+    address = request.args.get('address')
+    user_id = "manijang2"
+
+    placePhoto_rows = list(db.place_photos.find({'$and': [{'title': title, 'address': address},{'user_id': {'$ne': user_id}}]}, {'_id': False}))
+    if placePhoto_rows is None:
+        placePhoto_rows = [{
+            "title": title,
+            "address": address,
+            'filenames': []
+        }]
+
+    filenames = []
+    for placePhoto_row in placePhoto_rows:
+        for filename in placePhoto_row['filenames']:
+            filenames.append(filename)
+    return jsonify({'photos': filenames})
 
 
 def find(mylist, key, value):
@@ -283,15 +321,12 @@ def api_login():
     result = db.accounts.find_one({'id': id_receive, 'pw': pw_hash})
 
     if result is not None:
-
         payload = {
             'id': id_receive,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=600)
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
-
         return jsonify({'result': 'success', 'token': token})
-
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
