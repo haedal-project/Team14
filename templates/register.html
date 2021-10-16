@@ -10,8 +10,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Bulma CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+       <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
         <!-- JS -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
@@ -131,58 +134,66 @@
 
 
     <body>
-        <div class="section has-text-centered">
-            <h1 class="title">회원가입 페이지</h1>
-            <div class="container" style="width:40%">
-                <div class="field is-horizontal">
-
-                    <div class="field-label is-normal">
-                        <label class="label" for="input-id">아이디</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control">
-                                <input type="text" class="input" id="input-id" aria-describedby="emailHelp"
-                                       placeholder="아이디">
-                            </div>
-                             <div id="btn-check-dup" class="checkbutton" >
-                        <button class="button is-primary" onclick="check_dup()">중복확인</button>
-                    </div>
-                            <p id="help-id" class="help">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</p>
-
-
-                        </div>
-                    </div>
-                </div>
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label" for="input-pw">비밀번호</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control">
-                                <input type="password" class="input" id="input-pw" placeholder="비밀번호">
-                            </div>
-                             <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용
-                                    가능합니다.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label" for="input-pw2">비밀번호 <br>확인</br></label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control">
-                                <input type="password" class="input" id="input-pw2" placeholder="비밀번호확인">
-                            </div>
-                             <p id="help-password2" class="help"> </p>
-                        </div>
-                    </div>
-                </div>
-                <button class="button is-primary" onclick="register()">회원가입</button>
+      <section class="vh-100" style="background-color: #FFFFFF;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card" style="border-radius: 1rem;">
+          <div class="row g-0">
+            <div class="col-md-6 col-lg-5 d-none d-md-block">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0248/9516/0386/files/Grainfree_1600x.jpg?v=1592579060" style="margin-top:130px"
+                alt="login form"
+                class="img-fluid" style="border-radius: 1rem 0 0 1rem;"
+              />
             </div>
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+
+                <form>
+
+                  <div class="d-flex align-items-center mb-3 pb-1">
+                    <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                    <span class="h1 fw-bold mb-0"><b>댕댕백서</b></span>
+                  </div>
+
+                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">회원가입</h5>
+
+                    <button type="button" class="btn btn-success float-right" onclick="check_dup()">중복확인</button>
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="input-id">Id</label>
+                    <input type="email" id="input-id" class="form-control form-control-lg" />
+                  </div>
+                     <p id="help-id" class="help">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</p>
+
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="input-pw">Password</label>
+                    <input type="password" id="input-pw" class="form-control form-control-lg" />
+                  </div>
+                     <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도 사용
+                                    가능합니다.</p>
+
+                    <div class="form-outline mb-4">
+                    <label class="form-label" for="input-pw2">Confirm password</label>
+                    <input type="password" id="input-pw2" class="form-control form-control-lg" />
+                  </div>
+                   <p id="help-password2" class="help"> </p>
+
+
+                    <div class="pt-1 mb-4">
+                    <button class="btn btn-success btn-lg btn-block" type="button" onclick="register()">회원가입</button>
+                  </div>
+
+
+                </form>
+
+              </div>
+            </div>
+          </div>
         </div>
-    </body>
+      </div>
+    </div>
+  </div>
+</section>
+  </body>
 </html>
