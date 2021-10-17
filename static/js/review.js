@@ -21,16 +21,17 @@ function clickPlaceMarker(_title, _address, _lat, _lng) {
 
             $('#place-info').show()
             $('#place-list').hide()
-
+            console.log("클릭마커 동작")
             showReview(_title, _address, 1)
             loadReview(_title, _address, 1)
-            loadPhoto(_title, _address)
+            // loadPhoto_my(_title, _address)
+            loadPhoto_all(_title, _address)
         }
     })
 }
 
 function loadReview(_title, _address, _currentPage) {
-    user_id = "manijang3"
+    let user_id = "manijang3"
     $.ajax({
         type: "GET",
         url: `/api/review/pagination?title=${_title}&address=${_address}&page=${_currentPage}&user_id=${user_id}`,
@@ -106,62 +107,60 @@ function loadReview(_title, _address, _currentPage) {
 function changeModelPhoto(filename) {
     $("#modal-photo-img").attr("src",filename)
 }
-// ------------------------------------------------------------
 
-function loadPhoto_my() {
-    let title = $('#info-place-name').text()
-    let address = $('#info-place-address').text()
+// 내 사진만 보기 동작
 
+function loadPhoto_my(title, address) {
+    console.log("my업로드 동작")
+    let user_id = "manijang3"
     $.ajax({
         type: "GET",
-        url: `/api/place/photo/my?title=${title}&address=${address}`,
+        url: `/api/place/photo/my?title=${title}&address=${address}&user_id=${user_id}`,
         data: {},
         success: function (response) {
-            $('#place-photo-my-div').empty()
-            let filenames = response['photos']['filenames']
-            for (let i = 0; i < filenames.length; i++) {
-                let filename = filenames[i]
+            $('#post_photo2').empty()
+            let photo = response['my_photos']
+            for (let i = 0; i < photo.length; i++) {
+                let filename = photo[i]['filenames']
                 let temp_html = `<div class="col-md-4">
                                         <div class="thumbnail">
-                                            <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('/static/${filename}')">
-                                                <img class="imgaa" style="width:130px; height: 80px; background-image:url('/static/${filename}');">
+                                            <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('../static/load_img/${filename}')">
+                                                <img src="../static/load_img/${filename}" alt="Lights" style="max-height: 80px;">
                                             </a>
                                             <div class="delete-box"><a>삭제</a></div>
                                         </div>
                                     </div>`
-                $('#place-photo-my-div').append(temp_html)
+                $('#post_photo2').append(temp_html)
             }
         }
-    })
+    });
 }
 
-function loadPhoto_all() {
-    let title = $('#info-place-name').text()
-    let address = $('#info-place-address').text()
-
+// 모든 사진 보기 동작 (Default)
+function loadPhoto_all(title, address) {
+    console.log("all업로드 동작")
     $.ajax({
         type: "GET",
         url: `/api/place/photo/all?title=${title}&address=${address}`,
         data: {},
         success: function (response) {
-            console.dir(response)
-            $('#place-photo-all-div').empty()
-            let filenames = response['photos']
-            for (let i = 0; i < filenames.length; i++) {
-                let filename = filenames[i]
+            $('#post_photo2').empty()
+            let photo = response['all_photos']
+            for (let i = 0; i < photo.length; i++) {
+                let filename = photo[i]['filenames']
                 let temp_html = `<div class="col-md-4">
-                                        <div class="thumbnail">성
-                                            <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('/static/${filename}')">
-                                                <img class="imgaa" style="width:130px; height: 80px; background-image:url('/static/${filename}');">
+                                        <div class="thumbnail">
+                                            <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('../static/load_img/${filename}')">
+                                                <img src="../static/load_img/${filename}" alt="Lights" style="max-height: 80px;">
                                             </a>
+                                            <div class="delete-box"><a>삭제</a></div>
                                         </div>
                                     </div>`
-                $('#place-photo-all-div').append(temp_html)
+                $('#post_photo2').append(temp_html)
             }
         }
     })
 }
-// ------------------------------------------------------------
 
 
 function showReview(_title, _address, _page) {
@@ -174,9 +173,6 @@ function showReview(_title, _address, _page) {
 function showPhoto() {
     $('#place-review-info').hide();
     $('#place-photo-info').show();
-
-    loadPhoto_my()
-    loadPhoto_all()
 }
 
 function registerReview() {
@@ -224,33 +220,6 @@ function deleteReview(_title, _address, _user_id) {
         }
     })
 }
-//
-// function clickPhotoUpdate() {
-//     let formData = new FormData($('#fileForm')[0]);
-//
-//     title = $('#info-place-name').text()
-//     address = $('#info-place-address').text()
-//
-//     formData.append("title", title)
-//     formData.append("address", address)
-//
-//     $.ajax({
-//         type: "POST",
-//         enctype: 'multipart/form-data',
-//         url: `/fileUpload`,
-//         data: formData,
-//         processData: false,
-//         contentType: false,
-//         cache: false,
-//         success: function (result) {
-//             alert(result['msg'])
-//         },
-//         error: function (e) {
-//             alert(e)
-//         }
-//     });
-// }
-
 
 // 추가
 //선택 이미지 미리보기

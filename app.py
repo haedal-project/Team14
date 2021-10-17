@@ -251,44 +251,24 @@ def find(mylist, key, value):
             return i
     return -1
 
-# -------------------------------------- 다른 부분
-@app.route('/api/place/photo/my')
+# -------------------------------------------
+# 수정: 내 사진만 볼 경우 아이디 값 추가 비교 후 이미지 가져오기
+@app.route('/api/place/photo/my', methods=['GET'])
 def place_photo_my_select():
     title = request.args.get('title')
     address = request.args.get('address')
-    user_id = "manijang2"
+    user_id = request.args.get('user_id')
+    my_photos = list(db.place_photos.find({'title': title, 'address': address, 'user_id': user_id}, {'_id': False}))
+    return jsonify({'my_photos': my_photos})
 
-    placePhoto_row = db.place_photos.find_one({'title': title, 'address': address, 'user_id': user_id}, {'_id': False})
-    if placePhoto_row is None:
-        placePhoto_row = {
-            "title": title,
-            "address": address,
-            "user_id": user_id,
-            'filenames': []
-        }
-    return jsonify({'photos': placePhoto_row})
-
-
-@app.route('/api/place/photo/all')
+# 수정: 모든 사진 볼 경우 title,address만 비교 후 이미지 가져오기.
+@app.route('/api/place/photo/all', methods=['GET'])
 def place_photo_all_select():
     title = request.args.get('title')
     address = request.args.get('address')
-    user_id = "manijang2"
-
-    placePhoto_rows = list(db.place_photos.find({'$and': [{'title': title, 'address': address},{'user_id': {'$ne': user_id}}]}, {'_id': False}))
-    if placePhoto_rows is None:
-        placePhoto_rows = [{
-            "title": title,
-            "address": address,
-            'filenames': []
-        }]
-
-    filenames = []
-    for placePhoto_row in placePhoto_rows:
-        for filename in placePhoto_row['filenames']:
-            filenames.append(filename)
-    return jsonify({'photos': filenames})
-# ------------------------------------------- 다른 부분
+    all_photos = list(db.place_photos.find({'title': title, 'address': address}, {'_id': False}))
+    return jsonify({'all_photos': all_photos})
+# -------------------------------------------
 
 # [좌표 클릭 이미지] 등록 1
 @app.route('/api/photo', methods=['POST'])
@@ -315,7 +295,7 @@ def post_photos():
         db.photo.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
-# [좌표 클릭 이미지] 좌표 가져오기 1
+# [좌표 클릭 이미지] 좌표 가져오기 1 (마커 뿌려주기용)
 @app.route('/api/photo', methods=['GET'])
 def get_photos():
     all = list(db.photo.find({}, {'_id': False}))
