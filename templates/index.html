@@ -18,6 +18,8 @@
     <link rel="stylesheet"
           href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
     <link rel="stylesheet" href="../static/css/design.css"/>
+    <link rel="stylesheet" href="../static/css/photo.css">
+
     <style>
         .thumbnail {
             width: 130px;
@@ -202,33 +204,46 @@
                             </div>
                             <!-- 리뷰 끝 -->
 
-
+                            <!-- 이미지 등록 -->
                             <div id="place-photo-info" style="padding-top: 10px; display: none">
-                                <h6 style="float: left; ">내가 올린 사진</h6>
-                                <button type="button" style="float: right; width: 100px;margin-right: 10px;" class="btn btn-success" onclick="$('#photo-file-input').click();">선택</button>
+                                <h6 style="float: left; ">미리보기</h6>
+                                <button style=";width: 100px; float: right;" onclick="aa()" class="btn btn-success" >업로드</button>
+                                <button style=" width: 100px; float: right; margin-right: 7px;" onclick="$('#photo-file-input').click();" class="btn btn-success">불러오기</button>
+                                <input type="file" id="photo-file-input" style="display:none;" name="photo-file-input"  accept=".jpg,.jpeg,.png,.gif,.bmp" multiple value>
 
-                                <br />
-                                <form id="fileForm" method="post" enctype="multipart/form-data">
-                                    <input multiple="multiple" type="file" name="filename[]" style="display: none" id="photo-file-input" onchange="clickPhotoUpdate();"/>
-                                </form>
+                                <div class="row row2" style="clear: both;">
+                                </div>
+                                <div >
+                                    <h6>등록된 사진</h6>
+                                </div>
+                                <div class="row images-list2" id="post_photo2" style="clear: both;">
 
-                                <div class="row" style="clear: both;" id="place-photo-my-div">
-                                </div>
-                                <div>
-                                    <h6>다른사람이 올린 사진</h6>
-                                </div>
-                                <div class="row" style="clear: both;" id="place-photo-all-div">
-                                    <div class="col-md-4">
-                                        <div class="thumbnail">
-                                            <a data-toggle="modal" data-target="#exampleModalLong">
-                                                <img class="imgaa" style="width:130px; height: 80px; background-image:url('https://blog.kakaocdn.net/dn/b8Clpq/btqJZndo4FQ/JjNGwDsc11g3CNIBfZiaU0/img.jpg');">
-                                            </a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div id="photo-place-test" style="display: none;">
+                        <div>
+                            <input type="hidden" id="click-place-lat">
+                            <input type="hidden" id="click-place-lng">
+                            <div class="images" style="margin-left: 15px;">
+
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" id="file" style="display:none;" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp" multiple value>
+                                <button onclick="uploadphoto()" style="float: right;" class="btn btn-success" >업로드</button>
+                                <label class="btn btn-success" style="float: right; margin-right: 7px;" for="file">불러오기</label>
+                            </div>
+                            <div >
+                                <h3 style="margin-top: 0; margin-left: 15px;">등록된 사진</h3>
+                            </div>
+                            <div class="images-list" id="post_photo">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 이미지 등록 -->
 
                     <!-- 리뷰 끝 -->
 
@@ -324,6 +339,7 @@
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ebe7ba6845482503a8ad6c6802e4870&libraries=services,clusterer,drawing"></script>
     <script src='../static/js/recommend.js'></script>
     <script src='../static/js/map.js'></script>
+    <script src='../static/js/photo.js'></script>
     <script src='../static/js/review.js'></script>
     <script src="https://kit.fontawesome.com/383e1f6c8e.js" crossorigin="anonymous"></script>
 
