@@ -1,5 +1,6 @@
 // 마커를 담을 배열입니다
 let markers = [];
+let clickMarker = [];
 let count=0;
 
 let mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -32,6 +33,10 @@ function searchPlaces() {
     }
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
     ps.keywordSearch(keyword, placesSearchCB);
+
+    $('#photo-place-test').hide();
+    removeMarker2()
+    infowindow.close();
 }
 
 // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -195,6 +200,7 @@ function addMarker(position, idx, title) {
 
     return marker;
 }
+
 // 지도 위에 표시되고 있는 마커를 모두 제거합니다
 function removeMarker() {
     for (let i = 0; i < markers.length; i++) {
@@ -202,6 +208,14 @@ function removeMarker() {
     }
     markers = [];
 }
+//지도 우클릭 이벤트 마커 제거
+function removeMarker2() {
+    for (let i = 0; i < clickMarker.length; i++) {
+        clickMarker[i].setMap(null);
+    }
+    clickMarker = [];
+}
+
 // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
 function displayPagination(pagination) {
     let paginationEl = document.getElementById('pagination'),

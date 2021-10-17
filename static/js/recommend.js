@@ -63,27 +63,27 @@ function withshowbest() {
                 let temp_html = ``
                 if (parseInt(percent) >= 50) {
                     if (like == "True") {
-                        temp_html = `<a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
-                                <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
-                                    <span><button type="button" onclick="plus('${name}')" id="like_button_red" class="btn btn-danger" >❤</button> + ${like_count}</span>
-                                </div>
-                            </a>`
+                        temp_html = `<div onclick="bestPosition(x,y)" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
+                                            <span><button type="button" onclick="plus('${name}')" id="like_button_red" class="btn btn-danger" >❤</button> + ${like_count}</span>
+                                        </div>
+                                    </div>`
                     } else {
-                        temp_html = `<a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
-                                <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
-                                    <span><button type="button" onclick="plus('${name}')" id="like_button_white" class="btn btn-danger" >ෆ</button> + ${like_count}</span>
-                                </div>
-                            </a>`
+                        temp_html = `<div onclick="bestPosition(x,y)" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
+                                            <span><button type="button" onclick="plus('${name}')" id="like_button_white" class="btn btn-danger" >ෆ</button> + ${like_count}</span>
+                                        </div>
+                                    </div>`
                     }
                 }
                 
                 $("#hello").append(temp_html)
 
-                var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-                var imageSize = new kakao.maps.Size(24, 35);
-                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+                let imageSize = new kakao.maps.Size(24, 35);
+                let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
                 getAddr(x, y);
                 function getAddr(x, y) {
                     let geocoder = new kakao.maps.services.Geocoder();
@@ -94,7 +94,7 @@ function withshowbest() {
                             console.log(result[0]["road_address"]["address_name"]);
                             let address = result[0]["road_address"]["address_name"]
                             
-                            var marker = new kakao.maps.Marker({
+                            let marker = new kakao.maps.Marker({
                                 map: map, 
                                 position: new kakao.maps.LatLng(x, y),
                                 title: `${name} \n${address}`, 
@@ -133,25 +133,24 @@ function showbest() {
                 }
                 console.log(like)
                 if (like == "True") {
-                    temp_html = `<a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
-                                <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
-                                    <span><button type="button" onclick="plus('${name}')" id="like_button_red" class="btn btn-danger" >❤</button> + ${like_count}</span>
-                                </div>
-                            </a>`
+                    temp_html = `<div onclick="bestPosition(x,y)" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
+                                     <div class="d-flex w-100 justify-content-between">
+                                         <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
+                                         <span><button type="button" onclick="plus('${name}')" id="like_button_red" class="btn btn-danger" >❤</button> + ${like_count}</span>
+                                     </div>
+                                 </div>`
                 } else {
-                    temp_html = `<a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px;">
-                                <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
-                                    <span><button type="button" onclick="plus('${name}')" id="like_button_white" class="btn btn-danger" >ෆ</button> + ${like_count}</span>
-                                </div>
-                            </a>`
-                }
-            
+                    temp_html = `<div onclick="bestPosition(x,y)" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
+                                    <div class="d-flex w-100 justify-content-between">
+                                         <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
+                                         <span><button type="button" onclick="plus('${name}')" id="like_button_white" class="btn btn-danger" >ෆ</button> + ${like_count}</span>
+                                    </div>
+                                 </div>`
+                }onclick="bestPosition(x,y)"
                 $("#hello").append(temp_html)
-                var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-                var imageSize = new kakao.maps.Size(24, 35);
-                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+                let imageSize = new kakao.maps.Size(24, 35);
+                let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
                 getAddr(x, y);
 
@@ -165,7 +164,7 @@ function showbest() {
                             console.log(result[0]["road_address"]["address_name"]);
                             let address = result[0]["road_address"]["address_name"]
                             
-                            var marker = new kakao.maps.Marker({
+                            let marker = new kakao.maps.Marker({
                                 map: map, 
                                 position: new kakao.maps.LatLng(x, y),
                                 title: `${name} \n${address}`,
@@ -196,4 +195,11 @@ function plus(name) {
             }
         });
     }
+}
+
+function bestPosition(x,y){
+    alert("99999 동작 중")
+    let position = new kakao.maps.LatLng(x, y)
+    map.setLevel(level = 5);
+    map.panTo(position);
 }

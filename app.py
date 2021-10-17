@@ -1,9 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
+from datetime import datetime
 
 import hashlib
 import jwt
-import datetime
 
 app = Flask(__name__)
 
@@ -193,89 +193,122 @@ def place_review_delete():
 
     return jsonify({'msg': '삭제완료'})
 
-
-@app.route('/fileUpload', methods = ['GET','POST'])
+# 사진등록 API
+# [장소 검색 이미지] 등록 1
+@app.route('/fileUpload', methods=['POST'])
 def place_photo_upload():
     title = request.form['title']
     address = request.form['address']
-    user_id = "manijang3"
+    files = request.files.getlist("file_give")
+    user_id = "manijang2"
 
-    # 해당 장소에 대한 파일들을 검사하고 없으면 생성한다.
+    # 해당 장소에 대한 파일들을 검사
     placePhoto_row = db.place_photos.find_one({'title': title, 'address': address, 'user_id': user_id}, {'_id': False})
+
+    # 파일이 없을 경우 생성
     if placePhoto_row is None:
-        placePhoto_doc = {
-            "title": title,
-            "address": address,
-            "user_id": user_id,
-            'filenames': []
-        }
-        db.place_photos.insert_one(placePhoto_doc)
+        for photo in files:
+            today = datetime.now()
+            mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
+            name = photo.filename
+            save_to = f'static/load_img/{mytime}-{name}'
+            photo.save(save_to)
 
-    # 해당 장소의 파일들을 가져온다.
-    placePhoto_row = db.place_photos.find_one({'title': title, 'address': address, 'user_id': user_id}, {'_id': False})
+            doc = {
+                'title': title,
+                'address': address,
+                'user_id': user_id,
+                'filenames': f'{mytime}-{name}'
+            }
+            db.place_photos.insert_one(doc)
+        return jsonify({'msg': '저장 완료!'})
 
-    files = request.files
-    filenames = files.to_dict(flat=False)['filename[]']
-    # 예전 파일과 새로 업로드 되는 파일의 개수를 비교하여 3개가 넘는지 확인한다
-    old_file_count = len(placePhoto_row['filenames'])
-    new_file_count = len(filenames)
-    msg = ''
-    if old_file_count + new_file_count <= 10:
-        for f in filenames:
-            filename = f.filename
-            placePhoto_row['filenames'].append(filename)
-            f.save('static/' + filename)
+    elif len(list(db.place_photos.find({'address': address, 'title': title}, {'_id': False}))) < 3:
+        count = 3 - len(list(db.place_photos.find({'address': address, 'title': title}, {'_id': False})))
+
+        for photo in files[:count]:
+            today = datetime.now()
+            mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
+            name = photo.filename
+            save_to = f'static/load_img/{mytime}-{name}'
+            photo.save(save_to)
+
+            doc = {
+                'title': title,
+                'address': address,
+                'user_id': user_id,
+                'filenames': f'{mytime}-{name}'
+            }
+            db.place_photos.insert_one(doc)
         msg = '추가 완료'
     else:
         msg = '해당 파일이 3개보다 많습니다'
-
-    db.place_photos.update_one({'title': title, 'address': address, 'user_id': user_id}, {'$set': placePhoto_row})
     return jsonify({'msg': msg})
-
-
-@app.route('/api/place/photo/my')
-def place_photo_my_select():
-    title = request.args.get('title')
-    address = request.args.get('address')
-    user_id = "manijang2"
-
-    placePhoto_row = db.place_photos.find_one({'title': title, 'address': address, 'user_id': user_id}, {'_id': False})
-    if placePhoto_row is None:
-        placePhoto_row = {
-            "title": title,
-            "address": address,
-            "user_id": user_id,
-            'filenames': []
-        }
-    return jsonify({'photos': placePhoto_row})
-
-
-@app.route('/api/place/photo/all')
-def place_photo_all_select():
-    title = request.args.get('title')
-    address = request.args.get('address')
-    user_id = "manijang2"
-
-    placePhoto_rows = list(db.place_photos.find({'$and': [{'title': title, 'address': address},{'user_id': {'$ne': user_id}}]}, {'_id': False}))
-    if placePhoto_rows is None:
-        placePhoto_rows = [{
-            "title": title,
-            "address": address,
-            'filenames': []
-        }]
-
-    filenames = []
-    for placePhoto_row in placePhoto_rows:
-        for filename in placePhoto_row['filenames']:
-            filenames.append(filename)
-    return jsonify({'photos': filenames})
-
 
 def find(mylist, key, value):
     for i, dic in enumerate(mylist):
         if dic[key] == value:
             return i
     return -1
+
+# -------------------------------------------
+# 수정: 내 사진만 볼 경우 아이디 값 추가 비교 후 이미지 가져오기
+@app.route('/api/place/photo/my', methods=['GET'])
+def place_photo_my_select():
+    title = request.args.get('title')
+    address = request.args.get('address')
+    user_id = request.args.get('user_id')
+    my_photos = list(db.place_photos.find({'title': title, 'address': address, 'user_id': user_id}, {'_id': False}))
+    return jsonify({'my_photos': my_photos})
+
+# 수정: 모든 사진 볼 경우 title,address만 비교 후 이미지 가져오기.
+@app.route('/api/place/photo/all', methods=['GET'])
+def place_photo_all_select():
+    title = request.args.get('title')
+    address = request.args.get('address')
+    all_photos = list(db.place_photos.find({'title': title, 'address': address}, {'_id': False}))
+    return jsonify({'all_photos': all_photos})
+# -------------------------------------------
+
+# [좌표 클릭 이미지] 등록 1
+@app.route('/api/photo', methods=['POST'])
+def post_photos():
+    lat_receive = request.form['lat_give']
+    lng_receive = request.form['lng_give']
+
+    file = request.files.getlist("file_give")
+
+    for photo in file:
+        today = datetime.now()
+        mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
+        name = photo.filename
+        save_to = f'static/photos/{mytime}-{name}'
+        photo.save(save_to)
+
+        doc = {
+            'lat': lat_receive,
+            'lng': lng_receive,
+            'file': f'{mytime}-{name}',
+            'time': f'{mytime}'
+        }
+
+        db.photo.insert_one(doc)
+    return jsonify({'msg': '저장 완료!'})
+
+# [좌표 클릭 이미지] 좌표 가져오기 1 (마커 뿌려주기용)
+@app.route('/api/photo', methods=['GET'])
+def get_photos():
+    all = list(db.photo.find({}, {'_id': False}))
+    return jsonify({'all_latlng': all})
+
+# [좌표 클릭 이미지] 가져오기 2 ( 좌표비교)
+@app.route('/api/photo/latlng', methods=['GET'])
+def get_latlng():
+    lat = request.args.get('lat')
+    lng = request.args.get('lng')
+
+    photos = list(db.photo.find({'lat': lat, 'lng': lng}, {'_id': False}))
+    return jsonify({'latlng_photos': photos})
 
 
 @app.route('/login')
