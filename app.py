@@ -21,7 +21,7 @@ def main():
 
 @app.route('/api/login/recommend', methods=['GET'])
 def show_withpuppy():
-    id_receive = request.args.get("id_give")
+    id_receive = getUserLoginId()
     places = list(db.places.find({}, {'_id': False}).sort("like_count", -1))
     login_like = list(db.reviews.find({"user_id": id_receive}, {'_id': False}))
 

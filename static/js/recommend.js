@@ -38,7 +38,7 @@ function withshowbest() {
     $.ajax({
         type: 'GET',
         url: 'api/login/recommend',
-        data: {id_give: id},
+        data: {},
         success: function (response) {
             let places = response['places']
             let login = response['login_like']
@@ -109,7 +109,7 @@ function showbest() {
     $.ajax({
         type: 'GET',
         url: '/api/login/recommend',
-        data: {id_give: id},
+        data: {},
         success: function (response) {
             let store = response['places']
             let login = response['login_like']
