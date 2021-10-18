@@ -27,7 +27,8 @@ function review_like_button() {
         success: function (response) {
             let reviews_id = response["reviews_id"]
             let reviews_title = response["reviews_title"]
-            console.log(reviews_id, reviews_title)
+            console.dir(response)
+            //console.dir(reviews_id, reviews_title)
          }
     })
 }

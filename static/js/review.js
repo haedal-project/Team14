@@ -176,12 +176,22 @@ function showPhoto() {
 }
 
 function registerReview() {
+    let reviews_id = ""
+    $.ajax({
+        type: 'GET',
+        url: `/api/reviews/like`,
+        data: {},
+        success: function (response) {
+            let reviews_id = response["reviews_id"]
+        }
+    })
+
     let _enter_with_check = $('#enter-with-check').is(':checked')
     let _rating = $("#review-rating-radio option:selected").val()
     let _review_content = $('#review-content').val()
     let _lat = $('#info-place-lat').val();
     let _lng = $('#info-place-lng').val();
-    let _user_id = 'manijang2'
+    let _user_id = reviews_id
     let _title = $('#info-place-name').text()
     let _address = $('#info-place-address').text()
 

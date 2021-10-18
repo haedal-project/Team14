@@ -53,13 +53,16 @@ def like_star():
         db.places.update_one({"title": name_receive}, {'$set': {'like_count': new_like}})
         return jsonify({'msg': '좋아요 완료!'})
 
+
 @app.route('/api/reviews/like', methods=['GET'])
 def review_star():
     id_receive = getUserLoginId()
+    print(id_receive)
     title_receive = request.args.get('title_give')
     reviews_id = list(db.reviews.find({"user_id":id_receive}, {'_id': False}))
     reviews_title = list(db.reviews.find({"title":title_receive}, {'_id': False}))
     return jsonify({'reviews_id': reviews_id, "reviews_title" :reviews_title})
+
 
 @app.route('/placereview', methods=['GET'])
 def read_reviews():
@@ -207,7 +210,7 @@ def place_photo_upload():
     title = request.form['title']
     address = request.form['address']
     files = request.files.getlist("file_give")
-    user_id = "manijang2"
+    user_id = getUserLoginId()
 
     # 해당 장소에 대한 파일들을 검사
     placePhoto_row = db.place_photos.find_one({'title': title, 'address': address, 'user_id': user_id}, {'_id': False})
