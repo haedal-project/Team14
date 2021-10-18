@@ -181,7 +181,8 @@ function plus(name) {
         data: {name_give: name},
         success: function (response) {
             alert(response['msg']);
-            window.location.reload()
+            $("#hello").load(window.location.href + " #hello")
+            showbest()
         }
     });
 }
