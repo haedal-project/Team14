@@ -1,5 +1,5 @@
 ///// ############ recommend.js는 전부 수정 했습니다 !!! ###########
-id = "test1" //////////// 기본 id 값을 test1으로 설정
+let id = "test1" //////////// 기본 id 값을 test1으로 설정
 num = 0
 
 function ec() {
@@ -43,11 +43,12 @@ function like_button() {
 function withshowbest() { 
     $.ajax({
         type: 'GET',
-        url: '/api/recommend',
+        url: 'api/login/recommend',
         data: {id_give: id},
         success: function (response) {
             let places = response['places']
             let login = response['login_like']
+            let none_star = response["none_star"]
             for (let i = 0; i < places.length; i++) {
                 let name = places[i]["title"]
                 let x = parseFloat(places[i]["lat"][i + 1])
@@ -58,7 +59,7 @@ function withshowbest() {
                 try {
                     like = login[i]
                 } catch {
-                    like = "False";
+                    like = none_star;
                 }
                 let temp_html = ``
                 if (parseInt(percent) >= 50) {
@@ -113,11 +114,12 @@ function withshowbest() {
 function showbest() {
     $.ajax({
         type: 'GET',
-        url: '/api/login/recommend/distinct',
+        url: '/api/login/recommend',
         data: {id_give: id},
         success: function (response) {
-            let store = response['like'] 
+            let store = response['places']
             let login = response['login_like']
+            let none_star = response["none_star"]
             for (let i = 0; i < store.length; i++) {
                 let name = store[i]["title"]
                 let x = parseFloat(store[i]["lat"])
@@ -127,9 +129,8 @@ function showbest() {
                 let temp_html = ``
                 try {
                     like = login[i]["like"]
-
                 } catch {
-                    like = "False";
+                    like = none_star;
                 }
                 console.log(like)
                 if (like == "True") {
