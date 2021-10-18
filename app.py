@@ -18,21 +18,16 @@ SECRET_KEY = 'JAVAJABA'
 def main():
     return render_template('index.html')
 
-@app.route('/api/recommend', methods=['GET'])
+@app.route('/api/login/recommend', methods=['GET'])
 def show_withpuppy():
     id_receive = request.args.get("id_give")
     places = list(db.places.find({}, {'_id': False}).sort("like_count", -1))
     login_like = list(db.reviews.find({"user_id": id_receive}, {'_id': False}))
-    print(id_receive)
-    print(login_like)
-    return jsonify({'places': places, 'login_like':login_like})
 
-@app.route('/api/login/recommend/distinct', methods=['GET'])
-def login_show_stars():
-    id_receive = request.args.get("id_give")
-    like_star = list(db.places.find({},{'_id':False}).sort("like_count", -1))
-    login_like = list(db.reviews.find({"user_id":id_receive},{'_id':False}))
-    return jsonify({'like': like_star, 'login_like':login_like})
+    if like_star is None :
+        none_star = "False"
+        return jsonify({'places': places, 'login_like':login_like, "none_star" : none_star})
+    return jsonify({'places': places, 'login_like': login_like})
 
 @app.route('/api/like_button', methods=['POST'])
 def like_star():
