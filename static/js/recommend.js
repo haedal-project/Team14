@@ -20,21 +20,6 @@ function ec() {
 }
 
 
-function review_like_button() {
-    let title = $('#info-place-name').text()
-    $.ajax({
-        type: 'GET',
-        url: `/api/reviews/like?title_give=${title}`,
-        data: {title_give:title},
-        success: function (response) {
-            let reviews_id = response["reviews_id"]
-            let reviews_title = response["reviews_title"]
-            console.dir(response)
-
-        }
-    })
-}
-
 
 function withshowbest() { 
     $.ajax({
