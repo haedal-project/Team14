@@ -21,7 +21,7 @@
 
         <script>
 
-        function login() {
+            function login() {
 
                 let id = $("#input-id").val()
                 let pw = $("#input-pw").val()
@@ -53,6 +53,8 @@
                     success: function (response) {
                         if (response['result'] == 'success') {
                             $.cookie('mytoken', response['token']);
+
+                            alert('로그인 완료!')
                             window.location.href = '/'
                         } else {
                             alert('로그인 실패!')
@@ -65,7 +67,7 @@
 
     </head>
     <body>
-  <section class="vh-100" style="background-color: #FFFFFF;">
+     <section class="vh-100" style="background-color: #FFFFFF;">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-xl-10">

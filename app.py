@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
-# from datetime import datetime
+
 
 import hashlib
 import jwt
@@ -58,15 +58,9 @@ def like_star():
 def review_star():
     id_receive = getUserLoginId()
     title_receive = request.args.get('title_give')
-    reviews_id = list(db.reviews.find({"user_id":id_receive}, {'_id': False}))
-    reviews_title = list(db.reviews.find({"title":title_receive}, {'_id': False}))
-    return jsonify({'reviews_id': reviews_id, "reviews_title" :reviews_title, 'id_receive':id_receive})
-
-@app.route('/api/reviews/save', methods=['GET'])
-def review_save():
-    id_receive = getUserLoginId()
-    print(id_receive)
-    return jsonify({'id_receive': id_receive})
+    reviews_id = list(db.reviews.find({"user_id": id_receive}, {'_id': False}))
+    reviews_title = list(db.reviews.find({"title": title_receive}, {'_id': False}))
+    return jsonify({'reviews_id': reviews_id, "reviews_title" :reviews_title})
 
 @app.route('/placereview', methods=['GET'])
 def read_reviews():
@@ -88,7 +82,7 @@ def place_detail_info():
             "title": title,
             "rating": 0,
             "review_count": 0,
-            "percent": 0
+             "percent": 0 
         }
     else:
         doc = {
@@ -96,7 +90,7 @@ def place_detail_info():
             "rating": place_row['rating'],
             "review_count": place_row['review_count'],
             "percent": place_row['percent'],
-            "like_count": place_row['like_count']
+            "like_count": place_row['like_count'] 
         }
     return jsonify({"place-info": doc, "reviews": reviews_row})
 
@@ -122,8 +116,8 @@ def place_review_register():
             "lng": lng,
             "rating": 0,
             "review_count": 0,
-            "like_count": 0,
-            "percent": 0
+            "like_count": 0, 
+            "percent": 0 
         }
         db.places.insert_one(place_doc)
 
@@ -132,7 +126,7 @@ def place_review_register():
         "address": address,
         "user_id": user_id,
         "rating": rating,
-        "like": "False",
+        "like": "False", 
         "review": review_content,
         "enter_with": enter_with_check
     }
@@ -166,7 +160,7 @@ def place_review_select():
     title = request.args.get('title')
     address = request.args.get('address')
     # user_id = request.args.get('user_id')
-    user_id = "manijang3"
+    user_id = getUserLoginId()
 
     review_rows = list(db.reviews.find({'title': title, 'address': address}, {'_id': False}))
     myself_review_idx = find(review_rows, 'user_id', user_id)
@@ -237,8 +231,8 @@ def place_photo_upload():
             db.place_photos.insert_one(doc)
         return jsonify({'msg': '저장 완료!'})
 
-    elif len(list(db.place_photos.find({'address': address, 'title': title}, {'_id': False}))) < 3:
-        count = 3 - len(list(db.place_photos.find({'address': address, 'title': title}, {'_id': False})))
+    elif len(list(db.place_photos.find({'address': address, 'title': title, 'user_id': user_id}, {'_id': False}))) < 3:
+        count = 3 - len(list(db.place_photos.find({'address': address, 'title': title, 'user_id': user_id}, {'_id': False})))
 
         for photo in files[:count]:
             today = datetime.datetime.now()
@@ -331,6 +325,20 @@ def get_latlng():
     photos = list(db.photo.find({'lat': lat, 'lng': lng}, {'_id': False}))
     return jsonify({'latlng_photos': photos})
 
+# 파일 삭제 장소(filenames)
+@app.route('/api/place/photo', methods=['DELETE'])
+def delete_place_photo():
+    filename = request.args.get('filename')
+    db.place_photos.delete_one({'filenames': filename})
+    return jsonify({'msg': '삭제완료'})
+
+# 파일 삭제 좌표(photo)
+@app.route('/api/latlng/photo', methods=['DELETE'])
+def delete_latlng_photo():
+    filename = request.args.get('file')
+    db.photo.delete_one({'file': filename})
+    return jsonify({'msg': '삭제완료'})
+
 
 @app.route('/login')
 def login():
@@ -406,3 +414,4 @@ def truncate(num, n):
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
+    

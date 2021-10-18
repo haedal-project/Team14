@@ -1,6 +1,6 @@
 ///// ############ recommend.js는 전부 수정 했습니다 !!! ###########
 let id = "test1" //////////// 기본 id 값을 test1으로 설정
-num = 0
+let num = 0
 
 function ec() {
     if (num == 0) {
@@ -28,8 +28,8 @@ function review_like_button() {
             let reviews_id = response["reviews_id"]
             let reviews_title = response["reviews_title"]
             console.dir(response)
-            //console.dir(reviews_id, reviews_title)
-         }
+
+        }
     })
 }
 
@@ -58,19 +58,19 @@ function withshowbest() {
                 let temp_html = ``
                 if (parseInt(percent) >= 50) {
                     if (like == "True") {
-                        temp_html = `<div onclick="bestPosition(x,y)" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
-                                            <span><button type="button" onclick="plus('${name}')" id="like_button_red" class="btn btn-danger" >❤</button> + ${like_count}</span>
-                                        </div>
-                                    </div>`
+                        temp_html = `<a href="javascript:void(0);" onclick="bestPosition(${x},${y})" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
+                                         <div class="d-flex w-100 justify-content-between">
+                                             <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
+                                             <span><button type="button" onclick="plus('${name}')" id="like_button_red" class="btn btn-danger" >❤</button> + ${like_count}</span>
+                                         </div>
+                                     </a>`
                     } else {
-                        temp_html = `<div onclick="bestPosition(x,y)" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
+                        temp_html = `<a href="javascript:void(0);" onclick="bestPosition(${x},${y})" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
                                         <div class="d-flex w-100 justify-content-between">
                                             <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
                                             <span><button type="button" onclick="plus('${name}')" id="like_button_white" class="btn btn-danger" >ෆ</button> + ${like_count}</span>
                                         </div>
-                                    </div>`
+                                     </a>`
                     }
                 }
                 
@@ -128,19 +128,19 @@ function showbest() {
                 }
                 console.log(like)
                 if (like == "True") {
-                    temp_html = `<div onclick="bestPosition(x,y)" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
-                                     <div class="d-flex w-100 justify-content-between">
-                                         <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
-                                         <span><button type="button" onclick="plus('${name}')" id="like_button_red" class="btn btn-danger" >❤</button> + ${like_count}</span>
-                                     </div>
-                                 </div>`
+                    temp_html = `<a href="javascript:void(0);" onclick="bestPosition(${x},${y})" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
+                                        <span><button type="button" onclick="plus('${name}')" id="like_button_red" class="btn btn-danger" >❤</button> + ${like_count}</span>
+                                    </div>
+                                 </a>`
                 } else {
-                    temp_html = `<div onclick="bestPosition(x,y)" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
+                    temp_html = `<a href="javascript:void(0);" onclick="bestPosition(${x},${y})" class="list-group-item list-group-item-action flex-column align-items-start" style="margin: 10px; cursor:pointer;">
                                     <div class="d-flex w-100 justify-content-between">
                                          <h5 class="mb-1">${name}<small class="text-muted"></small></h5> 
                                          <span><button type="button" onclick="plus('${name}')" id="like_button_white" class="btn btn-danger" >ෆ</button> + ${like_count}</span>
                                     </div>
-                                 </div>`
+                                 </a>`
                 }onclick="bestPosition(x,y)"
                 $("#hello").append(temp_html)
                 let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -175,7 +175,7 @@ function showbest() {
 }
 
 
-function plus(name) {
+function plus(name) { 
     $.ajax({
         type: 'POST',
         url: '/api/like_button',
@@ -189,7 +189,6 @@ function plus(name) {
 }
 
 function bestPosition(x,y){
-    alert("99999 동작 중")
     let position = new kakao.maps.LatLng(x, y)
     map.setLevel(level = 5);
     map.panTo(position);

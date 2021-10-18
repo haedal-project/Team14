@@ -183,7 +183,7 @@
                             <!-- 이미지 등록 -->
                             <div id="place-photo-info" style="padding-top: 10px; display: none">
                                 <h6 style="float: left; ">미리보기</h6>
-                                <button style=";width: 100px; float: right;" onclick="aa()" class="btn btn-success">업로드</button>
+                                <button style="width: 100px; float: right;" onclick="aa()" class="btn btn-success">업로드</button>
                                 <button style=" width: 100px; float: right; margin-right: 7px;" onclick="$('#photo-file-input').click();" class="btn btn-success">불러오기</button>
                                 <input type="file" id="photo-file-input" style="display:none;" name="photo-file-input" accept=".jpg,.jpeg,.png,.gif,.bmp" multiple value>
 
@@ -264,7 +264,8 @@
                 <!-- /.social links -->
                 <div class="social text-center">
                     <ul>
-                        <li><a class="wow fadeInUp" href="https://twitter.com/"><i class="fa fa-twitter"></i></a></li>
+                        <li><a class="wow fadeInUp" href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+                        </li>
                         <li>
                             <a class="wow fadeInUp" href="https://www.facebook.com/" data-wow-delay="0.2s"><i class="fa fa-facebook"></i></a>
                         </li>
@@ -321,7 +322,7 @@
 
     <script>
         $(document).ready(function () {
-
+            
             if ($.cookie('mytoken') == undefined) {
                 alert('로그인 상태가 아니라서 로그인 페이지로 이동합니다.')
                 window.location.href = '/login'

@@ -102,26 +102,30 @@ function uploadphoto() {
     let lat = $('#click-place-lat').val();
     let lng = $('#click-place-lng').val();
 
-    for (let i=0; i<sel_files.length; i++) {
-        form_data.append("file_give", sel_files[i])
-    }
-        form_data.append("lat_give", lat)
-        form_data.append("lng_give", lng)
-
-    make_latlng_Marker(lat, lng)
-
-    $.ajax({
-        type: "POST",
-        url: "/api/photo",
-        data: form_data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            alert(response["msg"])
-            window.location.reload()
+    if (sel_files.length < 1) {
+        alert("파일을 불러와주세요.");
+    }else{
+        for (let i=0; i<sel_files.length; i++) {
+            form_data.append("file_give", sel_files[i])
         }
-    });
+            form_data.append("lat_give", lat)
+            form_data.append("lng_give", lng)
+
+        make_latlng_Marker(lat, lng)
+
+        $.ajax({
+            type: "POST",
+            url: "/api/photo",
+            data: form_data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                alert(response["msg"])
+                window.location.reload()
+            }
+        });
+    }
 }
 
 function get_photos() {
@@ -175,13 +179,30 @@ function make_latlng_Marker(lat, lng){
                 let photo = response['latlng_photos']
                 for (let i=0; i < photo.length; i++) {
                     let file = photo[i]['file']
-                    let temp_html = `<a style="cursor: pointer; "data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('../static/photos/${file}')">
-                                                <span class="image-card"><img src="../static/photos/${file}"></span>
-                                            </a>`
-
-                    $('#post_photo').append(temp_html)
+                    let temp_html = `<div class="col-md-4">
+                                         <div class="thumbnail">
+                                            <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('../static/photos/${file}')">
+                                                <img src="../static/photos/${file}" alt="Lights" style="max-height: 80px;">
+                                            </a>
+                                            <div class="delete-box"  style="cursor: pointer;" onclick="delete_photo('${file}')"><a>삭제</a></div>
+                                         </div>
+                                     </div>`
+                    $('#post_photo').append(temp_html);
                 }
             }
         });
     });
+}
+
+function delete_photo(file){
+    console.log(file);
+    $.ajax({
+        type: "DELETE",
+        url: `/api/latlng/photo?file=${file}`,
+        data: {},
+        success: function (response) {
+            alert(response['msg']);
+            window.location.reload();// 새로고침
+        }
+    })
 }
