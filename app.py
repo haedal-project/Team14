@@ -18,9 +18,8 @@ SECRET_KEY = 'JAVAJABA'
 def main():
     return render_template('index.html')
 
-
 @app.route('/api/login/recommend', methods=['GET'])
-def show_withpuppy():
+def show_recommend():
     id_receive = getUserLoginId()
     places = list(db.places.find({}, {'_id': False}).sort("like_count", -1))
     login_like = list(db.reviews.find({"user_id": id_receive}, {'_id': False}))
@@ -29,7 +28,6 @@ def show_withpuppy():
         none_star = "False"
         return jsonify({'places': places, 'login_like': login_like, "none_star": none_star})
     return jsonify({'places': places, 'login_like': login_like})
-
 
 @app.route('/api/like_button', methods=['POST'])
 def like_star():
@@ -53,14 +51,6 @@ def like_star():
         db.places.update_one({"title": name_receive}, {'$set': {'like_count': new_like}})
         return jsonify({'msg': '좋아요 완료!'})
 
-
-@app.route('/api/reviews/like', methods=['GET'])
-def review_star():
-    id_receive = getUserLoginId()
-    title_receive = request.args.get('title_give')
-    reviews_id = list(db.reviews.find({"user_id":id_receive}, {'_id': False}))
-    reviews_title = list(db.reviews.find({"title":title_receive}, {'_id': False}))
-    return jsonify({'reviews_id': reviews_id, "reviews_title" :reviews_title, 'id_receive':id_receive})
 
 @app.route('/api/reviews/save', methods=['GET'])
 def review_save():

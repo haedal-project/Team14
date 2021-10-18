@@ -1,5 +1,3 @@
-///// ############ recommend.js는 전부 수정 했습니다 !!! ###########
-let id = "test1" //////////// 기본 id 값을 test1으로 설정
 num = 0
 
 function ec() {
@@ -16,21 +14,6 @@ function ec() {
         num = num - 1
         showbest()
     }
-}
-
-function review_like_button() {
-    let title = $('#info-place-name').text()
-    $.ajax({
-        type: 'GET',
-        url: `/api/reviews/like?title_give=${title}`,
-        data: {title_give:title},
-        success: function (response) {
-            let reviews_id = response["reviews_id"]
-            let reviews_title = response["reviews_title"]
-            console.dir(response)
-            //console.dir(reviews_id, reviews_title)
-         }
-    })
 }
 
 
