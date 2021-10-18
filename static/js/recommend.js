@@ -18,24 +18,17 @@ function ec() {
     }
 }
 
-function like_button() {
+function review_like_button() {
+    let title = $('#info-place-name').text()
     $.ajax({
         type: 'GET',
-        url: '/api/place',
-        data: {},
+        url: `/api/reviews/like?title_give=${title}`,
+        data: {title_give:title},
         success: function (response) {
-            place = response["place-info"]
-            count = place["like_count"]
-            if (num == 0) {
-                let temp = ``
-                temp = `<button type="button" style="float: right;" id="like_button" class="btn btn-danger" onclick="like_button()">ෆ+${count}</button>`
-                num = num + 1
-            } else {
-                temp = `<button type="button" style="float: right;" id="like_button" class="btn btn-danger" onclick="like_button()">ෆ+${count}</button>`
-                num = num - 1
-            }
-            $("#reviewlike").append(temp)
-        }
+            let reviews_id = response["reviews_id"]
+            let reviews_title = response["reviews_title"]
+            console.log(reviews_id, reviews_title)
+         }
     })
 }
 
@@ -181,21 +174,16 @@ function showbest() {
 }
 
 
-function plus(name) { 
-    if (id == "test1") {
-        alert("로그인 후 이용해 주세요")
-        window.location.href = "/login"
-    } else {
-        $.ajax({
-            type: 'POST',
-            url: '/api/like_button',
-            data: {name_give: name},
-            success: function (response) {
-                alert(response['msg']);
-                window.location.reload() 
-            }
-        });
-    }
+function plus(name) {
+    $.ajax({
+        type: 'POST',
+        url: '/api/like_button',
+        data: {name_give: name},
+        success: function (response) {
+            alert(response['msg']);
+            window.location.reload()
+        }
+    });
 }
 
 function bestPosition(x,y){
