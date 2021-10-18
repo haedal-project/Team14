@@ -57,12 +57,16 @@ def like_star():
 @app.route('/api/reviews/like', methods=['GET'])
 def review_star():
     id_receive = getUserLoginId()
-    print(id_receive)
     title_receive = request.args.get('title_give')
     reviews_id = list(db.reviews.find({"user_id":id_receive}, {'_id': False}))
     reviews_title = list(db.reviews.find({"title":title_receive}, {'_id': False}))
-    return jsonify({'reviews_id': reviews_id, "reviews_title" :reviews_title})
+    return jsonify({'reviews_id': reviews_id, "reviews_title" :reviews_title, 'id_receive':id_receive})
 
+@app.route('/api/reviews/save', methods=['GET'])
+def review_save():
+    id_receive = getUserLoginId()
+    print(id_receive)
+    return jsonify({'id_receive': id_receive})
 
 @app.route('/placereview', methods=['GET'])
 def read_reviews():
