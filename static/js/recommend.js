@@ -1,3 +1,4 @@
+
 ///// ############ recommend.js는 전부 수정 했습니다 !!! ###########
 let id = "test1" //////////// 기본 id 값을 test1으로 설정
 let num = 0
@@ -17,6 +18,7 @@ function ec() {
         showbest()
     }
 }
+
 
 function review_like_button() {
     let title = $('#info-place-name').text()
