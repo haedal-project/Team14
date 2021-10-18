@@ -80,11 +80,11 @@
     <div id="intro">
         <div class="container">
             <div class="row" style="float: right; margin-bottom: 10px;">
-                <a onclick="$.removeCookie('mytoken'); window.location.href='/login';">로그아웃</a>
-                <a style="margin-left: 10px;">회원탈퇴</a>
+                <a style="cursor: pointer; " onclick="$.removeCookie('mytoken'); window.location.href='/login';">로그아웃</a>
+                <a style="margin-left: 10px; cursor: pointer;" onclick="clickUserDelete()">회원탈퇴</a>
             </div>
 
-            <div style="clear: both;"></div>가
+            <div style="clear: both;"></div>
 
             <div class="row">
                 <!-- /.intro image -->
@@ -183,13 +183,13 @@
                             <!-- 이미지 등록 -->
                             <div id="place-photo-info" style="padding-top: 10px; display: none">
                                 <h6 style="float: left; ">미리보기</h6>
-                                <button style=";width: 100px; float: right;" onclick="aa()" class="btn btn-success" >업로드</button>
+                                <button style=";width: 100px; float: right;" onclick="aa()" class="btn btn-success">업로드</button>
                                 <button style=" width: 100px; float: right; margin-right: 7px;" onclick="$('#photo-file-input').click();" class="btn btn-success">불러오기</button>
-                                <input type="file" id="photo-file-input" style="display:none;" name="photo-file-input"  accept=".jpg,.jpeg,.png,.gif,.bmp" multiple value>
+                                <input type="file" id="photo-file-input" style="display:none;" name="photo-file-input" accept=".jpg,.jpeg,.png,.gif,.bmp" multiple value>
 
                                 <div class="row row2" style="clear: both;">
                                 </div>
-                                <div >
+                                <div>
                                     <h6>등록된 사진</h6>
                                 </div>
                                 <div class="row images-list2" id="post_photo2" style="clear: both;">
@@ -208,10 +208,10 @@
                             </div>
                             <div class="custom-file">
                                 <input type="file" id="file" style="display:none;" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp" multiple value>
-                                <button onclick="uploadphoto()" style="float: right;" class="btn btn-success" >업로드</button>
+                                <button onclick="uploadphoto()" style="float: right;" class="btn btn-success">업로드</button>
                                 <label class="btn btn-success" style="float: right; margin-right: 7px;" for="file">불러오기</label>
                             </div>
-                            <div >
+                            <div>
                                 <h3 style="margin-top: 0; margin-left: 15px;">등록된 사진</h3>
                             </div>
                             <div class="images-list" id="post_photo">
@@ -265,9 +265,15 @@
                 <div class="social text-center">
                     <ul>
                         <li><a class="wow fadeInUp" href="https://twitter.com/"><i class="fa fa-twitter"></i></a></li>
-                        <li><a class="wow fadeInUp" href="https://www.facebook.com/" data-wow-delay="0.2s"><i class="fa fa-facebook"></i></a></li>
-                        <li><a class="wow fadeInUp" href="https://plus.google.com/" data-wow-delay="0.4s"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a class="wow fadeInUp" href="https://instagram.com/" data-wow-delay="0.6s"><i class="fa fa-instagram"></i></a></li>
+                        <li>
+                            <a class="wow fadeInUp" href="https://www.facebook.com/" data-wow-delay="0.2s"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li>
+                            <a class="wow fadeInUp" href="https://plus.google.com/" data-wow-delay="0.4s"><i class="fa fa-google-plus"></i></a>
+                        </li>
+                        <li>
+                            <a class="wow fadeInUp" href="https://instagram.com/" data-wow-delay="0.6s"><i class="fa fa-instagram"></i></a>
+                        </li>
                     </ul>
                 </div>
                 <div class="text-center wow fadeInUp" style="font-size: 14px;">Copyright Backyard 2015 - Template by
@@ -316,7 +322,7 @@
     <script>
         $(document).ready(function () {
 
-            if($.cookie('mytoken') == undefined) {
+            if ($.cookie('mytoken') == undefined) {
                 alert('로그인 상태가 아니라서 로그인 페이지로 이동합니다.')
                 window.location.href = '/login'
             }
@@ -325,6 +331,19 @@
             $('#place-list').show();
             showbest();
         });
+
+        function clickUserDelete() {
+            $.ajax({
+                type: "DELETE",
+                url: `/api/User`,
+                data: {},
+                success: function (response) {
+                    alert(response['msg'])
+                    $.removeCookie('mytoken');
+                    window.location.href='/login'
+                }
+            })
+        }
     </script>
 
 </body>

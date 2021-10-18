@@ -18,38 +18,41 @@ SECRET_KEY = 'JAVAJABA'
 def main():
     return render_template('index.html')
 
+
 @app.route('/api/login/recommend', methods=['GET'])
 def show_withpuppy():
     id_receive = request.args.get("id_give")
     places = list(db.places.find({}, {'_id': False}).sort("like_count", -1))
     login_like = list(db.reviews.find({"user_id": id_receive}, {'_id': False}))
 
-    if like_star is None :
+    if like_star is None:
         none_star = "False"
-        return jsonify({'places': places, 'login_like':login_like, "none_star" : none_star})
+        return jsonify({'places': places, 'login_like': login_like, "none_star": none_star})
     return jsonify({'places': places, 'login_like': login_like})
+
 
 @app.route('/api/like_button', methods=['POST'])
 def like_star():
     name_receive = request.form['name_give']
-    target_star= db.places.find_one({"title": name_receive})
+    target_star = db.places.find_one({"title": name_receive})
     count_like = target_star['like_count']
 
     login_star = db.reviews.find_one({"title": name_receive})
     login_like = login_star['like']
 
-    if login_like=="True" :
+    if login_like == "True":
         new_like = count_like - 1
         login_like = "False"
         db.reviews.update_one({"title": name_receive}, {'$set': {'like': login_like}})
         db.places.update_one({"title": name_receive}, {'$set': {'like_count': new_like}})
         return jsonify({'msg': '좋아요 취소 완료!'})
-    else :
-        new_like = count_like+1
+    else:
+        new_like = count_like + 1
         login_like = "True"
         db.reviews.update_one({"title": name_receive}, {'$set': {'like': login_like}})
         db.places.update_one({"title": name_receive}, {'$set': {'like_count': new_like}})
         return jsonify({'msg': '좋아요 완료!'})
+
 
 @app.route('/placereview', methods=['GET'])
 def read_reviews():
@@ -71,7 +74,7 @@ def place_detail_info():
             "title": title,
             "rating": 0,
             "review_count": 0,
-             "percent": 0 
+            "percent": 0
         }
     else:
         doc = {
@@ -79,9 +82,9 @@ def place_detail_info():
             "rating": place_row['rating'],
             "review_count": place_row['review_count'],
             "percent": place_row['percent'],
-            "like_count": place_row['like_count'] 
+            "like_count": place_row['like_count']
         }
-    return jsonify({"place-info": doc, "reviews":reviews_row})
+    return jsonify({"place-info": doc, "reviews": reviews_row})
 
 
 @app.route('/api/review', methods=['POST'])
@@ -105,8 +108,8 @@ def place_review_register():
             "lng": lng,
             "rating": 0,
             "review_count": 0,
-            "like_count": 0, 
-            "percent": 0 
+            "like_count": 0,
+            "percent": 0
         }
         db.places.insert_one(place_doc)
 
@@ -115,7 +118,7 @@ def place_review_register():
         "address": address,
         "user_id": user_id,
         "rating": rating,
-        "like": "False", 
+        "like": "False",
         "review": review_content,
         "enter_with": enter_with_check
     }
@@ -189,6 +192,7 @@ def place_review_delete():
 
     return jsonify({'msg': '삭제완료'})
 
+
 # 사진등록 API
 # [장소 검색 이미지] 등록 1
 @app.route('/fileUpload', methods=['POST'])
@@ -241,11 +245,13 @@ def place_photo_upload():
         msg = '해당 파일이 3개보다 많습니다'
     return jsonify({'msg': msg})
 
+
 def find(mylist, key, value):
     for i, dic in enumerate(mylist):
         if dic[key] == value:
             return i
     return -1
+
 
 # -------------------------------------------
 # 수정: 내 사진만 볼 경우 아이디 값 추가 비교 후 이미지 가져오기
@@ -257,6 +263,7 @@ def place_photo_my_select():
     my_photos = list(db.place_photos.find({'title': title, 'address': address, 'user_id': user_id}, {'_id': False}))
     return jsonify({'my_photos': my_photos})
 
+
 # 수정: 모든 사진 볼 경우 title,address만 비교 후 이미지 가져오기.
 @app.route('/api/place/photo/all', methods=['GET'])
 def place_photo_all_select():
@@ -264,6 +271,8 @@ def place_photo_all_select():
     address = request.args.get('address')
     all_photos = list(db.place_photos.find({'title': title, 'address': address}, {'_id': False}))
     return jsonify({'all_photos': all_photos})
+
+
 # -------------------------------------------
 
 # [좌표 클릭 이미지] 등록 1
@@ -291,11 +300,13 @@ def post_photos():
         db.photo.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
+
 # [좌표 클릭 이미지] 좌표 가져오기 1 (마커 뿌려주기용)
 @app.route('/api/photo', methods=['GET'])
 def get_photos():
     all = list(db.photo.find({}, {'_id': False}))
     return jsonify({'all_latlng': all})
+
 
 # [좌표 클릭 이미지] 가져오기 2 ( 좌표비교)
 @app.route('/api/photo/latlng', methods=['GET'])
@@ -361,11 +372,18 @@ def api_login():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
+@app.route('/api/User', methods=['DELETE'])
+def user_delete():
+    user_id = getUserLoginId()
+    db.accounts.delete_one({'id': user_id})
+    return jsonify({'msg': '삭제 완료!'})
+
 
 def getUserLoginId():
     token_receive = request.cookies.get('mytoken')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     return payload['id'];
+
 
 def truncate(num, n):
     integer = int(num * (10 ** n)) / (10 ** n)
