@@ -175,32 +175,11 @@ function make_latlng_Marker(lat, lng){
                 let photo = response['latlng_photos']
                 for (let i=0; i < photo.length; i++) {
                     let file = photo[i]['file']
-                    // let temp_html = `<span class="image-card"><img src="../static/photos/${file}"></span>`
-
                     let temp_html = `<a style="cursor: pointer; "data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('../static/photos/${file}')">
                                                 <span class="image-card"><img src="../static/photos/${file}"></span>
                                             </a>`
 
                     $('#post_photo').append(temp_html)
-
-
-                    /*
-                    *
-                    * let temp_html = `<div class="col-md-4">
-                                        <div class="thumbnail">
-                                            <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('../static/load_img/${filename}')">
-                                                <img src="../static/load_img/${filename}" alt="Lights" style="max-height: 80px;">
-                                            </a>
-                                            <div class="delete-box"><a>삭제</a></div>
-                                        </div>
-                                    </div>`
-                $('#post_photo2').append(temp_html)
-                    *
-                    *
-                    *
-                    * */
-
-
                 }
             }
         });
