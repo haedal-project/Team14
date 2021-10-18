@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
 
 
+import boto3
 import hashlib
 import jwt
 import datetime
@@ -209,6 +210,8 @@ def place_review_delete():
 # [장소 검색 이미지] 등록 1
 @app.route('/fileUpload', methods=['POST'])
 def place_photo_upload():
+    s3 = boto3.client('s3')
+
     title = request.form['title']
     address = request.form['address']
     files = request.files.getlist("file_give")
@@ -223,8 +226,15 @@ def place_photo_upload():
             today = datetime.datetime.now()
             mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
             name = photo.filename
-            save_to = f'static/load_img/{mytime}-{name}'
-            photo.save(save_to)
+            save_to = f'{mytime}-{name}'
+            # photo.save(save_to)
+
+            s3.put_object(
+                ACL="public-read",
+                Bucket="mysparta-01",
+                Body=photo,
+                Key=save_to,
+                ContentType=photo.content_type)
 
             doc = {
                 'title': title,
@@ -242,8 +252,15 @@ def place_photo_upload():
             today = datetime.datetime.now()
             mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
             name = photo.filename
-            save_to = f'static/load_img/{mytime}-{name}'
-            photo.save(save_to)
+            save_to = f'{mytime}-{name}'
+            # photo.save(save_to)
+
+            s3.put_object(
+                ACL="public-read",
+                Bucket="mysparta-01",
+                Body=photo,
+                Key=save_to,
+                ContentType=photo.content_type)
 
             doc = {
                 'title': title,
@@ -290,6 +307,7 @@ def place_photo_all_select():
 # [좌표 클릭 이미지] 등록 1
 @app.route('/api/photo', methods=['POST'])
 def post_photos():
+    s3 = boto3.client('s3')
     lat_receive = request.form['lat_give']
     lng_receive = request.form['lng_give']
 
@@ -299,8 +317,15 @@ def post_photos():
         today = datetime.datetime.now()
         mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
         name = photo.filename
-        save_to = f'static/photos/{mytime}-{name}'
-        photo.save(save_to)
+        save_to = f'photos/{mytime}-{name}'
+        # photo.save(save_to)
+
+        s3.put_object(
+            ACL="public-read",
+            Bucket="mysparta-01",
+            Body=photo,
+            Key=save_to,
+            ContentType=photo.content_type)
 
         doc = {
             'lat': lat_receive,

@@ -149,8 +149,8 @@ function loadPhoto_all(title, address) {
                 let filename = photo[i]['filenames']
                 let temp_html = `<div class="col-md-4">
                                         <div class="thumbnail">
-                                            <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('../static/load_img/${filename}')">
-                                                <img src="../static/load_img/${filename}" alt="Lights" style="max-height: 80px;">
+                                            <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('https://mysparta-01.s3.ap-northeast-2.amazonaws.com/${filename}')">
+                                                <img src="https://mysparta-01.s3.ap-northeast-2.amazonaws.com/${filename}" alt="Lights" style="max-height: 80px;">
                                             </a>
                                             <div class="delete-box" style="cursor: pointer;" onclick="delete_image('${filename}')"><a>삭제</a></div>
                                         </div>

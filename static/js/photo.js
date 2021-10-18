@@ -181,8 +181,8 @@ function make_latlng_Marker(lat, lng){
                     let file = photo[i]['file']
                     let temp_html = `<div class="col-md-4">
                                          <div class="thumbnail">
-                                            <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('../static/photos/${file}')">
-                                                <img src="../static/photos/${file}" alt="Lights" style="max-height: 80px;">
+                                            <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('https://mysparta-01.s3.ap-northeast-2.amazonaws.com/photos/${file}')">
+                                                <img src="https://mysparta-01.s3.ap-northeast-2.amazonaws.com/photos/${file}" alt="Lights" style="max-height: 80px;">
                                             </a>
                                             <div class="delete-box"  style="cursor: pointer;" onclick="delete_photo('${file}')"><a>삭제</a></div>
                                          </div>
