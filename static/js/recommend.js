@@ -38,7 +38,7 @@ function withshowbest() {
                 let percent = places[i]["percent"]
                 let like = ""
                 try {
-                    like = login[i]
+                    like = login[i]["like"]
                 } catch {
                     like = none_star;
                 }
