@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 from pymongo import MongoClient
-from datetime import datetime
+# from datetime import datetime
 
 import hashlib
 import jwt
@@ -209,7 +209,7 @@ def place_photo_upload():
     # 파일이 없을 경우 생성
     if placePhoto_row is None:
         for photo in files:
-            today = datetime.now()
+            today = datetime.datetime.now()
             mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
             name = photo.filename
             save_to = f'static/load_img/{mytime}-{name}'
@@ -228,7 +228,7 @@ def place_photo_upload():
         count = 3 - len(list(db.place_photos.find({'address': address, 'title': title}, {'_id': False})))
 
         for photo in files[:count]:
-            today = datetime.now()
+            today = datetime.datetime.now()
             mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
             name = photo.filename
             save_to = f'static/load_img/{mytime}-{name}'
@@ -280,7 +280,7 @@ def post_photos():
     file = request.files.getlist("file_give")
 
     for photo in file:
-        today = datetime.now()
+        today = datetime.datetime.now()
         mytime = today.strftime('%Y.%m.%d.%H.%M.%S')
         name = photo.filename
         save_to = f'static/photos/{mytime}-{name}'

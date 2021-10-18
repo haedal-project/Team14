@@ -13,7 +13,7 @@ function clickPlaceMarker(_title, _address, _lat, _lng) {
             $('#info-place-address').text(_address)
             $('#info-place-rating').text(`${place_info['rating']} 점 / 5.0 점`)
             $('#info-place-review-count').text(`리뷰 ${place_info['review_count']}건`)
-            $('#info-place-enter-amount').text(`리뷰어 ${place_info['percent']}%가 이 가게에 출입함`)
+            $('#info-place-enter-amount').text(`리뷰어 ${place_info['enter_amount']}%가 이 가게에 출입함`)
 
 
             $('#info-place-lat').val(_lat)
