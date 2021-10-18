@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../static/css/design.css"/>
     <link rel="stylesheet" href="../static/css/photo.css">
 
+
     <style>
         .thumbnail {
             width: 130px;
@@ -157,7 +158,7 @@
                             <!-- 장소 리뷰 건수 -->
                             <h6 id="info-place-review-count" style="float: left; margin-left: 20px; margin-top: 28px; padding-bottom: 0px;"></h6>
                             <!-- 장소 주소 -->
-                            <p class="card-text" style="margin-bottom: 0px; padding-bottom: 8px; clear: both" id="info-place-address"></p>
+                            <h4 class="card-text" style="margin-bottom: 0px; padding-bottom: 8px; clear: both" id="info-place-address"></h4>
                             <!-- 장소 리뷰 건수 -->
                             <h6 id="info-place-enter-amount" style="float: left;">리뷰어 50%가 이 가게에 출입함</h6>
                             <!-- 좋아요 버튼 -->
@@ -348,10 +349,17 @@
     <script src='../static/js/map.js'></script>
     <script src='../static/js/photo.js'></script>
     <script src='../static/js/review.js'></script>
+    <script src='../static/js/jquery.cookie.js'></script>
     <script src="https://kit.fontawesome.com/383e1f6c8e.js" crossorigin="anonymous"></script>
 
     <script>
         $(document).ready(function () {
+
+            if($.cookie('mytoken') == undefined) {
+                alert('로그인 상태가 아니라서 로그인 페이지로 이동합니다.')
+                window.location.href = '/login'
+            }
+
             $('#place-info').hide();
             $('#place-list').show();
             showbest();

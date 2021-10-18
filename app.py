@@ -367,6 +367,11 @@ def api_login():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
+def getUserLoginId():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    return payload['id'];
+
 def truncate(num, n):
     integer = int(num * (10 ** n)) / (10 ** n)
     return float(integer)
