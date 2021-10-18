@@ -112,10 +112,9 @@ function changeModelPhoto(filename) {
 
 function loadPhoto_my(title, address) {
     console.log("my업로드 동작")
-    let user_id = "manijang3"
     $.ajax({
         type: "GET",
-        url: `/api/place/photo/my?title=${title}&address=${address}&user_id=${user_id}`,
+        url: `/api/place/photo/my?title=${title}&address=${address}`,
         data: {},
         success: function (response) {
             $('#post_photo2').empty()
@@ -129,7 +128,7 @@ function loadPhoto_my(title, address) {
                                             </a>
                                             <div class="delete-box"><a>삭제</a></div>
                                         </div>
-                                    </div>`
+                                 </div>`
                 $('#post_photo2').append(temp_html)
             }
         }
@@ -153,11 +152,23 @@ function loadPhoto_all(title, address) {
                                             <a data-toggle="modal" data-target="#exampleModalLong" onclick="changeModelPhoto('../static/load_img/${filename}')">
                                                 <img src="../static/load_img/${filename}" alt="Lights" style="max-height: 80px;">
                                             </a>
-                                            <div class="delete-box"><a>삭제</a></div>
+                                            <div class="delete-box" style="cursor: pointer;" onclick="delete_image('${filename}')"><a>삭제</a></div>
                                         </div>
                                     </div>`
                 $('#post_photo2').append(temp_html)
             }
+        }
+    })
+}
+
+function delete_image(filename){
+    $.ajax({
+        type: "DELETE",
+        url: `/api/place/photo?filename=${filename}`,
+        data: {},
+        success: function (response) {
+            alert(response['msg'])
+            window.location.reload() // 새로고침
         }
     })
 }
@@ -176,41 +187,40 @@ function showPhoto() {
 }
 
 function registerReview() {
-    let reviews_id = ""
     $.ajax({
         type: 'GET',
-        url: `/api/reviews/like`,
+        url: `/api/reviews/save`,
         data: {},
         success: function (response) {
-            let reviews_id = response["reviews_id"]
-        }
-    })
 
-    let _enter_with_check = $('#enter-with-check').is(':checked')
-    let _rating = $("#review-rating-radio option:selected").val()
-    let _review_content = $('#review-content').val()
-    let _lat = $('#info-place-lat').val();
-    let _lng = $('#info-place-lng').val();
-    let _user_id = reviews_id
-    let _title = $('#info-place-name').text()
-    let _address = $('#info-place-address').text()
+            let _user_id =  (response["id_receive"])
+            let _enter_with_check = $('#enter-with-check').is(':checked')    
+            let _rating = $("#review-rating-radio option:selected").val()
+            let _review_content = $('#review-content').val()
+            let _lat = $('#info-place-lat').val();
+            let _lng = $('#info-place-lng').val();
+            let _title = $('#info-place-name').text()
+            let _address = $('#info-place-address').text()
 
-    $.ajax({
-        type: "POST",
-        url: `/api/review`,
-        data: {
-            user_id: _user_id,
-            enter_with_check: _enter_with_check,
-            rating: _rating,
-            review: _review_content,
-            lat: _lat,
-            lng: _lng,
-            title: _title,
-            address: _address
-        },
-        success: function (response) {
-            alert(response['msg'])
-            window.location.reload() // 새로고침
+            $.ajax({
+                type: "POST",
+                url: `/api/review`,
+                data: {
+                    user_id: _user_id,
+                    enter_with_check: _enter_with_check,
+                    rating: _rating,
+                    review: _review_content,
+                    lat: _lat,
+                    lng: _lng,
+                    title: _title,
+                    address: _address
+                },
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload() // 새로고침
+
+                }
+            })      
         }
     })
 }
@@ -274,33 +284,37 @@ function deleteImageAction2(index){
 
 //이미지 파일 post
 function aa() {
-    let formData = new FormData();
-    // let formData = new FormData($('#fileForm')[0]);
+    if (sel_files2.length < 1){
+       alert("파일을 불러와 주세요");
+    } else if(sel_files2.length >= 1){
+        let formData = new FormData();
+        // let formData = new FormData($('#fileForm')[0]);
 
-    let title = $('#info-place-name').text()
-    let address = $('#info-place-address').text()
+        let title = $('#info-place-name').text()
+        let address = $('#info-place-address').text()
 
-    formData.append("title", title)
-    formData.append("address", address)
+        formData.append("title", title)
+        formData.append("address", address)
 
-    console.log("파일 업로드 동작")
+        console.log("파일 업로드 동작")
 
-    for (let i=0; i < sel_files2.length; i++) {
-        formData.append("file_give", sel_files2[i])
-    }
-
-    $.ajax({
-        type: "POST",
-        url: `/fileUpload`,
-        data: formData,
-        processData: false,
-        contentType: false,
-        cache: false,
-        success: function (response) {
-            alert(response["msg"])
-            window.location.reload()
+        for (let i=0; i < sel_files2.length; i++) {
+            formData.append("file_give", sel_files2[i])
         }
-    });
+
+        $.ajax({
+            type: "POST",
+            url: `/fileUpload`,
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (response) {
+                alert(response["msg"])
+                window.location.reload()
+            }
+        });
+    }
 }
 
 function search_place() {

@@ -163,7 +163,6 @@ function getListItem(index, places) {
             'style="margin: 10px;">\n' +
             '<div class="d-flex w-100 justify-content-between">\n' +
             '<h5 class="mb-1">' + places.place_name + '</h5>\n' +
-            // '<small class="text-muted">평점(4.5점)</small>\n' +
             '<small class="text-muted"></small>\n' +
             '</div>';
     if (places.road_address_name) {
