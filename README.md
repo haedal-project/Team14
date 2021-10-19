@@ -3,7 +3,9 @@
 - 유저가 사진을 올려 직접 다녀온 곳을 표시할 수 있고 리뷰나 평점을 기록 및 관리
 <br>
 
-[![IU(아이유) _ Into the I-LAND](http://img.youtube.com/vi/QYNwbZHmh8g/0.jpg)](https://youtu.be/QYNwbZHmh8g?t=0s) 
+- 애완동물 산책 정보 플랫폼 - 댕댕백서 (POC 프로젝트)
+
+[![애완동물 산책 정보 플랫폼 - 댕댕백서 (POC 프로젝트)](http://img.youtube.com/vi/epJgGWekB6I/0.jpg)](https://www.youtube.com/watch?v=epJgGWekB6I&t=4s) 
 
 
 ## ⏰ 개발기간
