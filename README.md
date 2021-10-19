@@ -7,6 +7,8 @@
 
 [![애완동물 산책 정보 플랫폼 - 댕댕백서 (POC 프로젝트)](http://img.youtube.com/vi/epJgGWekB6I/0.jpg)](https://www.youtube.com/watch?v=epJgGWekB6I&t=4s) 
 
+- 애완동물 산책 정보 플랫폼 - 댕댕백서 (2차 프로젝트)
+
 
 ## ⏰ 개발기간
 2021년 10월 05일 ~ 2021년 10월 19일
