@@ -25,8 +25,6 @@
 - 이주연 : 회원 관리
 - 김선만 : 장소 메인화면 구성(기획서 이미지 참고) + @
 
-[2차 프로젝트 Starting Assignment](https://lu-delight.tistory.com/230)
-
 <br>
 
 ## 🖊 기능([바로가기](https://github.com/Lluora/Team14/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C))
@@ -40,3 +38,17 @@
 - 유제협 [Velog](https://velog.io/@yu_jep)
 - 이주연 [Velog](https://velog.io/@pouryourlove)
 - 김선만 ([바로가기](http://velog.io/@manijang2))
+
+<br>
+
+## 🙋🏻‍♀️🙋🏻‍♂️ 팀 개발일지
+#### 1차 프로젝트
+- [1차 프로젝트 POC](https://lu-delight.tistory.com/204)        
+- [1차 프로젝트 수정](https://lu-delight.tistory.com/217)       
+- [1차 프로젝트 회고](https://lu-delight.tistory.com/222)              
+
+<br>
+
+#### 2차 프로젝트
+- [2차 프로젝트 Starting Assignment](https://lu-delight.tistory.com/230)
+
