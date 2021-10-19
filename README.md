@@ -9,7 +9,7 @@
 <br>
 
 #### 애완동물 산책 정보 플랫폼 - 댕댕백서 (2차 프로젝트)
-[<img src = https://user-images.githubusercontent.com/74857364/137837744-a86a4a95-2166-4cd7-bf98-36d22bade483.png width="30%">
+[<img src = http://img.youtube.com/vi/epJgGWekB6I/0.jpg width="30%">
 ](https://youtu.be/gy1DqIr5lxg)
 
 <br>
