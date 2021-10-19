@@ -20,6 +20,9 @@
 - 유제협 : 사진 공유
 - 이주연 : 회원 관리
 - 김선만 : 장소 메인화면 구성(기획서 이미지 참고) + @
+
+[2차 프로젝트 Starting Assignment](https://lu-delight.tistory.com/230)
+
 <br>
 
 ## 🖊 기능([바로가기](https://github.com/Lluora/Team14/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C))
