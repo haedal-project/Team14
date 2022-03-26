@@ -31,7 +31,7 @@
 
 <br>
 
-- 추천장소 마커 클릭 시 장소 이름과 주소 띄우기
+- 추천장소 마커 클릭 시 장소 이름과 주소 띄우기 (이후 기능 제거함)
 
   <img src = https://user-images.githubusercontent.com/74857364/137246319-0d426149-709b-4496-b87b-83a7fca547c1.gif width="50%">
                                                              
@@ -50,6 +50,7 @@
 
 <br>
 
+### 영상으로 보기 
 #### 애완동물 산책 정보 플랫폼 - 댕댕백서 (POC 프로젝트)
 [<img src = http://img.youtube.com/vi/epJgGWekB6I/0.jpg width="30%">](https://www.youtube.com/watch?v=epJgGWekB6I&t=4s) 
 
