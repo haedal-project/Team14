@@ -1,14 +1,15 @@
 ## 댕댕백서 (flask)
 `python`, `flask`, `MongoDB`
+
+                      
 - 강아지 추천 산책로와 애견동반 음식점, 카페를 추천해주는 서비스
 - 유저가 사진을 올려 직접 다녀온 곳을 표시할 수 있고 리뷰나 평점을 기록 및 관리
 
 <br>
 
-## ⏰ 개발기간
-2021년 10월 05일 ~ 2021년 10월 19일
-
-
+**⏰ 개발기간**                    
+2021년 10월 05일 ~ 2021년 10월 19일   
+                      
 <br>
 
 ### 구현 기능
@@ -17,7 +18,7 @@
   - [코드보기](https://github.com/haedal-uni/Team14/blob/develop/app.py#L21)                      
   - [js 코드보기](https://github.com/haedal-uni/Team14/blob/develop/static/js/recommend.js#L24)      
 
-     <img src = https://user-images.githubusercontent.com/74857364/137356284-e06565e2-d723-4736-8c16-c5ff097d22be.gif width="40%">
+     <img src = https://user-images.githubusercontent.com/74857364/137356284-e06565e2-d723-4736-8c16-c5ff097d22be.gif width="35%">
      
 <br>
 
