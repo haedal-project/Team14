@@ -72,4 +72,4 @@
 
 #### 2차 프로젝트
 - [2차 프로젝트 Starting Assignment](https://lu-delight.tistory.com/230)
-
+- [2차 프로젝트 _ KPT 회고](https://lu-delight.tistory.com/251)
