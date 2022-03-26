@@ -12,9 +12,29 @@
 <br>
 
 ### 구현 기능
-- 반려동물 동반 가능 장소와 모든 추천 장소 띄우기 
-- 좋아요 총 카운트 개수 띄우기 
-- 좋아요 버튼 구분하기 (id가 없는 경우 default 값으로 좋아요 안누른 버튼으로 띄우기)
+
+- 반려동물 동반 가능 장소와 모든 추천 장소 띄우기
+  - [코드보기](https://github.com/haedal-uni/Team14/blob/develop/app.py#L21)                      
+  - [js 코드보기](https://github.com/haedal-uni/Team14/blob/develop/static/js/recommend.js#L24)      
+
+     <img src = https://user-images.githubusercontent.com/74857364/137356284-e06565e2-d723-4736-8c16-c5ff097d22be.gif width="40%">
+     
+<br>
+
+- 좋아요
+  - 총 카운트 개수 띄우기(높은 순 정렬)
+  - 좋아요 +1 제한
+  - 좋아요 버튼 구분하기 (id가 없는 경우 default 값으로 좋아요 안누른 버튼으로 띄우기)
+  - [코드보기](https://github.com/haedal-uni/Team14/blob/develop/app.py#L32)
+  - [js 코드보기](https://github.com/haedal-uni/Team14/blob/develop/static/js/recommend.js#L165)
+
+<br>
+
+- 추천장소 마커 클릭 시 장소 이름과 주소 띄우기
+
+  <img src = https://user-images.githubusercontent.com/74857364/137246319-0d426149-709b-4496-b87b-83a7fca547c1.gif width="50%">
+                                                             
+  - [코드보기](https://github.com/haedal-uni/Team14/commit/4311b794a419991f967654e81721c4a090108dd5) 
 
 <br>
 
