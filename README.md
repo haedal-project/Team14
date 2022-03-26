@@ -46,7 +46,7 @@
 - [31일차_기능 구현하기](https://lu-delight.tistory.com/245)
 - [33일차_피드백 정리 및 기능 구현](https://lu-delight.tistory.com/247)
 - [5주차(35일차)_프로젝트 기능 구현](https://lu-delight.tistory.com/248)
-
+- [37일차_프로젝트 회고](https://lu-delight.tistory.com/253)
 
 <br>
 
